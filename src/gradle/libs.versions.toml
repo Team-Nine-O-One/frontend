@@ -14,6 +14,7 @@ ksp = "2.1.10-1.0.31"
 navigation = "2.8.9"
 hilt = "2.51.1"
 androidxHilt = "1.2.0"
+icon = "1.7.8"
 
 [libraries]
 # Default
@@ -37,6 +38,7 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 dagger-hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hilt" }
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "icon" }
 
 [plugins]
 # Default
