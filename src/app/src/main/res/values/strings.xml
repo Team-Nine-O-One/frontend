@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">app901</string>
+
+    <string name="cart">장바구니</string>
+    <string name="recipe">레시피</string>
+    <string name="item">상품</string>
 </resources>
