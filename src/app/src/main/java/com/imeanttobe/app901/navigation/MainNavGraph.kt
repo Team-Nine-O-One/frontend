@@ -1,6 +1,7 @@
 package com.imeanttobe.app901.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,10 +20,14 @@ import com.imeanttobe.app901.ui.recipe.RecipeFindPage
 import com.imeanttobe.app901.ui.recipe.RecipeHomePage
 
 @Composable
-fun MainNavGraph(navController: NavHostController) {
+fun MainNavGraph(
+    navController: NavHostController,
+    modifier: Modifier = Modifier
+) {
     NavHost(
         navController = navController,
-        startDestination = "splash"
+        startDestination = "splash",
+        modifier = modifier
     ) {
         // Cart pages
         composable(
