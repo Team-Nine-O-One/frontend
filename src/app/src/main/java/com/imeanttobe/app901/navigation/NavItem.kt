@@ -1,17 +1,23 @@
 package com.imeanttobe.app901.navigation
 
 import androidx.annotation.DrawableRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Flatware
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.ShoppingBag
+import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class NavItem(
     open val route: String,
     open val label: String,
-    @DrawableRes open val icon: Int? = null,
+    open val icon: ImageVector? = null,
 ) {
     // Cart pages
     data object CartListPage : NavItem(
         route = "cart",
         label = "Cart",
-        icon = null,
+        icon = Icons.Outlined.ShoppingCart,
     )
     data object CartAddPage : NavItem(
         route = "cart/add",
@@ -33,57 +39,64 @@ sealed class NavItem(
     data object ItemFindPage : NavItem(
         route = "item",
         label = "Find Item",
-        icon = null,
+        icon = Icons.Outlined.ShoppingBag,
     )
 
     // Onboarding pages
     data object SplashPage : NavItem(
-        route = "splash",
+        route = "/splash",
         label = "Splash",
         icon = null,
     )
     data object LoginPage : NavItem(
-        route = "login",
+        route = "/login",
         label = "Login",
         icon = null,
     )
     data object PermissionPage : NavItem(
-        route = "permission",
+        route = "/permission",
         label = "Permission",
         icon = null,
     )
 
     // Recipe pages
     data object RecipeHomePage : NavItem(
-        route = "recipe",
+        route = "/recipe",
         label = "Recipe",
-        icon = null,
+        icon = Icons.Outlined.Flatware,
     )
     data object RecipeFindPage : NavItem(
-        route = "recipe/find",
+        route = "/recipe/find",
         label = "Find Recipe",
         icon = null,
     )
     data object RecipeAddPage : NavItem(
-        route = "recipe/add",
+        route = "/recipe/add",
         label = "Create Recipe",
         icon = null,
     )
     data class RecipeDetailPage(val itemId: Int) : NavItem(
-        route = "recipe/$itemId",
+        route = "/recipe/$itemId",
         label = "Recipe Detail",
         icon = null,
     ) {
         companion object {
-            const val baseRoute = "recipe/{itemId}"
-            fun createRoute(itemId: Int) = "recipe/$itemId"
+            const val baseRoute = "/recipe/{itemId}"
+            fun createRoute(itemId: Int) = "/recipe/$itemId"
         }
     }
 
     // Profile page
     data object ProfilePage : NavItem(
-        route = "profile",
+        route = "/profile",
         label = "Profile",
+        icon = null,
+    )
+
+    // Home page
+    data object HomePage : NavItem(
+        route = "/home",
+        label = "Home",
         icon = null,
     )
 }

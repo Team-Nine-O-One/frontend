@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.imeanttobe.app901.ui.cart.CartAddPage
 import com.imeanttobe.app901.ui.cart.CartDetailPage
 import com.imeanttobe.app901.ui.cart.CartListPage
+import com.imeanttobe.app901.ui.home.HomePage
 import com.imeanttobe.app901.ui.item.ItemFindPage
 import com.imeanttobe.app901.ui.onboarding.LoginPage
 import com.imeanttobe.app901.ui.onboarding.PermissionPage
@@ -26,22 +27,22 @@ fun MainNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = "splash",
+        startDestination = NavItem.HomePage.route,
         modifier = modifier
     ) {
         // Cart pages
         composable(
-            route = "cart",
+            route = NavItem.CartListPage.route,
         ) {
             CartListPage()
         }
         composable(
-            route = "cart/add",
+            route = NavItem.CartAddPage.route,
         ) {
             CartAddPage()
         }
         composable(
-            route = "cart/{itemId}",
+            route = NavItem.CartDetailPage.baseRoute,
             arguments = listOf(navArgument("itemId") { type = NavType.IntType })
         ) {
             val itemId = it.arguments?.getInt("itemId")
@@ -50,41 +51,41 @@ fun MainNavGraph(
 
         // Item pages
         composable(
-            route = "item",
+            route = NavItem.ItemFindPage.route,
         ) {
             ItemFindPage()
         }
 
         // Onboarding pages
         composable(
-            route = "splash",
+            route = NavItem.SplashPage.route,
         ) {
             SplashPage()
         }
         composable(
-            route = "login",
+            route = NavItem.LoginPage.route,
         ) {
             LoginPage()
         }
         composable(
-            route = "permission",
+            route = NavItem.PermissionPage.route,
         ) {
             PermissionPage()
         }
 
         // Recipe pages
         composable(
-            route = "recipe",
+            route = NavItem.RecipeHomePage.route,
         ) {
             RecipeHomePage()
         }
         composable(
-            route = "recipe/find",
+            route = NavItem.RecipeFindPage.route,
         ) {
             RecipeFindPage()
         }
         composable(
-            route = "recipe/{itemId}",
+            route = NavItem.RecipeDetailPage.baseRoute,
             arguments = listOf(navArgument("itemId") { type = NavType.IntType })
         ) {
             val itemId = it.arguments?.getInt("itemId")
@@ -93,9 +94,16 @@ fun MainNavGraph(
 
         // Profile page
         composable(
-            route = "profile",
+            route = NavItem.ProfilePage.route,
         ) {
             ProfilePage()
+        }
+
+        // Home page
+        composable(
+            route = NavItem.HomePage.route,
+        ) {
+            HomePage()
         }
     }
 }
