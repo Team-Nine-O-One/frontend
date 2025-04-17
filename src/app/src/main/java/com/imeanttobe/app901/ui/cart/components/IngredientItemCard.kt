@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,28 +33,27 @@ import com.imeanttobe.app901.type.Ingredient
 fun IngredientItemCard(
     modifier: Modifier = Modifier,
     ingredient: Ingredient,
-    onClick: () -> Unit
+    enabled: Boolean,
+    onCheckboxClick: (Boolean) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
             .clip(CardDefaults.outlinedShape)
-            .clickable { onClick() }
             .then(modifier)
     ) {
-        Row(
-
-        ) {
+        Row() {
             // Image here
-            Box(
-                modifier = Modifier
-                    .aspectRatio(1f)
-            ) {
+            Box(modifier = Modifier.aspectRatio(1f)) {
                 // TODO: Have to change this Image composable to Coil's one
                 Image(
                     painter = painterResource(R.drawable.tomato),
                     contentDescription = null
+                )
+                Checkbox(
+                    checked = enabled,
+                    onCheckedChange = { newValue -> onCheckboxClick(newValue) }
                 )
             }
 
@@ -95,6 +96,7 @@ fun IngredientItemCard(
 fun IngredientItemCardPreview() {
     IngredientItemCard(
         ingredient = Ingredient.getDefaultInstance(),
-        onClick = {},
+        enabled = true,
+        onCheckboxClick = {}
     )
 }

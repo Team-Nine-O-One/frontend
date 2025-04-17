@@ -7,26 +7,32 @@ import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.imeanttobe.app901.ui.cart.MartRecommendOption
 
 @Composable
 fun RecommendOptionButton(
-    currentIndex: Int,
-    onChangeIndex: (Int) -> Unit
+    currentOption: MartRecommendOption,
+    onChangeOption: (MartRecommendOption) -> Unit
 ) {
-    val options = listOf("거리 우선", "균형", "가격 우선")
+    val options = listOf(
+        MartRecommendOption.DISTANCE,
+        MartRecommendOption.BALANCED,
+        MartRecommendOption.PRICE
+    )
 
     SingleChoiceSegmentedButtonRow {
         options.forEachIndexed { index, option ->
             SegmentedButton(
-                selected = index == currentIndex,
-                onClick = { onChangeIndex(index) },
+                selected = option == currentOption,
+                onClick = { onChangeOption(option) },
                 shape = SegmentedButtonDefaults.itemShape(
                     index = index,
                     count = options.size
                 ),
-                label = { Text(option) },
+                label = { Text(text = stringResource(option.label)) },
                 modifier = Modifier.width(120.dp)
             )
         }
@@ -37,7 +43,7 @@ fun RecommendOptionButton(
 @Composable
 fun RecommendOptionButtonPreview() {
     RecommendOptionButton(
-        currentIndex = 0,
-        onChangeIndex = {}
+        currentOption = MartRecommendOption.BALANCED,
+        onChangeOption = {}
     )
 }

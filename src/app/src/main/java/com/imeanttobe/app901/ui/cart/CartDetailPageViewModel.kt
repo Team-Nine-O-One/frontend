@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.cart
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.imeanttobe.app901.type.Ingredient
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,10 +17,16 @@ class CartDetailPageViewModel @Inject constructor() : ViewModel() {
         Ingredient.getDefaultInstance(),
         Ingredient.getDefaultInstance(),
     )
+    private val _recommendOption = mutableStateOf(MartRecommendOption.BALANCED)
 
     // Getter
     val ingredients: List<Ingredient>
         get() = _ingredients
+    val recommendOption: MartRecommendOption
+        get() = _recommendOption.value
 
     // Setter
+    fun setRecommendOption(newValue: MartRecommendOption) {
+        _recommendOption.value = newValue
+    }
 }
