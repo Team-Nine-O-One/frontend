@@ -153,7 +153,6 @@ fun CartDetailPage(
             } else {
                 Text(text = "404")
             }
-
         }
     }
 }
