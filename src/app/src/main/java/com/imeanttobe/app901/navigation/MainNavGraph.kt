@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.imeanttobe.app901.type.Cart
+import com.imeanttobe.app901.type.Recipe
 import com.imeanttobe.app901.ui.cart.CartDetailPage
 import com.imeanttobe.app901.ui.home.HomePage
 import com.imeanttobe.app901.ui.onboarding.LoginPage
@@ -40,7 +41,10 @@ fun MainNavGraph(
             route = NavItem.RecipeDetailPageNavItem.baseRoute,
         ) {
             val itemId = it.arguments?.getString("itemId")
-            RecipeDetailPage()
+            RecipeDetailPage(
+                recipe = Recipe.getDefaultInstance(),
+                popBackStack = { navController.popBackStack() }
+            )
         }
 
         // Onboarding pages
