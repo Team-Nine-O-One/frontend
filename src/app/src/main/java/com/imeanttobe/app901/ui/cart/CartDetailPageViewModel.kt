@@ -12,6 +12,9 @@ class CartDetailPageViewModel @Inject constructor() : ViewModel() {
         Ingredient.getDefaultInstance(),
         Ingredient.getDefaultInstance(),
         Ingredient.getDefaultInstance(),
+        Ingredient.getDefaultInstance(),
+        Ingredient.getDefaultInstance(),
+        Ingredient.getDefaultInstance(),
     )
 
     // Getter
