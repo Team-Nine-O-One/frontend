@@ -4,4 +4,6 @@
     <string name="cart">장바구니</string>
     <string name="recipe">레시피</string>
     <string name="item">상품</string>
+    <string name="not_completed_cart">완료되지 않은 장바구니</string>
+    <string name="completed_cart">완료된 장바구니</string>
 </resources>

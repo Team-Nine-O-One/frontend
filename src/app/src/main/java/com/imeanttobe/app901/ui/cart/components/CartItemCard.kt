@@ -1,0 +1,68 @@
+package com.imeanttobe.app901.ui.cart.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.imeanttobe.app901.type.Cart
+import com.imeanttobe.app901.type.Formatter
+
+@Composable
+fun CartItemCard(
+    modifier: Modifier = Modifier,
+    cart: Cart,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .then(modifier)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column() {
+                Text(text = cart.name, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
+                Text(text = Formatter.dateTimeToString(cart.updatedAt), style = MaterialTheme.typography.labelMedium) // Modified date
+                Text(text = "이마트 용산점", style = MaterialTheme.typography.labelMedium) // Mart name
+            }
+
+            Column() {
+                Text(
+                    text = "상품 10건",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.labelSmall
+                ) // Number of items
+                Text(
+                    text = "32,650",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontStyle = FontStyle.Italic
+                    )
+                ) // Total prices
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CartItemCardPreview() {
+    CartItemCard(cart = Cart.getDefaultInstance(), onClick = {})
+}
