@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,8 @@ fun CartItemCard(
     cart: Cart,
     onClick: () -> Unit
 ) {
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +63,7 @@ fun CartItemCard(
                         contentDescription = null
                     )
                     Text(
-                        text = Formatter.dateTimeToString(cart.updatedAt),
+                        text = Formatter.dateTimeToString(cart.updatedAt, context),
                         style = MaterialTheme.typography.labelMedium
                     ) // Modified date
                 }
