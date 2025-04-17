@@ -12,7 +12,7 @@ data class Cart(
     companion object {
         fun getDefaultInstance() = Cart(
             id = -1,
-            name = "Default cart",
+            name = "홈 파티 장바구니",
             createdAt = LocalDateTime.now(),
             updatedAt = LocalDateTime.now(),
             userId = -1,

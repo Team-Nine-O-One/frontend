@@ -18,12 +18,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.ui.cart.components.CartItemCard
 
 @Composable
 fun CartListPage(
     modifier: Modifier = Modifier,
-    viewModel: CartListPageViewModel = hiltViewModel()
+    viewModel: CartListPageViewModel = hiltViewModel(),
+    onChangeTab: (BottomNavItem) -> Unit,
+    navigateToCartDetail: (Int) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -44,7 +47,7 @@ fun CartListPage(
             )
             viewModel.cart.forEach { cart ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    CartItemCard(cart = cart, onClick = {})
+                    CartItemCard(cart = cart, onClick = { navigateToCartDetail(cart.id) }) // TODO: Have to change to cart's id
                 }
             }
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp))
@@ -57,7 +60,7 @@ fun CartListPage(
             )
             viewModel.cart.forEach { cart ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    CartItemCard(cart = cart, onClick = {})
+                    CartItemCard(cart = cart, onClick = { navigateToCartDetail(cart.id) }) // TODO: Have to change to cart's id
                 }
             }
 
@@ -70,5 +73,8 @@ fun CartListPage(
 @Preview
 @Composable
 fun CartListPagePreview() {
-    CartListPage()
+    CartListPage(
+        onChangeTab = {},
+        navigateToCartDetail = {}
+    )
 }

@@ -6,27 +6,27 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.imeanttobe.app901.R
-import com.imeanttobe.app901.navigation.NavItem
+import androidx.navigation.NavHostController
+import com.imeanttobe.app901.navigation.BottomNavItem
 
 @Composable
 fun BottomBar(
-    currentIndex: Int,
-    onIndexChange: (Int) -> Unit
+    currentTab: BottomNavItem,
+    onTabChange: (BottomNavItem) -> Unit,
+    tabs: List<BottomNavItem>,
 ) {
     NavigationBar {
-        val items = listOf<Triple<NavItem, Int, Int>>(
-            Triple(NavItem.CartListPage, 0, R.string.cart),
-            Triple(NavItem.ItemFindPage, 1, R.string.item),
-            Triple(NavItem.RecipeHomePage, 2, R.string.recipe),
-        )
-
-        items.forEach { item ->
+        tabs.forEach { tab ->
             NavigationBarItem(
-                selected = currentIndex == item.second,
-                onClick = { onIndexChange(item.second) },
-                icon = { item.first.icon?.let { Icon(imageVector = it, contentDescription = item.first.label) } },
-                label = { Text(text = stringResource(id = item.third)) }
+                selected = tab == currentTab,
+                onClick = { onTabChange(tab) },
+                icon = {
+                    Icon(
+                        imageVector = tab.icon,
+                        contentDescription = tab.name
+                    )
+                },
+                label = { Text(text = stringResource(id = tab.label)) }
             )
         }
     }
