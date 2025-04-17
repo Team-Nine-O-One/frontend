@@ -47,7 +47,6 @@ fun IngredientItemCard(
             // Image here
             Box(
                 modifier = Modifier
-                    .fillMaxHeight()
                     .aspectRatio(1f)
             ) {
                 // TODO: Have to change this Image composable to Coil's one
