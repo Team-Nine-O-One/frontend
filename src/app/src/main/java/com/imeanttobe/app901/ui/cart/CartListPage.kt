@@ -33,18 +33,18 @@ fun CartListPage(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 8.dp)
+                .padding(top = 8.dp)
                 .verticalScroll(scrollState)
         ) {
             // Not completed cart
             Text(
                 text = stringResource(R.string.not_completed_cart),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
-            viewModel.cart.forEach { item ->
+            viewModel.cart.forEach { cart ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    CartItemCard(cart = item, onClick = {})
+                    CartItemCard(cart = cart, onClick = {})
                 }
             }
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp))
@@ -53,13 +53,16 @@ fun CartListPage(
             Text(
                 text = stringResource(R.string.completed_cart),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
-            viewModel.cart.forEach { item ->
+            viewModel.cart.forEach { cart ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    CartItemCard(cart = item, onClick = {})
+                    CartItemCard(cart = cart, onClick = {})
                 }
             }
+
+            // Extra padding for FAB
+            Box(modifier = Modifier.padding(vertical = 40.dp))
         }
     }
 }

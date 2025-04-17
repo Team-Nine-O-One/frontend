@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.ui.cart.CartListPage
 import com.imeanttobe.app901.ui.components.bottombar.BottomBar
+import com.imeanttobe.app901.ui.home.components.AddCartDialog
+import com.imeanttobe.app901.ui.home.components.AddCartFloatingActionButton
 import com.imeanttobe.app901.ui.item.ItemFindPage
 import com.imeanttobe.app901.ui.recipe.RecipeHomePage
 
@@ -23,8 +25,17 @@ fun HomePage(
                 currentIndex = viewModel.index,
                 onIndexChange = viewModel::setIndex
             ) },
+        floatingActionButton = {
+            if (viewModel.index == 0) {
+                AddCartFloatingActionButton(onClick = { viewModel.setIsDialogOpened(true) })
+            }
+        },
         modifier = modifier
     ) { innerPadding ->
+        if (viewModel.isDialogOpened) {
+            AddCartDialog()
+        }
+
         if (viewModel.index == 0) {
             CartListPage(modifier = Modifier.padding(innerPadding))
         } else if (viewModel.index == 1) {
