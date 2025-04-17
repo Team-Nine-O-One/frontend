@@ -18,14 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
-import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.ui.cart.components.CartItemCard
 
 @Composable
 fun CartListPage(
     modifier: Modifier = Modifier,
     viewModel: CartListPageViewModel = hiltViewModel(),
-    onChangeTab: (BottomNavItem) -> Unit,
     navigateToCartDetail: (Int) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -74,7 +72,6 @@ fun CartListPage(
 @Composable
 fun CartListPagePreview() {
     CartListPage(
-        onChangeTab = {},
         navigateToCartDetail = {}
     )
 }
