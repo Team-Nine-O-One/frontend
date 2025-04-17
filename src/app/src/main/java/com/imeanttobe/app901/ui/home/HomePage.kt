@@ -33,7 +33,7 @@ fun HomePage(
         modifier = modifier
     ) { innerPadding ->
         if (viewModel.isDialogOpened) {
-            AddCartDialog()
+            AddCartDialog(onDismissRequest = { viewModel.setIsDialogOpened(false) })
         }
 
         if (viewModel.index == 0) {
