@@ -33,7 +33,10 @@ fun HomePage(
         modifier = modifier
     ) { innerPadding ->
         if (viewModel.isDialogOpened) {
-            AddCartDialog(onDismissRequest = { viewModel.setIsDialogOpened(false) })
+            AddCartDialog(
+                onDismissRequest = { viewModel.setIsDialogOpened(false) },
+                onConfirm = { name, description -> {} }
+            )
         }
 
         if (viewModel.index == 0) {

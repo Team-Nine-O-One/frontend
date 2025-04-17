@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -21,17 +22,18 @@ import com.imeanttobe.app901.R
 
 @Composable
 fun AddCartDialog(
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    onConfirm: (String, String) -> Unit
 ) {
-    val name = mutableStateOf("")
-    val description = mutableStateOf("")
+    val name = remember { mutableStateOf("") }
+    val description = remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = { onDismissRequest() },
         confirmButton = {
             TextButton(
                 onClick = {
-                    // TODO: Do something when confirm button is clicked
+                    onConfirm(name.value, description.value)
                     onDismissRequest()
                 }
             ) {
@@ -82,5 +84,5 @@ fun AddCartDialog(
 @Preview
 @Composable
 fun AddCartDialogPreview() {
-    AddCartDialog(onDismissRequest = {})
+    AddCartDialog(onDismissRequest = {}, onConfirm = { _, _ -> {} })
 }
