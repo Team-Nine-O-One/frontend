@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.imeanttobe.app901.type.Cart
 import com.imeanttobe.app901.ui.cart.CartAddPage
 import com.imeanttobe.app901.ui.cart.CartDetailPage
 import com.imeanttobe.app901.ui.cart.CartListPage
@@ -46,7 +47,7 @@ fun MainNavGraph(
             arguments = listOf(navArgument("itemId") { type = NavType.IntType })
         ) {
             val itemId = it.arguments?.getInt("itemId")
-            CartDetailPage(itemId = itemId)
+            CartDetailPage(cart = Cart.getDefaultInstance())
         }
 
         // Item pages

@@ -11,7 +11,7 @@ data class Ingredient(
         fun getDefaultInstance(): Ingredient {
             return Ingredient(
                 id = -1,
-                name = "",
+                name = "토마토",
                 category = "",
                 imageUrl = "",
                 martId = -1
