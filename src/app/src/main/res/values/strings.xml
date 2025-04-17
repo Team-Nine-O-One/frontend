@@ -17,6 +17,8 @@
     <string name="option_distance">거리 우선</string>
     <string name="option_balanced">균형</string>
     <string name="option_price">가격 우선</string>
+    <string name="recent_recipe">최근 찾았던 레시피</string>
+    <string name="recommended_recipe">추천 레시피</string>
 
 
     <string name="enter_cart_data">새로 추가할 장비구니의 정보를 입력해주세요.</string>

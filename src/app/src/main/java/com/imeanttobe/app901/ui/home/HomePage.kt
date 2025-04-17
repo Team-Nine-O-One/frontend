@@ -1,17 +1,14 @@
 package com.imeanttobe.app901.ui.home
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.navigation.NavItem.CartDetailPageNavItem
+import com.imeanttobe.app901.navigation.NavItem.RecipeDetailPageNavItem
 import com.imeanttobe.app901.ui.cart.CartListPage
 import com.imeanttobe.app901.ui.components.bottombar.BottomBar
 import com.imeanttobe.app901.ui.home.components.AddCartDialog
@@ -25,7 +22,7 @@ fun HomePage(
     viewModel: HomePageViewModel = hiltViewModel(),
     navigate: (String) -> Unit
 ) {
-    val tabs = listOf(BottomNavItem.Cart, BottomNavItem.Item, BottomNavItem.Recipe)
+    val tabs = listOf(BottomNavItem.Cart, BottomNavItem.Recipe, BottomNavItem.Item)
 
     Scaffold(
         bottomBar = {
@@ -47,7 +44,6 @@ fun HomePage(
             when (viewModel.currentTab) {
                 BottomNavItem.Cart -> {
                     CartListPage(
-                        onChangeTab = viewModel::setCurrentTab,
                         navigateToCartDetail = { id -> navigate(CartDetailPageNavItem.createRoute(id)) }
                     )
                     if (viewModel.isDialogOpened) {
@@ -61,7 +57,9 @@ fun HomePage(
                     ItemFindPage()
                 }
                 BottomNavItem.Recipe -> {
-                    RecipeHomePage()
+                    RecipeHomePage(
+                        navigateToRecipeDetail = { id -> navigate(RecipeDetailPageNavItem.createRoute(id)) }
+                    )
                 }
             }
         }
