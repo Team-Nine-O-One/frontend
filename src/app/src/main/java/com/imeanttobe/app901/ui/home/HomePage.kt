@@ -7,7 +7,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.imeanttobe.app901.ui.cart.CartListPage
 import com.imeanttobe.app901.ui.components.bottombar.BottomBar
+import com.imeanttobe.app901.ui.item.ItemFindPage
+import com.imeanttobe.app901.ui.recipe.RecipeHomePage
 
 @Composable
 fun HomePage(
@@ -22,10 +25,16 @@ fun HomePage(
             ) },
         modifier = modifier
     ) { innerPadding ->
-        Surface(modifier = Modifier.padding(innerPadding)) {
-            Text(
-                text = "This is home page"
-            )
+        if (viewModel.index == 0) {
+            CartListPage(modifier = Modifier.padding(innerPadding))
+        } else if (viewModel.index == 1) {
+            ItemFindPage(modifier = Modifier.padding(innerPadding))
+        } else if (viewModel.index == 2) {
+            RecipeHomePage(modifier = Modifier.padding(innerPadding))
+        } else {
+            Surface(modifier = Modifier.padding(innerPadding)) {
+                Text(text = "404")
+            }
         }
     }
 }
