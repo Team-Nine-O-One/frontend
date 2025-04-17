@@ -31,32 +31,6 @@ fun MainNavGraph(
         startDestination = NavItem.HomePage.route,
         modifier = modifier
     ) {
-        // Cart pages
-        composable(
-            route = NavItem.CartListPage.route,
-        ) {
-            CartListPage()
-        }
-        composable(
-            route = NavItem.CartAddPage.route,
-        ) {
-            CartAddPage()
-        }
-        composable(
-            route = NavItem.CartDetailPage.baseRoute,
-            arguments = listOf(navArgument("itemId") { type = NavType.IntType })
-        ) {
-            val itemId = it.arguments?.getInt("itemId")
-            CartDetailPage(cart = Cart.getDefaultInstance())
-        }
-
-        // Item pages
-        composable(
-            route = NavItem.ItemFindPage.route,
-        ) {
-            ItemFindPage()
-        }
-
         // Onboarding pages
         composable(
             route = NavItem.SplashPage.route,
@@ -72,25 +46,6 @@ fun MainNavGraph(
             route = NavItem.PermissionPage.route,
         ) {
             PermissionPage()
-        }
-
-        // Recipe pages
-        composable(
-            route = NavItem.RecipeHomePage.route,
-        ) {
-            RecipeHomePage()
-        }
-        composable(
-            route = NavItem.RecipeFindPage.route,
-        ) {
-            RecipeFindPage()
-        }
-        composable(
-            route = NavItem.RecipeDetailPage.baseRoute,
-            arguments = listOf(navArgument("itemId") { type = NavType.IntType })
-        ) {
-            val itemId = it.arguments?.getInt("itemId")
-            RecipeDetailPage(itemId = itemId)
         }
 
         // Profile page

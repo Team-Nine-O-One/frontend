@@ -15,29 +15,29 @@ sealed class NavItem(
 ) {
     // Cart pages
     data object CartListPage : NavItem(
-        route = "cart",
+        route = "/cart",
         label = "Cart",
         icon = Icons.Outlined.ShoppingCart,
     )
     data object CartAddPage : NavItem(
-        route = "cart/add",
+        route = "/cart/add",
         label = "Create Cart",
         icon = null,
     )
     data class CartDetailPage(val itemId: Int) : NavItem(
-        route = "cart/$itemId",
+        route = "/cart/$itemId",
         label = "Cart Detail",
         icon = null,
     ) {
         companion object {
-            const val baseRoute = "cart/{itemId}"
+            const val baseRoute = "/cart/{itemId}"
             fun createRoute(itemId: Int) = "cart/$itemId"
         }
     }
 
     // Item pages
     data object ItemFindPage : NavItem(
-        route = "item",
+        route = "/item",
         label = "Find Item",
         icon = Icons.Outlined.ShoppingBag,
     )

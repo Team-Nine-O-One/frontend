@@ -40,6 +40,7 @@ fun CartDetailPage(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(top = 8.dp)
                     .verticalScroll(scrollState)
             ) {
                 Text(

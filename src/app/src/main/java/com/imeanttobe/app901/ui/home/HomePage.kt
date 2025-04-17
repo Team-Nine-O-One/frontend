@@ -7,6 +7,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.imeanttobe.app901.navigation.NavItem
+import com.imeanttobe.app901.type.Cart
+import com.imeanttobe.app901.ui.cart.CartDetailPage
 import com.imeanttobe.app901.ui.cart.CartListPage
 import com.imeanttobe.app901.ui.components.bottombar.BottomBar
 import com.imeanttobe.app901.ui.home.components.AddCartDialog
@@ -17,7 +20,7 @@ import com.imeanttobe.app901.ui.recipe.RecipeHomePage
 @Composable
 fun HomePage(
     modifier: Modifier = Modifier,
-    viewModel: HomePageViewModel = hiltViewModel()
+    viewModel: HomePageViewModel = hiltViewModel(),
 ) {
     Scaffold(
         bottomBar = {
@@ -40,11 +43,19 @@ fun HomePage(
         }
 
         if (viewModel.index == 0) {
-            CartListPage(modifier = Modifier.padding(innerPadding))
+            CartListPage(
+                modifier = Modifier.padding(innerPadding),
+                onChangeIndex = { index -> viewModel.setIndex(index) }
+            )
         } else if (viewModel.index == 1) {
             ItemFindPage(modifier = Modifier.padding(innerPadding))
         } else if (viewModel.index == 2) {
             RecipeHomePage(modifier = Modifier.padding(innerPadding))
+        } else if (viewModel.index == 3) {
+            CartDetailPage(
+                modifier = Modifier.padding(innerPadding),
+                cart = Cart.getDefaultInstance()
+            )
         } else {
             Surface(modifier = Modifier.padding(innerPadding)) {
                 Text(text = "404")
