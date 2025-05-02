@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     // Additional
     alias(libs.plugins.kotlin.ksp)
@@ -19,8 +21,20 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Load environment variables file
+        val localProperties = Properties()
+        val localPropertiesFile = File("local.properties")
+        if (localPropertiesFile.exists()) {
+            localProperties.load(localPropertiesFile.inputStream())
+        }
+
+        // Specify each environment variable
+        val apiBaseUrl = localProperties.getProperty("api.baseUrl") ?: ""
+
+        // Export them to the build config
+        buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
     }
 
     buildTypes {
