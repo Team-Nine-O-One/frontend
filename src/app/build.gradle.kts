@@ -1,5 +1,7 @@
 import java.util.Properties
 
+import java.util.Properties
+
 plugins {
     // Additional
     alias(libs.plugins.kotlin.ksp)
@@ -23,18 +25,24 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Load environment variables file
+        // Local properties are set here
         val localProperties = Properties()
-        val localPropertiesFile = File("local.properties")
+        val localPropertiesFile = rootProject.file("local.properties")
+
+        // If the local.properties file exists, load it
         if (localPropertiesFile.exists()) {
-            localProperties.load(localPropertiesFile.inputStream())
+            localPropertiesFile.inputStream().use {
+                localProperties.load(it)
+            }
+        } else {
+            throw Error("Missing local.properties file")
         }
 
-        // Specify each environment variable
-        val apiBaseUrl = localProperties.getProperty("api.baseUrl") ?: ""
+        // Set the local properties
+        val baseUrl = localProperties.getProperty("api.baseUrl") ?: ""
 
-        // Export them to the build config
-        buildConfigField("String", "API_BASE_URL", "\"$apiBaseUrl\"")
+        // Inject the local properties into the build config
+        buildConfigField("String", "API_BASE_URL", "\"$baseUrl\"")
     }
 
     buildTypes {

@@ -23,7 +23,8 @@ import com.imeanttobe.app901.ui.cart.components.CartItemCard
 @Composable
 fun CartListPage(
     modifier: Modifier = Modifier,
-    viewModel: CartListPageViewModel = hiltViewModel()
+    viewModel: CartListPageViewModel = hiltViewModel(),
+    navigateToCartDetail: (Int) -> Unit
 ) {
     val scrollState = rememberScrollState()
 
@@ -44,7 +45,7 @@ fun CartListPage(
             )
             viewModel.cart.forEach { cart ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    CartItemCard(cart = cart, onClick = {})
+                    CartItemCard(cart = cart, onClick = { navigateToCartDetail(cart.id) }) // TODO: Have to change to cart's id
                 }
             }
             HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp))
@@ -57,7 +58,7 @@ fun CartListPage(
             )
             viewModel.cart.forEach { cart ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                    CartItemCard(cart = cart, onClick = {})
+                    CartItemCard(cart = cart, onClick = { navigateToCartDetail(cart.id) }) // TODO: Have to change to cart's id
                 }
             }
 
@@ -70,5 +71,7 @@ fun CartListPage(
 @Preview
 @Composable
 fun CartListPagePreview() {
-    CartListPage()
+    CartListPage(
+        navigateToCartDetail = {}
+    )
 }
