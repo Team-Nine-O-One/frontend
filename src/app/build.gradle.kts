@@ -37,7 +37,7 @@ android {
         }
 
         // Set the local properties
-        val baseUrl = localProperties.getProperty("api.baseUrl")
+        val baseUrl = localProperties.getProperty("api.baseUrl") ?: ""
 
         // Inject the local properties into the build config
         buildConfigField("String", "API_BASE_URL", "\"$baseUrl\"")
