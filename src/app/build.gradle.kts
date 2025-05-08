@@ -1,7 +1,5 @@
 import java.util.Properties
 
-import java.util.Properties
-
 plugins {
     // Additional
     alias(libs.plugins.kotlin.ksp)
