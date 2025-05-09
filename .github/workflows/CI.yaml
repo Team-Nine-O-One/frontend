@@ -10,6 +10,10 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest # Use a Linux environment
 
+    defaults:
+      run:
+        working-directory: ./src
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -24,7 +28,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./src/gradlew
+        run: chmod +x ./gradlew
 
       - name: Cache Gradle dependencies
         uses: actions/cache@v4
@@ -37,10 +41,10 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build Debug APK
-        run: ./src/gradlew assembleDebug
+        run: ./gradlew assembleDebug
 
       - name: Run Lint checks
-        run: ./src/gradlew lintDebug
+        run: ./gradlew lintDebug
 
       - name: Run Unit Tests
-        run: ./src/gradlew testDebugUnitTest # Or test your specific module if not app module
+        run: ./gradlew testDebugUnitTest # Or test your specific module if not app module
