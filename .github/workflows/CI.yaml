@@ -37,10 +37,10 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: ./src/gradlew assembleDebug
 
       - name: Run Lint checks
-        run: ./gradlew lintDebug
+        run: ./src/gradlew lintDebug
 
       - name: Run Unit Tests
-        run: ./gradlew testDebugUnitTest # Or test your specific module if not app module
+        run: ./src/gradlew testDebugUnitTest # Or test your specific module if not app module
