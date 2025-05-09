@@ -4,6 +4,7 @@ plugins {
     // Additional
     alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.gms.google.services)
 
     // Default
     alias(libs.plugins.android.application)
@@ -72,6 +73,8 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 
     // Default
     implementation(libs.androidx.core.ktx)
