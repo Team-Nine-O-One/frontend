@@ -24,8 +24,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imeanttobe.app901.type.data.Cart
-import com.imeanttobe.app901.type.Formatter
+import com.imeanttobe.app901.data.model.Cart
+import com.imeanttobe.app901.data.Formatter
 
 @Composable
 fun CartItemCard(

@@ -1,7 +1,7 @@
 package com.imeanttobe.app901.ui.cart
 
 import androidx.lifecycle.ViewModel
-import com.imeanttobe.app901.type.data.Cart
+import com.imeanttobe.app901.data.model.Cart
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
