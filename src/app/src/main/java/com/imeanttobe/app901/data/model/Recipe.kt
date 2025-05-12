@@ -1,18 +1,16 @@
 package com.imeanttobe.app901.data.model
 
 data class Recipe(
-    val id: Int,
+    val recipeId: Long, // PK
     val name: String,
-    val summary: String,
-    val imageUrl: String
+    val ingredients: String // TEXT
 ) {
     companion object {
         fun getDefaultInstance(): Recipe {
             return Recipe(
-                id = -1,
-                name = "알리오 올리오",
-                summary = "마늘과 올리브 유를 활용한 이탈리아의 가장 기본적인 파스타입니다.",
-                imageUrl = ""
+                recipeId = -1,
+                name = "Sample Recipe",
+                ingredients = "Sample Ingredients"
             )
         }
     }
