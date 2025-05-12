@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.type
+package com.imeanttobe.app901.data
 
 import android.content.Context
 import com.imeanttobe.app901.R

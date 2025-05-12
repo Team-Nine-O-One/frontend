@@ -2,7 +2,7 @@ package com.imeanttobe.app901.ui.recipe
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.imeanttobe.app901.type.Recipe
+import com.imeanttobe.app901.data.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
