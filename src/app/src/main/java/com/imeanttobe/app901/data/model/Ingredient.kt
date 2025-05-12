@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.type
+package com.imeanttobe.app901.data.model
 
 data class Ingredient(
     val id: Int,

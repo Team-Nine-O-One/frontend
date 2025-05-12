@@ -32,7 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
-import com.imeanttobe.app901.type.Cart
+import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.ui.cart.components.IngredientCounter
 import com.imeanttobe.app901.ui.cart.components.IngredientItemCard
 import com.imeanttobe.app901.ui.cart.components.RecommendedMartCard

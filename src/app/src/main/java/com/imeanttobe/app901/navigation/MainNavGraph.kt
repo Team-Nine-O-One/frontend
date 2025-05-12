@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.imeanttobe.app901.type.Cart
-import com.imeanttobe.app901.type.Recipe
+import com.imeanttobe.app901.data.model.Cart
+import com.imeanttobe.app901.data.model.Recipe
 import com.imeanttobe.app901.ui.cart.CartDetailPage
 import com.imeanttobe.app901.ui.home.HomePage
 import com.imeanttobe.app901.ui.onboarding.LoginPage
