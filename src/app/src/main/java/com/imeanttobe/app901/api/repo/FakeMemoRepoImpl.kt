@@ -6,7 +6,7 @@ import com.imeanttobe.app901.data.model.Memo
 import com.imeanttobe.app901.data.type.MemoItemLeaf
 import java.time.LocalDateTime
 
-class FakeMemoRepo(
+class FakeMemoRepoImpl(
     private val memoService: MemoService,
 ) : MemoRepo {
     override suspend fun getAllMemos(): Result<List<Memo>> {
