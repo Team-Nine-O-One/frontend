@@ -9,7 +9,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,25 +26,26 @@ import com.imeanttobe.app901.ui.recipe.components.SlimSearchBox
 fun RecipeHomePage(
     modifier: Modifier = Modifier,
     viewModel: RecipeHomePageViewModel = hiltViewModel(),
-    navigateToRecipeDetail: (Int) -> Unit
+    navigateToRecipeDetail: (Int) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
     Surface(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp)
-                .verticalScroll(scrollState)
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(top = 8.dp)
+                    .verticalScroll(scrollState),
         ) {
             // Search bar
             Box(modifier = Modifier.padding(horizontal = 16.dp)) {
                 SlimSearchBox(
                     text = viewModel.searchBarText,
                     onValueChange = { newValue -> viewModel.setSearchBarText(newValue) },
-                    onSearch = {}
+                    onSearch = {},
                 )
             }
 
@@ -53,13 +53,13 @@ fun RecipeHomePage(
             Text(
                 text = stringResource(R.string.recent_recipe),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
             viewModel.recentRecipes.forEach { recipe ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                     DetailedRecipeCard(
                         recipe = recipe,
-                        onClick = { navigateToRecipeDetail(recipe.id) }
+                        onClick = { navigateToRecipeDetail(10) },
                     )
                 }
             }
@@ -69,13 +69,13 @@ fun RecipeHomePage(
             Text(
                 text = stringResource(R.string.recommended_recipe),
                 style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             )
             viewModel.recommendedRecipes.forEach { recipe ->
                 Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                     DetailedRecipeCard(
                         recipe = recipe,
-                        onClick = { navigateToRecipeDetail(recipe.id) }
+                        onClick = { navigateToRecipeDetail(10) },
                     )
                 }
             }

@@ -31,6 +31,7 @@ fun CartListPage(
     Surface(
         modifier = modifier
     ) {
+        /*
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -65,6 +66,8 @@ fun CartListPage(
             // Extra padding for FAB
             Box(modifier = Modifier.padding(vertical = 40.dp))
         }
+
+         */
     }
 }
 
