@@ -16,24 +16,26 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+    // Repositories here
     @Provides
     @Singleton
     fun provideCartRepo(cartService: CartService): CartRepo =
         if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeCartRepoImpl(cartService = cartService)
+            FakeCartRepoImpl()
         } else {
-            FakeCartRepoImpl(cartService = cartService)
+            FakeCartRepoImpl()
         }
 
     @Provides
     @Singleton
     fun provideMemoRepo(memoService: MemoService): MemoRepo =
         if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeMemoRepoImpl(memoService = memoService)
+            FakeMemoRepoImpl()
         } else {
-            FakeMemoRepoImpl(memoService = memoService)
+            FakeMemoRepoImpl()
         }
 
+    // API services here
     @Provides
     @Singleton
     fun provideMemoService(): MemoService = RetrofitClient.memoService

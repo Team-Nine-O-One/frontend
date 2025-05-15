@@ -1,44 +1,38 @@
 package com.imeanttobe.app901.api.repo
 
+import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
 import javax.inject.Inject
 
-class FakeCartRepoImpl
+class CartRepoImpl
     @Inject
-    constructor() : CartRepo {
+    constructor(
+        private val cartService: CartService,
+    ) : CartRepo {
         override suspend fun getAllCarts(userId: String): Result<List<SimplifiedCart>> {
-            val mockedResponse =
-                listOf(
-                    SimplifiedCart.getDefaultInstance(),
-                    SimplifiedCart.getDefaultInstance(),
-                    SimplifiedCart.getDefaultInstance(),
-                )
-            return Result.success(mockedResponse)
+            TODO("Not yet implemented")
         }
 
         override suspend fun getCartById(
             cartId: Long,
             userId: String,
         ): Result<Cart> {
-            val mockedResponse = Cart.getDefaultInstance()
-            return Result.success(mockedResponse)
+            TODO("Not yet implemented")
         }
 
         override suspend fun createCart(
             userId: String,
             memoId: Long,
         ): Result<Boolean> {
-            val mockedResponse = true
-            return Result.success(mockedResponse)
+            TODO("Not yet implemented")
         }
 
         override suspend fun confirmCart(
             cartId: Long,
             userId: String,
         ): Result<Boolean> {
-            val mockedResponse = true
-            return Result.success(mockedResponse)
+            TODO("Not yet implemented")
         }
 
         override suspend fun updateWeights(
@@ -47,15 +41,13 @@ class FakeCartRepoImpl
             priceWeight: Double,
             distanceWeight: Double,
         ): Result<Boolean> {
-            val mockedResponse = true
-            return Result.success(mockedResponse)
+            TODO("Not yet implemented")
         }
 
         override suspend fun completeCart(
             cartId: Long,
             userId: String,
         ): Result<Boolean> {
-            val mockedResponse = true
-            return Result.success(mockedResponse)
+            TODO("Not yet implemented")
         }
     }
