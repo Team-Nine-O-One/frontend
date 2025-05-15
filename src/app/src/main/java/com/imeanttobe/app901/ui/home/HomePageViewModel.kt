@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.home
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.imeanttobe.app901.data.enum.HomePageIndex
@@ -11,11 +12,13 @@ class HomePageViewModel
     @Inject
     constructor() : ViewModel() {
         // Variables
-        val index = mutableStateOf<HomePageIndex>(HomePageIndex.MEMO_PAGE)
-            private set
+        private val _index = mutableStateOf<HomePageIndex>(HomePageIndex.MEMO_PAGE)
+
+        // Getter
+        val index: State<HomePageIndex> = _index
 
         // Setter
         fun setIndex(newValue: HomePageIndex) {
-            index.value = newValue
+            _index.value = newValue
         }
     }

@@ -41,7 +41,7 @@ fun Header(
 
 @Preview
 @Composable
-fun HeaderPreview() {
+private fun HeaderPreview() {
     Header(
         title = "Title",
         onHistoryClick = {},
