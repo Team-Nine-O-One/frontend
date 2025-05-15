@@ -1,6 +1,6 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.api.response.GetAllMemoResponse
+import com.imeanttobe.app901.api.response.GetAllMemosResponse
 import com.imeanttobe.app901.api.service.MemoService
 import com.imeanttobe.app901.data.model.Memo
 import com.imeanttobe.app901.data.type.MemoItemLeaf
@@ -14,7 +14,7 @@ class FakeMemoRepoImpl
     ) : MemoRepo {
         override suspend fun getAllMemos(): Result<List<Memo>> {
             val response =
-                GetAllMemoResponse(
+                GetAllMemosResponse(
                     listOf(
                         Memo(
                             memoId = 1,
