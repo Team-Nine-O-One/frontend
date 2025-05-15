@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.data.enum.HomePageIndex
 import com.imeanttobe.app901.navigation.NavItem
@@ -27,10 +29,15 @@ fun HomePage(
             )
         },
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Box(
+            modifier =
+                Modifier
+                    .padding(innerPadding)
+                    .padding(horizontal = 8.dp),
+        ) {
             when (viewModel.index.value) {
                 HomePageIndex.MEMO_PAGE -> {
-                    MemoSection()
+                    MemoSection(emptyList())
                 }
                 HomePageIndex.HISTORY_PAGE -> {
                     HistorySection()
@@ -38,4 +45,12 @@ fun HomePage(
             }
         }
     }
+}
+
+@Preview
+@Composable
+private fun HomePagePreview() {
+    HomePage(
+        navigate = {},
+    )
 }
