@@ -5,7 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.imeanttobe.app901.ui.dev.DevPage
+import androidx.navigation.compose.rememberNavController
+import com.imeanttobe.app901.navigation.MainNavGraph
 import com.imeanttobe.app901.ui.theme.App901Theme
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.HiltAndroidApp
@@ -20,7 +21,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             App901Theme {
-                DevPage()
+                val navController = rememberNavController()
+
+                MainNavGraph(navController = navController)
             }
         }
     }
