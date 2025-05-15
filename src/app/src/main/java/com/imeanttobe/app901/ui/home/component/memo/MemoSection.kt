@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component
+package com.imeanttobe.app901.ui.home.component.memo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +34,8 @@ fun MemoSection(memoItems: List<MemoItem>) {
                 .padding(vertical = 4.dp),
     ) {
         Row(
-            modifier = Modifier.padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(horizontal = 8.dp),
         ) {
             Text(
                 text = "장바구니 제목",

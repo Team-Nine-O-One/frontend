@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component
+package com.imeanttobe.app901.ui.home.component.memo
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
