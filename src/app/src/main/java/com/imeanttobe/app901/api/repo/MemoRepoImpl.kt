@@ -11,15 +11,15 @@ class MemoRepoImpl
     ) : MemoRepo {
         override suspend fun getAllMemos(userId: String): Result<List<Memo>> {
             val response = memoService.getAllMemos(userId = userId)
-            if (response.isSuccessful) {
+            return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.success(body.items)
+                    Result.success(body.items)
                 } else {
-                    return Result.failure(Exception("Response body is null"))
+                    Result.failure(Exception("Response body is null"))
                 }
             } else {
-                return Result.failure(Exception("Failed to fetch memos"))
+                Result.failure(Exception("Failed to fetch memos"))
             }
         }
 
@@ -29,23 +29,24 @@ class MemoRepoImpl
         ): Result<Boolean> {
             var contents = ""
             memo.contents.forEachIndexed { index, item ->
-                if (index != 0) {
-                    contents += item.getContent() + ", "
-                } else {
-                    contents += item.getContent()
-                }
+                contents +=
+                    if (index != 0) {
+                        item.getContent() + ", "
+                    } else {
+                        item.getContent()
+                    }
             }
 
             val response = memoService.createMemo(userId = userId, contents = contents)
-            if (response.isSuccessful) {
+            return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.success(true)
+                    Result.success(true)
                 } else {
-                    return Result.failure(Exception("Response body is null"))
+                    Result.failure(Exception("Response body is null"))
                 }
             } else {
-                return Result.failure(Exception("Failed to create memo"))
+                Result.failure(Exception("Failed to create memo"))
             }
         }
 
@@ -54,15 +55,15 @@ class MemoRepoImpl
             memoId: Long,
         ): Result<Boolean> {
             val response = memoService.deleteMemo(memoId = memoId, userId = userId)
-            if (response.isSuccessful) {
+            return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    return Result.success(true)
+                    Result.success(true)
                 } else {
-                    return Result.failure(Exception("Response body is null"))
+                    Result.failure(Exception("Response body is null"))
                 }
             } else {
-                return Result.failure(Exception("Failed to delete memo"))
+                Result.failure(Exception("Failed to delete memo"))
             }
         }
     }
