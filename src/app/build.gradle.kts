@@ -39,9 +39,11 @@ android {
 
         // Set the local properties
         val baseUrl = localProperties.getProperty("api.baseUrl") ?: ""
+        val isMockEnabled = localProperties.getProperty("config.isMockEnabled").toBoolean()
 
         // Inject the local properties into the build config
         buildConfigField("String", "API_BASE_URL", "\"$baseUrl\"")
+        buildConfigField("Boolean", "IS_MOCK_ENABLED", isMockEnabled.toString())
     }
 
     buildTypes {
@@ -75,6 +77,9 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+    implementation(libs.google.gson)
+    implementation(libs.squareup.retrofit2)
+    implementation(libs.squareup.retrofit2.converter.gson)
 
     // Default
     implementation(libs.androidx.core.ktx)
