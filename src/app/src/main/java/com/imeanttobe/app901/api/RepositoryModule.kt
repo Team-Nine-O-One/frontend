@@ -1,5 +1,7 @@
 package com.imeanttobe.app901.api
 
+import com.imeanttobe.app901.api.repo.CartRepo
+import com.imeanttobe.app901.api.repo.FakeCartRepoImpl
 import com.imeanttobe.app901.api.repo.FakeMemoRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.service.CartService
