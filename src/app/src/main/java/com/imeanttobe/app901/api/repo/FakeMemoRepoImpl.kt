@@ -1,6 +1,5 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.api.service.MemoService
 import com.imeanttobe.app901.data.model.Memo
 import com.imeanttobe.app901.data.type.MemoItemLeaf
 import java.time.LocalDateTime
@@ -8,10 +7,8 @@ import javax.inject.Inject
 
 class FakeMemoRepoImpl
     @Inject
-    constructor(
-        private val memoService: MemoService,
-    ) : MemoRepo {
-        override suspend fun getAllMemos(): Result<List<Memo>> {
+    constructor() : MemoRepo {
+        override suspend fun getAllMemos(userId: String): Result<List<Memo>> {
             val mockedResponse =
                 listOf(
                     Memo(
@@ -35,12 +32,18 @@ class FakeMemoRepoImpl
             return Result.success(mockedResponse)
         }
 
-        override suspend fun createMemo(memo: Memo): Result<Boolean> {
+        override suspend fun createMemo(
+            userId: String,
+            memo: Memo,
+        ): Result<Boolean> {
             val mockedResponse = true
             return Result.success(mockedResponse)
         }
 
-        override suspend fun deleteMemo(memoId: Long): Result<Boolean> {
+        override suspend fun deleteMemo(
+            userId: String,
+            memoId: Long,
+        ): Result<Boolean> {
             val mockedResponse = true
             return Result.success(mockedResponse)
         }
