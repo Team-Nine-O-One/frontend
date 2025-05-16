@@ -18,7 +18,6 @@ import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.Visibility
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,7 +37,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
@@ -80,81 +78,74 @@ fun LoginPage(
                     .padding(innerPadding)
                     .imePadding(),
         ) {
-            Card(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+            // Text fields
+            Column(
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(16.dp),
             ) {
-                // Text fields
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(16.dp),
-                ) {
-                    OutlinedTextField(
-                        value = viewModel.email.value,
-                        onValueChange = { newValue -> viewModel.setEmail(newValue) },
-                        label = { Text(text = stringResource(id = R.string.email)) },
-                        maxLines = 1,
-                        singleLine = true,
-                        placeholder = { Text(text = stringResource(id = R.string.example_email)) },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email),
-                        trailingIcon = {
+                OutlinedTextField(
+                    value = viewModel.email.value,
+                    onValueChange = { newValue -> viewModel.setEmail(newValue) },
+                    label = { Text(text = stringResource(id = R.string.email)) },
+                    maxLines = 1,
+                    singleLine = true,
+                    placeholder = { Text(text = stringResource(id = R.string.example_email)) },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next, keyboardType = KeyboardType.Email),
+                    trailingIcon = {
+                        IconButton(
+                            onClick = { viewModel.setEmail("") },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Clear,
+                                contentDescription = "Clear",
+                            )
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+                OutlinedTextField(
+                    value = viewModel.password.value,
+                    onValueChange = { newValue -> viewModel.setPassword(newValue) },
+                    label = { Text(text = stringResource(id = R.string.password)) },
+                    maxLines = 1,
+                    singleLine = true,
+                    placeholder = { Text(text = stringResource(id = R.string.example_password)) },
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),
+                    visualTransformation =
+                        if (viewModel.isPasswordVisible.value) {
+                            VisualTransformation.None
+                        } else {
+                            PasswordVisualTransformation()
+                        },
+                    trailingIcon = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
                             IconButton(
-                                onClick = { viewModel.setEmail("") },
+                                onClick = { viewModel.setIsPasswordVisible(!viewModel.isPasswordVisible.value) },
+                            ) {
+                                Icon(
+                                    imageVector =
+                                        if (viewModel.isPasswordVisible.value) {
+                                            Icons.Rounded.VisibilityOff
+                                        } else {
+                                            Icons.Rounded.Visibility
+                                        },
+                                    contentDescription = "Set password visible",
+                                )
+                            }
+                            IconButton(
+                                onClick = { viewModel.setPassword("") },
                             ) {
                                 Icon(
                                     imageVector = Icons.Rounded.Clear,
                                     contentDescription = "Clear",
                                 )
                             }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    OutlinedTextField(
-                        value = viewModel.password.value,
-                        onValueChange = { newValue -> viewModel.setPassword(newValue) },
-                        label = { Text(text = stringResource(id = R.string.password)) },
-                        maxLines = 1,
-                        singleLine = true,
-                        placeholder = { Text(text = stringResource(id = R.string.example_password)) },
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Password),
-                        visualTransformation =
-                            if (viewModel.isPasswordVisible.value) {
-                                VisualTransformation.None
-                            } else {
-                                PasswordVisualTransformation()
-                            },
-                        trailingIcon = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                            ) {
-                                IconButton(
-                                    onClick = { viewModel.setIsPasswordVisible(!viewModel.isPasswordVisible.value) },
-                                ) {
-                                    Icon(
-                                        imageVector =
-                                            if (viewModel.isPasswordVisible.value) {
-                                                Icons.Rounded.VisibilityOff
-                                            } else {
-                                                Icons.Rounded.Visibility
-                                            },
-                                        contentDescription = "Set password visible",
-                                    )
-                                }
-                                IconButton(
-                                    onClick = { viewModel.setPassword("") },
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Rounded.Clear,
-                                        contentDescription = "Clear",
-                                    )
-                                }
-                            }
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                }
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
 
             // Login button
@@ -186,10 +177,4 @@ fun LoginPage(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun LoginPagePreview() {
-    LoginPage(navigate = {})
 }
