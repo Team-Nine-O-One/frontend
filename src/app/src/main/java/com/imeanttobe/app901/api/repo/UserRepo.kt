@@ -12,6 +12,8 @@ interface UserRepo {
         nickname: String,
     ): Result<Boolean>
 
+    fun isLoggedIn(): Boolean
+
     fun logout(): Unit
 
     fun getUserId(): String

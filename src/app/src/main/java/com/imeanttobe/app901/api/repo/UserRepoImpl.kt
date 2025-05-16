@@ -43,6 +43,8 @@ class UserRepoImpl
 
         override fun logout(): Unit = firebaseAuth.signOut()
 
+        override fun isLoggedIn(): Boolean = firebaseAuth.currentUser != null
+
         override fun getUserId(): String {
             if (firebaseAuth.currentUser != null) {
                 return firebaseAuth.currentUser!!.uid

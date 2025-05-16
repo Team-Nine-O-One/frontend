@@ -7,6 +7,15 @@
     <string name="analysis">분석</string>
     <string name="profile">내 정보</string>
     <string name="dev">개발</string>
+    <string name="email">전자 메일 주소</string>
+    <string name="password">비밀번호</string>
+    <string name="login">로그인</string>
+
+    <string name="dont_have_account">계정이 없으신가요?</string>
+    <string name="failed_to_login">로그인에 실패했어요... 다시 시도해보세요.</string>
+
+    <string name="example_email">abc@xyz.com</string>
+    <string name="example_password">********</string>
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
 </resources>

@@ -13,4 +13,19 @@ sealed class NavItem(
         label = "Dev",
         route = "/dev",
     )
+
+    object SplashNavItem : NavItem(
+        label = "Splash",
+        route = "/",
+    )
+
+    object LoginNavItem : NavItem(
+        label = "Login",
+        route = "/login",
+    )
+
+    object RegisterNavItem : NavItem(
+        label = "Register",
+        route = "/register",
+    )
 }

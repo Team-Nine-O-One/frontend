@@ -50,7 +50,7 @@ class DevSectionViewModel
                         if (task.isSuccessful) {
                             _authState.value = ConcurrencyState.Success
                         } else {
-                            _authState.value = ConcurrencyState.Error(task.exception?.message ?: "Unknown error")
+                            _authState.value = ConcurrencyState.Failure(task.exception?.message ?: "Unknown error")
                         }
                     }
             }
@@ -67,7 +67,7 @@ class DevSectionViewModel
                             _authState.value = ConcurrencyState.Success
                         } else {
                             _authState.value =
-                                ConcurrencyState.Error(task.exception?.message ?: "Unknown error")
+                                ConcurrencyState.Failure(task.exception?.message ?: "Unknown error")
                         }
                     }
             }
