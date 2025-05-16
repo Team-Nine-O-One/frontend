@@ -74,7 +74,7 @@ fun RegisterPage(
             Toast
                 .makeText(
                     context,
-                    context.getString(R.string.failed_to_login),
+                    context.getString(R.string.failed_to_register),
                     Toast.LENGTH_SHORT,
                 ).show()
         }

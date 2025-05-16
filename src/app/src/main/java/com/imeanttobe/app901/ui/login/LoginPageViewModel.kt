@@ -96,8 +96,10 @@ class LoginPageViewModel
                 } else {
                     if (result.exceptionOrNull() != null && result.exceptionOrNull()!!.message != null) {
                         _loginState.value = ConcurrencyState.Failure(result.exceptionOrNull()!!.message!!)
+                        setInputAvailability(true)
                     } else {
                         _loginState.value = ConcurrencyState.Failure("Unknown Error")
+                        setInputAvailability(true)
                     }
                 }
             }

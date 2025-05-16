@@ -158,11 +158,23 @@ class RegisterPageViewModel
             }
 
             viewModelScope.launch {
-                val result = userRepo.register(email.value, password.value, nickname.value)
+                val result =
+                    userRepo.register(
+                        nickname = nickname.value,
+                        email = email.value,
+                        password = password.value,
+                    )
+
                 if (result.isSuccess) {
                     _registerState.value = ConcurrencyState.Success
                 } else {
-                    _registerState.value = ConcurrencyState.Failure("")
+                    if (result.exceptionOrNull() != null && result.exceptionOrNull()!!.message != null) {
+                        _registerState.value = ConcurrencyState.Failure(result.exceptionOrNull()!!.message!!)
+                        setInputAvailability(true)
+                    } else {
+                        _registerState.value = ConcurrencyState.Failure("Unknown Error")
+                        setInputAvailability(true)
+                    }
                 }
             }
         }

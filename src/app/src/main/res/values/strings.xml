@@ -2,9 +2,8 @@
     <string name="app_name">app901</string>
 
     <string name="memo">메모</string>
-    <string name="history">기록</string>
+    <string name="history">히스토리</string>
     <string name="cart">장바구니</string>
-    <string name="analysis">분석</string>
     <string name="profile">내 정보</string>
     <string name="dev">개발</string>
     <string name="email">전자 메일 주소</string>
