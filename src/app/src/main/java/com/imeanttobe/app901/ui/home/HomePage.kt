@@ -10,19 +10,12 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.imeanttobe.app901.R
-import com.imeanttobe.app901.data.enum.HomePageIndex
-import com.imeanttobe.app901.navigation.NavItem
 import com.imeanttobe.app901.ui.component.BottomBar
-import com.imeanttobe.app901.ui.component.Header
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
 import com.imeanttobe.app901.ui.memo.MemoSection
@@ -34,17 +27,6 @@ fun HomePage(
     navigate: (String) -> Unit,
     viewModel: HomePageViewModel = hiltViewModel(),
 ) {
-    var fabMenuExpanded by remember { mutableStateOf(false) }
-    val headerTitle =
-        when (viewModel.index.value) {
-            HomePageIndex.MEMO_PAGE -> stringResource(R.string.memo)
-            HomePageIndex.HISTORY_PAGE -> stringResource(R.string.history)
-        }
-    val targetIndex =
-        when (viewModel.index.value) {
-            HomePageIndex.MEMO_PAGE -> HomePageIndex.HISTORY_PAGE
-            HomePageIndex.HISTORY_PAGE -> HomePageIndex.MEMO_PAGE
-        }
     val items =
         listOf(
             Icons.Rounded.Add to "메모 추가",
@@ -52,15 +34,7 @@ fun HomePage(
         )
 
     Scaffold(
-        topBar = {
-            Header(
-                title = headerTitle,
-                index = viewModel.index.value,
-                onNavButtonClick = { viewModel.setIndex(targetIndex) },
-                onProfileClick = { viewModel.setIndex(HomePageIndex.MEMO_PAGE) },
-                onDevClick = { navigate(NavItem.DevNavItem.route) },
-            )
-        },
+        topBar = {},
         bottomBar = {
             BottomBar(
                 selectedIndex = viewModel.bottomNavIndex.value,
@@ -83,8 +57,8 @@ fun HomePage(
             }
 
             MemoFloatingActionButtonMenu(
-                fabMenuExpanded = fabMenuExpanded,
-                setFabMenuExpanded = { newValue -> fabMenuExpanded = newValue },
+                fabMenuExpanded = viewModel.fabMenuExpanded.value,
+                setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
                 items = items,
             )
         }
