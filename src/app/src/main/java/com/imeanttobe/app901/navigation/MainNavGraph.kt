@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.imeanttobe.app901.ui.dev.DevPage
+import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.home.HomePage
 
 @Composable
@@ -22,7 +22,7 @@ fun MainNavGraph(
             HomePage(navigate = { route -> navController.navigate(route) })
         }
         composable(route = NavItem.DevNavItem.route) {
-            DevPage()
+            DevSection()
         }
     }
 }

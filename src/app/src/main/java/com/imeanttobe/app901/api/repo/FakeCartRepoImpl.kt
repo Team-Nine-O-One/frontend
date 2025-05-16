@@ -1,15 +1,12 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
 import javax.inject.Inject
 
 class FakeCartRepoImpl
     @Inject
-    constructor(
-        private val cartService: CartService,
-    ) : CartRepo {
+    constructor() : CartRepo {
         override suspend fun getAllCarts(userId: String): Result<List<SimplifiedCart>> {
             val mockedResponse =
                 listOf(
