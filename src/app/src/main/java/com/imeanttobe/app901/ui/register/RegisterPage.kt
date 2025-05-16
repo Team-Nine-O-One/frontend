@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.register
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,7 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imeNestedScroll
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -36,6 +37,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -63,6 +65,20 @@ fun RegisterPage(
 ) {
     val scrollState = rememberScrollState()
     val context = LocalContext.current
+
+    // If login is successful, navigate to home
+    LaunchedEffect(key1 = viewModel.registerState.value) {
+        if (viewModel.registerState.value is ConcurrencyState.Success) {
+            navigate(NavItem.HomeNavItem.route)
+        } else if (viewModel.registerState.value is ConcurrencyState.Failure) {
+            Toast
+                .makeText(
+                    context,
+                    context.getString(R.string.failed_to_login),
+                    Toast.LENGTH_SHORT,
+                ).show()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -94,7 +110,7 @@ fun RegisterPage(
                     Modifier
                         .fillMaxSize()
                         .verticalScroll(scrollState)
-                        .imeNestedScroll()
+                        .imePadding()
                         .padding(horizontal = 16.dp),
             ) {
                 // Email text field
@@ -239,7 +255,7 @@ fun RegisterPage(
                 )
                 OutlinedTextField(
                     value = viewModel.confirmPassword.value,
-                    onValueChange = { newValue -> viewModel.setPassword(newValue) },
+                    onValueChange = { newValue -> viewModel.setConfirmPassword(newValue) },
                     label = { Text(text = stringResource(id = R.string.confirm_password)) },
                     isError = viewModel.confirmPasswordErrorMessage.value.isNotEmpty(),
                     maxLines = 1,

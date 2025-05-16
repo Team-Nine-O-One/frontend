@@ -33,6 +33,13 @@ class UserRepoImpl
             try {
                 val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
                 if (result.user != null) {
+                    val user = result.user!!
+                    user.updateProfile(
+                        UserProfileChangeRequest
+                            .Builder()
+                            .setDisplayName(userId)
+                            .build(),
+                    )
                     Result.success(true)
                 } else {
                     Result.failure(IllegalStateException("Register is successful but user is null"))
