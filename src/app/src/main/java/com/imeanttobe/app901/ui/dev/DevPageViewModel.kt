@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.imeanttobe.app901.api.repo.FakeMemoRepoImpl
+import com.imeanttobe.app901.api.repo.UserRepoImpl
 import com.imeanttobe.app901.data.model.Memo
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ class DevPageViewModel
     @Inject
     constructor(
         private var memoRepo: FakeMemoRepoImpl,
+        private var userRepo: UserRepoImpl,
     ) : ViewModel() {
         private val auth: FirebaseAuth = Firebase.auth
         private val _memos: MutableState<List<Memo>> = mutableStateOf(emptyList())
@@ -73,7 +75,7 @@ class DevPageViewModel
 
         fun getAllMemos() {
             viewModelScope.launch {
-                memoRepo.getAllMemos().fold(
+                memoRepo.getAllMemos(userRepo.getUserId()).fold(
                     onSuccess = {
                         _memos.value = it
                     },

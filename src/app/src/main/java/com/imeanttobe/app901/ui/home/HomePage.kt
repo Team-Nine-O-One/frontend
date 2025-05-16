@@ -60,6 +60,7 @@ fun HomePage(
                 onDevClick = { navigate(NavItem.DevNavItem.route) },
             )
         },
+        bottomBar = { BottomBar() },
     ) { innerPadding ->
         Box(
             modifier =

@@ -1,10 +1,13 @@
 package com.imeanttobe.app901.api
 
+import com.google.firebase.auth.FirebaseAuth
 import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.repo.CartRepo
 import com.imeanttobe.app901.api.repo.FakeCartRepoImpl
 import com.imeanttobe.app901.api.repo.FakeMemoRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.api.repo.UserRepo
+import com.imeanttobe.app901.api.repo.UserRepoImpl
 import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.api.service.MemoService
 import dagger.Module
@@ -35,6 +38,10 @@ object RepositoryModule {
             FakeMemoRepoImpl()
         }
 
+    @Provides
+    @Singleton
+    fun provideUserRepo(firebaseAuth: FirebaseAuth): UserRepo = UserRepoImpl(firebaseAuth)
+
     // API services here
     @Provides
     @Singleton
@@ -43,4 +50,8 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideCartService(): CartService = RetrofitClient.cartService
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 }
