@@ -80,13 +80,14 @@ fun LoginPage(
         ) {
             // Text fields
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(16.dp),
             ) {
                 OutlinedTextField(
                     value = viewModel.email.value,
                     onValueChange = { newValue -> viewModel.setEmail(newValue) },
                     label = { Text(text = stringResource(id = R.string.email)) },
+                    isError = viewModel.emailErrorMessage.value.isNotEmpty(),
                     maxLines = 1,
                     singleLine = true,
                     placeholder = { Text(text = stringResource(id = R.string.example_email)) },
@@ -103,10 +104,20 @@ fun LoginPage(
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
+                if (viewModel.emailErrorMessage.value.isNotEmpty()) {
+                    Text(
+                        text = viewModel.emailErrorMessage.value,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                    )
+                }
+
                 OutlinedTextField(
                     value = viewModel.password.value,
                     onValueChange = { newValue -> viewModel.setPassword(newValue) },
                     label = { Text(text = stringResource(id = R.string.password)) },
+                    isError = viewModel.passwordErrorMessage.value.isNotEmpty(),
                     maxLines = 1,
                     singleLine = true,
                     placeholder = { Text(text = stringResource(id = R.string.example_password)) },
@@ -146,11 +157,19 @@ fun LoginPage(
                     },
                     modifier = Modifier.fillMaxWidth(),
                 )
+                if (viewModel.passwordErrorMessage.value.isNotEmpty()) {
+                    Text(
+                        text = viewModel.passwordErrorMessage.value,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.labelMedium,
+                        modifier = Modifier.padding(horizontal = 4.dp),
+                    )
+                }
             }
 
             // Login button
             Button(
-                onClick = { viewModel.login() },
+                onClick = { viewModel.login(context = context) },
                 modifier =
                     Modifier
                         .padding(16.dp)
@@ -158,7 +177,7 @@ fun LoginPage(
                         .height(60.dp),
             ) {
                 if (viewModel.loginState.value is ConcurrencyState.Loading) {
-                    LoadingIndicator(color = MaterialTheme.colorScheme.onPrimaryContainer)
+                    LoadingIndicator(color = MaterialTheme.colorScheme.onPrimary)
                 } else {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.Login,

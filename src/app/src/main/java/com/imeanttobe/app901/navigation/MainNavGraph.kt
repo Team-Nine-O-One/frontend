@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.imeanttobe.app901.ui.home.HomePage
 import com.imeanttobe.app901.ui.login.LoginPage
+import com.imeanttobe.app901.ui.register.RegisterPage
 import com.imeanttobe.app901.ui.splash.SplashPage
 
 @Composable
@@ -24,11 +25,22 @@ fun MainNavGraph(
         }
 
         composable(route = NavItem.SplashNavItem.route) {
-            SplashPage(navigate = { route -> navController.navigate(route) })
+            SplashPage(navigate = { route ->
+                navController.navigate(route) {
+                    popUpTo(NavItem.SplashNavItem.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            })
         }
 
         composable(route = NavItem.LoginNavItem.route) {
             LoginPage(navigate = { route -> navController.navigate(route) })
+        }
+
+        composable(route = NavItem.RegisterNavItem.route) {
+            RegisterPage(navigate = { route -> navController.navigate(route) })
         }
     }
 }
