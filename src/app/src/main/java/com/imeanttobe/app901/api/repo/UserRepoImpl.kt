@@ -26,13 +26,22 @@ class UserRepoImpl
             }
 
         override suspend fun register(
-            userId: String,
+            nickname: String,
             email: String,
             password: String,
         ): Result<Boolean> =
             try {
                 val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
                 if (result.user != null) {
+                    val user = result.user!!
+
+                    user.updateProfile(
+                        UserProfileChangeRequest
+                            .Builder()
+                            .setDisplayName(nickname)
+                            .build(),
+                    )
+
                     Result.success(true)
                 } else {
                     Result.failure(IllegalStateException("Register is successful but user is null"))
@@ -42,6 +51,8 @@ class UserRepoImpl
             }
 
         override fun logout(): Unit = firebaseAuth.signOut()
+
+        override fun isLoggedIn(): Boolean = firebaseAuth.currentUser != null
 
         override fun getUserId(): String {
             if (firebaseAuth.currentUser != null) {

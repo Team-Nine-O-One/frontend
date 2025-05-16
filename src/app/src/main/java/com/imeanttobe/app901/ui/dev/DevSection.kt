@@ -22,7 +22,7 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
         when (authState.value) {
             ConcurrencyState.Loading -> "Loading"
             ConcurrencyState.Success -> "Success"
-            ConcurrencyState.Initial -> "Initial"
+            ConcurrencyState.Default -> "Initial"
             else -> "Unknown"
         }
 

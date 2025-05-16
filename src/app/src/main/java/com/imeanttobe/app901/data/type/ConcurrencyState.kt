@@ -1,13 +1,13 @@
 package com.imeanttobe.app901.data.type
 
 sealed class ConcurrencyState {
-    object Initial : ConcurrencyState()
+    object Default : ConcurrencyState()
 
     object Loading : ConcurrencyState()
 
     object Success : ConcurrencyState()
 
-    data class Error(
+    data class Failure(
         val message: String,
     ) : ConcurrencyState()
 }

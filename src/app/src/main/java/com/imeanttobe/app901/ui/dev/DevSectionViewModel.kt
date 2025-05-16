@@ -31,7 +31,7 @@ class DevSectionViewModel
         private val _memos: MutableState<List<Memo>> = mutableStateOf(emptyList())
         val memos: State<List<Memo>> = _memos
 
-        private val _authState = MutableStateFlow<ConcurrencyState>(ConcurrencyState.Initial)
+        private val _authState = MutableStateFlow<ConcurrencyState>(ConcurrencyState.Default)
         val authState: StateFlow<ConcurrencyState> = _authState.asStateFlow()
 
         init {
@@ -50,7 +50,7 @@ class DevSectionViewModel
                         if (task.isSuccessful) {
                             _authState.value = ConcurrencyState.Success
                         } else {
-                            _authState.value = ConcurrencyState.Error(task.exception?.message ?: "Unknown error")
+                            _authState.value = ConcurrencyState.Failure(task.exception?.message ?: "Unknown error")
                         }
                     }
             }
@@ -67,7 +67,7 @@ class DevSectionViewModel
                             _authState.value = ConcurrencyState.Success
                         } else {
                             _authState.value =
-                                ConcurrencyState.Error(task.exception?.message ?: "Unknown error")
+                                ConcurrencyState.Failure(task.exception?.message ?: "Unknown error")
                         }
                     }
             }

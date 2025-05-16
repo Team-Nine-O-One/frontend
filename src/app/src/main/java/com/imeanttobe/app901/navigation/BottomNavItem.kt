@@ -1,8 +1,8 @@
 package com.imeanttobe.app901.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AutoGraph
 import androidx.compose.material.icons.rounded.DeveloperMode
+import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,10 +20,10 @@ sealed class BottomNavItem(
         icon = Icons.Rounded.ShoppingCart,
     )
 
-    object AnalysisBottomNavItem : BottomNavItem(
-        stringResId = R.string.analysis,
-        label = "analysis",
-        icon = Icons.Rounded.AutoGraph,
+    object HistoryBottomNavItem : BottomNavItem(
+        stringResId = R.string.history,
+        label = "history",
+        icon = Icons.Rounded.History,
     )
 
     object ProfileBottomNavItem : BottomNavItem(
@@ -43,14 +43,14 @@ sealed class BottomNavItem(
             if (BuildConfig.IS_DEV_MODE_ENABLED) {
                 listOf(
                     CartBottomNavItem,
-                    AnalysisBottomNavItem,
+                    HistoryBottomNavItem,
                     ProfileBottomNavItem,
                     DevBottomItem,
                 )
             } else {
                 listOf(
                     CartBottomNavItem,
-                    AnalysisBottomNavItem,
+                    HistoryBottomNavItem,
                     ProfileBottomNavItem,
                 )
             }
