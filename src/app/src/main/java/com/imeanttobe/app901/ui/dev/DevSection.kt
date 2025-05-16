@@ -13,16 +13,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.imeanttobe.app901.data.type.ConcurrencyState
 
 @Composable
-fun DevPage(viewModel: DevPageViewModel = hiltViewModel()) {
+fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
     val authState = viewModel.authState.collectAsState()
     val authStateString =
         when (authState.value) {
-            AuthState.Loading -> "Loading"
-            AuthState.Success -> "Success"
-            AuthState.Initial -> "Initial"
+            ConcurrencyState.Loading -> "Loading"
+            ConcurrencyState.Success -> "Success"
+            ConcurrencyState.Initial -> "Initial"
             else -> "Unknown"
         }
 

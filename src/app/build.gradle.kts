@@ -40,10 +40,12 @@ android {
         // Set the local properties
         val baseUrl = localProperties.getProperty("api.baseUrl") ?: ""
         val isMockEnabled = localProperties.getProperty("config.isMockEnabled").toBoolean()
+        val isDevModeEnabled = localProperties.getProperty("config.isDevModeEnabled").toBoolean()
 
         // Inject the local properties into the build config
         buildConfigField("String", "API_BASE_URL", "\"$baseUrl\"")
         buildConfigField("Boolean", "IS_MOCK_ENABLED", isMockEnabled.toString())
+        buildConfigField("Boolean", "IS_DEV_MODE_ENABLED", isDevModeEnabled.toString())
     }
 
     buildTypes {
@@ -51,7 +53,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
