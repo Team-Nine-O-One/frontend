@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component.memo
+package com.imeanttobe.app901.ui.memo.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.data.type.MemoItem
 import com.imeanttobe.app901.data.type.MemoItemGroup
 import com.imeanttobe.app901.data.type.MemoItemLeaf
+import com.imeanttobe.app901.ui.memo.MemoSection
 import kotlin.collections.forEach
 
 @Composable
@@ -17,7 +18,7 @@ fun MemoCardList(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.then(modifier),
     ) {
         memoItems.forEach { item ->
@@ -33,21 +34,5 @@ fun MemoCardList(
 @Preview
 @Composable
 private fun MemoCardListPreview() {
-    MemoSection(
-        memoItems =
-            listOf(
-                MemoItemLeaf("Item 1", false),
-                MemoItemLeaf("Item 2", true),
-                MemoItemGroup(
-                    content = "Group 1",
-                    checked = false,
-                    items =
-                        mutableListOf(
-                            MemoItemLeaf("Item 3", false),
-                            MemoItemLeaf("Item 4", true),
-                        ),
-                ),
-                MemoItemLeaf("Item 5", false),
-            ),
-    )
+    MemoSection()
 }

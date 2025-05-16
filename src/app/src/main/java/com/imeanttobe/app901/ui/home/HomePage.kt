@@ -23,9 +23,10 @@ import com.imeanttobe.app901.data.enum.HomePageIndex
 import com.imeanttobe.app901.navigation.NavItem
 import com.imeanttobe.app901.ui.component.BottomBar
 import com.imeanttobe.app901.ui.component.Header
-import com.imeanttobe.app901.ui.home.component.history.HistorySection
-import com.imeanttobe.app901.ui.home.component.memo.MemoFloatingActionButtonMenu
-import com.imeanttobe.app901.ui.home.component.memo.MemoSection
+import com.imeanttobe.app901.ui.dev.DevSection
+import com.imeanttobe.app901.ui.history.HistorySection
+import com.imeanttobe.app901.ui.memo.MemoSection
+import com.imeanttobe.app901.ui.memo.component.MemoFloatingActionButtonMenu
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -60,7 +61,12 @@ fun HomePage(
                 onDevClick = { navigate(NavItem.DevNavItem.route) },
             )
         },
-        bottomBar = { BottomBar() },
+        bottomBar = {
+            BottomBar(
+                selectedIndex = viewModel.bottomNavIndex.value,
+                onChangeIndex = { newValue -> viewModel.setBottomNavIndex(newValue) },
+            )
+        },
     ) { innerPadding ->
         Box(
             modifier =
@@ -69,13 +75,11 @@ fun HomePage(
                     .padding(innerPadding)
                     .padding(horizontal = 8.dp),
         ) {
-            when (viewModel.index.value) {
-                HomePageIndex.MEMO_PAGE -> {
-                    MemoSection(emptyList())
-                }
-                HomePageIndex.HISTORY_PAGE -> {
-                    HistorySection()
-                }
+            when (viewModel.bottomNavIndex.value) {
+                0 -> MemoSection()
+                1 -> HistorySection()
+                2 -> Box {}
+                3 -> DevSection()
             }
 
             MemoFloatingActionButtonMenu(

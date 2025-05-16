@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DevPageViewModel
+class DevSectionViewModel
     @Inject
     constructor(
         private var memoRepo: FakeMemoRepoImpl,

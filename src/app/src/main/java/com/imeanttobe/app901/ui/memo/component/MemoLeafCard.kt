@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component.memo
+package com.imeanttobe.app901.ui.memo.component
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +12,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +27,8 @@ fun MemoLeafCard(
     item: MemoItemLeaf,
     modifier: Modifier = Modifier,
 ) {
+    var checked by remember { mutableStateOf(item.isChecked()) }
+
     OutlinedCard(
         modifier =
             Modifier
@@ -34,8 +40,11 @@ fun MemoLeafCard(
             modifier = Modifier.padding(4.dp),
         ) {
             Checkbox(
-                checked = item.isChecked(),
-                onCheckedChange = { value -> item.setChecked(value) },
+                checked = checked,
+                onCheckedChange = {
+                    checked = it
+                    item.setChecked(it)
+                },
             )
 
             Text(

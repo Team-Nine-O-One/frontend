@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component.memo
+package com.imeanttobe.app901.ui.memo.component
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box

@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component.memo
+package com.imeanttobe.app901.ui.memo.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
