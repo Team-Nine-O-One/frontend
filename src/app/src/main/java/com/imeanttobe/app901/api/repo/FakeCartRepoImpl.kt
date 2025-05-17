@@ -27,10 +27,10 @@ class FakeCartRepoImpl
 
         override suspend fun createCart(
             userId: String,
-            memoId: Long,
-        ): Result<Boolean> {
+            memoContents: String,
+        ): Result<Cart> {
             val mockedResponse = true
-            return Result.success(mockedResponse)
+            return Result.success(Cart.getDefaultInstance())
         }
 
         override suspend fun confirmCart(
