@@ -3,6 +3,7 @@ package com.imeanttobe.app901.api.repo
 import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.data.type.MemoItem
 import com.imeanttobe.app901.util.Formatter
 import javax.inject.Inject
 
@@ -52,8 +53,9 @@ class CartRepoImpl
 
         override suspend fun createCart(
             userId: String,
-            memoContents: String,
+            memoItems: List<MemoItem>,
         ): Result<Cart> {
+            val memoContents = MemoItem.convertToString(memoItems = memoItems)
             val response = cartService.createCart(userId = userId, memoContents = memoContents)
             return if (response.isSuccessful) {
                 val body = response.body()
