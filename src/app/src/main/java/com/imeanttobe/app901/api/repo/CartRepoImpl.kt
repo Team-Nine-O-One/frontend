@@ -3,6 +3,7 @@ package com.imeanttobe.app901.api.repo
 import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.util.Formatter
 import javax.inject.Inject
 
 class CartRepoImpl
@@ -37,7 +38,7 @@ class CartRepoImpl
                             cartId = body.cartId,
                             memoId = body.memoId,
                             status = body.status,
-                            createdAt = body.createdAt,
+                            createdAt = Formatter.getLocalDateTimeFromString(body.createdAt),
                             recommendedResults = body.recommendedResult,
                         ),
                     )
@@ -52,8 +53,26 @@ class CartRepoImpl
         override suspend fun createCart(
             userId: String,
             memoId: Long,
-        ): Result<Boolean> {
-            TODO("Not yet implemented")
+        ): Result<Cart> {
+            val response = cartService.createCart(userId = userId, memoId = memoId)
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(
+                        Cart(
+                            cartId = body.cartId,
+                            memoId = body.memoId,
+                            status = body.status,
+                            createdAt = Formatter.getLocalDateTimeFromString(body.createdAt),
+                            recommendedResults = emptyList(),
+                        ),
+                    )
+                } else {
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Failed to create cart"))
+            }
         }
 
         override suspend fun confirmCart(

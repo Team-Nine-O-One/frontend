@@ -14,7 +14,7 @@ interface CartRepo {
     suspend fun createCart(
         userId: String,
         memoId: Long,
-    ): Result<Boolean>
+    ): Result<Cart>
 
     suspend fun confirmCart(
         cartId: Long,
