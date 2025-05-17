@@ -5,7 +5,7 @@ import com.imeanttobe.app901.data.enum.CartStatus
 data class CreateCartResponse(
     val cartId: Long,
     val userId: String,
-    val memoId: Long,
+    val memoContents: String,
     val status: CartStatus,
     val createdAt: String,
 )

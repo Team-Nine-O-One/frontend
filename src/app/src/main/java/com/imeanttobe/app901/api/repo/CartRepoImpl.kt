@@ -36,7 +36,7 @@ class CartRepoImpl
                     Result.success(
                         Cart(
                             cartId = body.cartId,
-                            memoId = body.memoId,
+                            memoContents = body.memoContents,
                             status = body.status,
                             createdAt = Formatter.getLocalDateTimeFromString(body.createdAt),
                             recommendedResults = body.recommendedResult,
@@ -52,16 +52,16 @@ class CartRepoImpl
 
         override suspend fun createCart(
             userId: String,
-            memoId: Long,
+            memoContents: String,
         ): Result<Cart> {
-            val response = cartService.createCart(userId = userId, memoId = memoId)
+            val response = cartService.createCart(userId = userId, memoContents = memoContents)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
                     Result.success(
                         Cart(
                             cartId = body.cartId,
-                            memoId = body.memoId,
+                            memoContents = body.memoContents,
                             status = body.status,
                             createdAt = Formatter.getLocalDateTimeFromString(body.createdAt),
                             recommendedResults = emptyList(),

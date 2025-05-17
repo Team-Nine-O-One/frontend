@@ -13,7 +13,7 @@ interface CartRepo {
 
     suspend fun createCart(
         userId: String,
-        memoId: Long,
+        memoContents: String,
     ): Result<Cart>
 
     suspend fun confirmCart(

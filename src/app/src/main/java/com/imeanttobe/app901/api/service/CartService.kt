@@ -25,7 +25,7 @@ interface CartService {
     @POST("/api/carts")
     suspend fun createCart(
         userId: String,
-        memoId: Long,
+        memoContents: String,
     ): Response<CreateCartResponse>
 
     @POST("/api/carts/{cartId}")
