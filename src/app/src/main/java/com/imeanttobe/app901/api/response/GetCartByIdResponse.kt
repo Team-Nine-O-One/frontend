@@ -5,7 +5,7 @@ import com.imeanttobe.app901.data.model.RecommendationResult
 
 data class GetCartByIdResponse(
     val cartId: Long,
-    val memoId: Long,
+    val memoContents: String,
     val status: CartStatus,
     val createdAt: String,
     val recommendedResult: List<RecommendationResult>,

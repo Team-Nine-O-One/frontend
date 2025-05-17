@@ -2,6 +2,7 @@ package com.imeanttobe.app901.api.repo
 
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.data.type.MemoItem
 import javax.inject.Inject
 
 class FakeCartRepoImpl
@@ -27,9 +28,9 @@ class FakeCartRepoImpl
 
         override suspend fun createCart(
             userId: String,
-            memoId: Long,
-        ): Result<Boolean> {
-            val mockedResponse = true
+            memoItems: List<MemoItem>,
+        ): Result<Cart> {
+            val mockedResponse = Cart.getDefaultInstance()
             return Result.success(mockedResponse)
         }
 
