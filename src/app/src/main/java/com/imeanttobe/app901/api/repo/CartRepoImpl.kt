@@ -4,7 +4,7 @@ import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
 import com.imeanttobe.app901.data.type.MemoItem
-import com.imeanttobe.app901.util.Formatter
+import com.imeanttobe.app901.util.Converter
 import javax.inject.Inject
 
 class CartRepoImpl
@@ -39,7 +39,7 @@ class CartRepoImpl
                             cartId = body.cartId,
                             memoContents = body.memoContents,
                             status = body.status,
-                            createdAt = Formatter.getLocalDateTimeFromString(body.createdAt),
+                            createdAt = Converter.getLocalDateTimeFromString(body.createdAt),
                             recommendedResults = body.recommendedResult,
                         ),
                     )
@@ -65,7 +65,7 @@ class CartRepoImpl
                             cartId = body.cartId,
                             memoContents = body.memoContents,
                             status = body.status,
-                            createdAt = Formatter.getLocalDateTimeFromString(body.createdAt),
+                            createdAt = Converter.getLocalDateTimeFromString(body.createdAt),
                             recommendedResults = emptyList(),
                         ),
                     )
