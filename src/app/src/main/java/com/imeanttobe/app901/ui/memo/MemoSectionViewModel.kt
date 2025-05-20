@@ -18,23 +18,22 @@ class MemoSectionViewModel
         // Variables
         private val _memos =
             mutableStateListOf<MemoItem>(
-                MemoItemLeaf("Item 1", false),
-                MemoItemLeaf("Item 2", true),
+                MemoItemLeaf("Item 1"),
+                MemoItemLeaf("Item 2"),
                 MemoItemGroup(
                     content = "Group 1",
-                    checked = false,
                     items =
                         mutableListOf(
-                            MemoItemLeaf("Item 3", false),
-                            MemoItemLeaf("Item 4", true),
+                            MemoItemLeaf("Item 3"),
+                            MemoItemLeaf("Item 4"),
                         ),
                 ),
-                MemoItemLeaf("Item 5", false),
+                MemoItemLeaf("Item 5"),
             )
         val memos: List<MemoItem> = _memos
 
         // Functions
         fun addMemo(content: String) {
-            _memos.add(MemoItemLeaf(content, false))
+            _memos.add(MemoItemLeaf(content))
         }
     }

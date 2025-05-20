@@ -41,11 +41,11 @@ fun MemoGroupCard(
                 modifier = Modifier.padding(4.dp),
             ) {
                 Checkbox(
-                    checked = item.isChecked(),
+                    checked = true, // TODO
                     onCheckedChange = { value ->
                         {
-                            item.setChecked(value)
-                            item.getItems().forEach { leaf -> leaf.setChecked(value) }
+                            // item.setChecked(value)
+                            item.getItems().forEach { }
                         }
                     },
                 )
@@ -80,12 +80,11 @@ private fun MemoGroupCardPreview() {
         item =
             MemoItemGroup(
                 content = "Hello World",
-                checked = false,
                 items =
                     mutableListOf(
-                        MemoItemLeaf("Hello World", false),
-                        MemoItemLeaf("Hello World", false),
-                        MemoItemLeaf("Hello World", false),
+                        MemoItemLeaf("Hello World"),
+                        MemoItemLeaf("Hello World"),
+                        MemoItemLeaf("Hello World"),
                     ),
             ),
     )

@@ -1,9 +1,11 @@
 package com.imeanttobe.app901.data.type
 
 abstract class MemoItem(
+    private val id: Long = -1,
     private var content: String,
-    private var checked: Boolean,
 ) {
+    constructor(content: String) : this(-1, content)
+
     companion object {
         fun convertToString(memoItems: List<MemoItem>): String {
             var result = ""
@@ -22,7 +24,7 @@ abstract class MemoItem(
                         result += memoItem.getContent()
                     } else {
                         for (item in (memoItem as MemoItemGroup).getItems()) {
-                            if (item != (memoItem as MemoItemGroup).getItems().last()) {
+                            if (item != memoItem.getItems().last()) {
                                 result += "${item.getContent()} | "
                             } else {
                                 result += item.getContent()
@@ -40,11 +42,5 @@ abstract class MemoItem(
 
     fun setContent(newValue: String) {
         content = newValue
-    }
-
-    fun isChecked(): Boolean = checked
-
-    fun setChecked(newValue: Boolean) {
-        checked = newValue
     }
 }

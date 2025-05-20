@@ -13,8 +13,6 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +25,6 @@ fun MemoLeafCard(
     item: MemoItemLeaf,
     modifier: Modifier = Modifier,
 ) {
-    var checked by remember { mutableStateOf(item.isChecked()) }
-
     OutlinedCard(
         modifier =
             Modifier
@@ -40,10 +36,9 @@ fun MemoLeafCard(
             modifier = Modifier.padding(4.dp),
         ) {
             Checkbox(
-                checked = checked,
+                checked = true,
                 onCheckedChange = {
-                    checked = it
-                    item.setChecked(it)
+                    // TODO: checked = it
                 },
             )
 
@@ -79,6 +74,6 @@ fun MemoLeafCard(
 private fun MemoLeafCardPreview() {
     MemoLeafCard(
         item =
-            MemoItemLeaf("Hello World", false),
+            MemoItemLeaf("Hello World"),
     )
 }

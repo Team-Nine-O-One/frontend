@@ -1,17 +1,44 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.data.model.Memo
+import com.imeanttobe.app901.MemoItem
 
 interface MemoRepo {
-    suspend fun getAllMemos(userId: String): Result<List<Memo>>
+    suspend fun saveMemos(memos: List<MemoItem>)
 
-    suspend fun createMemo(
-        userId: String,
-        memo: Memo,
-    ): Result<Boolean>
+    suspend fun addMemo(memo: MemoItem)
 
-    suspend fun deleteMemo(
-        userId: String,
-        memoId: Long,
-    ): Result<Boolean>
+    suspend fun removeMemo(memoId: Long)
 }
+
+/*
+    // Example function to create a new MemoLeaf (for demonstration)
+    fun createNewMemoLeaf(content: String): Memo {
+        val leaf = MemoLeaf.newBuilder()
+            .setId(UUID.randomUUID().toString())
+            .setContent(content)
+            .setCreatedAtTimestampMs(System.currentTimeMillis())
+            .setUpdatedAtTimestampMs(System.currentTimeMillis())
+            .build()
+        return Memo.newBuilder()
+            .setId(leaf.id) // Ensure wrapper ID matches leaf ID
+            .setLeaf(leaf)
+            .build()
+    }
+
+    // Example function to create a new MemoGroup (for demonstration)
+    suspend fun createNewMemoGroup(name: String, containedMemoIds: List<String>): Memo {
+        val currentMemos = memosFlow.first().filter { it.id in containedMemoIds } // Get actual memo objects
+        val group = MemoGroup.newBuilder()
+            .setId(UUID.randomUUID().toString())
+            .setName(name)
+            .setCreatedAtTimestampMs(System.currentTimeMillis())
+            .setUpdatedAtTimestampMs(System.currentTimeMillis())
+            .addAllMemos(currentMemos) // Add the actual Memo objects
+            .build()
+        return Memo.newBuilder()
+            .setId(group.id) // Ensure wrapper ID matches group ID
+            .setGroup(group)
+            .build()
+    }
+
+ */

@@ -6,7 +6,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import com.google.protobuf.InvalidProtocolBufferException
-import com.imeanttobe.app901.MemoItem
 import com.imeanttobe.app901.MemoItemList
 import java.io.InputStream
 import java.io.OutputStream
@@ -28,7 +27,7 @@ object MemoItemListSerializer : Serializer<MemoItemList> {
     ) = t.writeTo(output)
 }
 
-val Context.memoItemDataStore: DataStore<MemoItem> by dataStore(
+val Context.memoItemListDataStore: DataStore<MemoItemList> by dataStore(
     fileName = "memo.pb",
     serializer = MemoItemListSerializer,
 )
