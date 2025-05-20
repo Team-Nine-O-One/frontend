@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.protobuf)
 }
 
 android {
@@ -70,6 +71,22 @@ android {
     }
 }
 
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:4.26.1"
+    }
+
+    generateProtoTasks {
+        all().configureEach {
+            builtins {
+                maybeCreate("java").apply {
+                    option("lite") // Use lite runtime for Android
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     // Additional
     implementation(libs.dagger.hilt.android)
@@ -82,6 +99,9 @@ dependencies {
     implementation(libs.google.gson)
     implementation(libs.squareup.retrofit2)
     implementation(libs.squareup.retrofit2.converter.gson)
+    implementation(libs.protobuf.kotlin.lite)
+    implementation(libs.datastore.core)
+    implementation(libs.datastore.preferences)
 
     // Default
     implementation(libs.androidx.core.ktx)

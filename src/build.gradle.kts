@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.ksp) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.gms.google.services) apply false
+    alias(libs.plugins.google.protobuf) apply false
 }
 
 buildscript {
