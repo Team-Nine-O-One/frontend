@@ -1,0 +1,27 @@
+syntax = "proto3";
+option java_package = "com.imeanttobe.app901";
+option java_multiple_files = true;
+
+message MemoItemLeaf {
+  int64 id = 1;
+  string content = 2;
+}
+
+message MemoItemGroup {
+  int64 id = 1;
+  string content = 2;
+  repeated MemoItemLeaf items = 3;
+}
+
+message MemoItem {
+  int64 id = 1;
+
+  oneof item {
+    MemoItemLeaf leaf = 2;
+    MemoItemGroup group = 3;
+  }
+}
+
+message MemoItemList {
+  repeated MemoItem items = 1;
+}
