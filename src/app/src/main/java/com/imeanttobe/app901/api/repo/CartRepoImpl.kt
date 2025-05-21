@@ -3,6 +3,8 @@ package com.imeanttobe.app901.api.repo
 import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.data.type.MemoItem
+import com.imeanttobe.app901.util.Converter
 import javax.inject.Inject
 
 class CartRepoImpl
@@ -35,9 +37,9 @@ class CartRepoImpl
                     Result.success(
                         Cart(
                             cartId = body.cartId,
-                            memoId = body.memoId,
+                            memoContents = body.memoContents,
                             status = body.status,
-                            createdAt = body.createdAt,
+                            createdAt = Converter.getLocalDateTimeFromString(body.createdAt),
                             recommendedResults = body.recommendedResult,
                         ),
                     )
@@ -51,9 +53,28 @@ class CartRepoImpl
 
         override suspend fun createCart(
             userId: String,
-            memoId: Long,
-        ): Result<Boolean> {
-            TODO("Not yet implemented")
+            memoItems: List<MemoItem>,
+        ): Result<Cart> {
+            val memoContents = MemoItem.convertToString(memoItems = memoItems)
+            val response = cartService.createCart(userId = userId, memoContents = memoContents)
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(
+                        Cart(
+                            cartId = body.cartId,
+                            memoContents = body.memoContents,
+                            status = body.status,
+                            createdAt = Converter.getLocalDateTimeFromString(body.createdAt),
+                            recommendedResults = emptyList(),
+                        ),
+                    )
+                } else {
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Failed to create cart"))
+            }
         }
 
         override suspend fun confirmCart(

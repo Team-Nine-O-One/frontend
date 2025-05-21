@@ -18,12 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imeanttobe.app901.data.type.MemoItemGroup
-import com.imeanttobe.app901.data.type.MemoItemLeaf
+import com.imeanttobe.app901.ProtoMemoItemGroup
 
 @Composable
 fun MemoGroupCard(
-    item: MemoItemGroup,
+    item: ProtoMemoItemGroup,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -41,13 +40,8 @@ fun MemoGroupCard(
                 modifier = Modifier.padding(4.dp),
             ) {
                 Checkbox(
-                    checked = item.isChecked(),
-                    onCheckedChange = { value ->
-                        {
-                            item.setChecked(value)
-                            item.getItems().forEach { leaf -> leaf.setChecked(value) }
-                        }
-                    },
+                    checked = true, // TODO
+                    onCheckedChange = { value -> },
                 )
 
                 Text(
@@ -66,7 +60,7 @@ fun MemoGroupCard(
                 }
             }
 
-            item.getItems().forEach { leaf ->
+            item.itemsList.forEach { leaf ->
                 MemoLeafCard(item = leaf)
             }
         }
@@ -78,15 +72,6 @@ fun MemoGroupCard(
 private fun MemoGroupCardPreview() {
     MemoGroupCard(
         item =
-            MemoItemGroup(
-                content = "Hello World",
-                checked = false,
-                items =
-                    mutableListOf(
-                        MemoItemLeaf("Hello World", false),
-                        MemoItemLeaf("Hello World", false),
-                        MemoItemLeaf("Hello World", false),
-                    ),
-            ),
+            ProtoMemoItemGroup.getDefaultInstance(),
     )
 }
