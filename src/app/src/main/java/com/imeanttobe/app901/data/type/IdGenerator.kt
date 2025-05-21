@@ -1,23 +1,28 @@
 package com.imeanttobe.app901.data.type
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import com.imeanttobe.app901.IdPrefs
 import com.imeanttobe.app901.api.serializer.idPrefsDataStore
 import kotlinx.coroutines.flow.first
 
 class IdGenerator(
     private val context: Context,
 ) {
-    private val idPrefsDataStore = context.idPrefsDataStore
+    private val idPrefsDataStore: DataStore<IdPrefs> = context.idPrefsDataStore
 
     suspend fun assignId(): Long {
-        var assignedId: Long = 0
+        var assignedId: Long = -1
+
         idPrefsDataStore.updateData { current ->
-            assignedId = current.currentId
+            val currentId = current.currentId
+            assignedId = currentId
             current
                 .toBuilder()
                 .setCurrentId(assignedId + 1)
                 .build()
         }
+
         return assignedId
     }
 
