@@ -21,6 +21,9 @@ firebaseBom = "33.13.0"
 firebaseAuth = "23.2.0"
 retrofit2 = "2.11.0"
 gson = "2.11.0"
+protobuf-kotlin = "4.26.1"
+protobuf = "0.9.4"
+datastore = "1.1.6"
 
 [libraries]
 # Default
@@ -50,6 +53,9 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 squareup-retrofit2 = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 squareup-retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }
 google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf-kotlin" }
+datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 
 [plugins]
 # Default
@@ -60,3 +66,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 gms-google-services = { id = "com.google.gms.google-services", version.ref = "gms" }
+google-protobuf = { id = "com.google.protobuf", version.ref = "protobuf" }

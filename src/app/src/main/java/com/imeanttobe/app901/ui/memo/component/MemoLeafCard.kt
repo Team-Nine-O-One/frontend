@@ -13,22 +13,18 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imeanttobe.app901.data.type.MemoItemLeaf
+import com.imeanttobe.app901.ProtoMemoItemLeaf
 
 @Composable
 fun MemoLeafCard(
-    item: MemoItemLeaf,
+    item: ProtoMemoItemLeaf,
     modifier: Modifier = Modifier,
 ) {
-    var checked by remember { mutableStateOf(item.isChecked()) }
-
     OutlinedCard(
         modifier =
             Modifier
@@ -40,15 +36,14 @@ fun MemoLeafCard(
             modifier = Modifier.padding(4.dp),
         ) {
             Checkbox(
-                checked = checked,
+                checked = true,
                 onCheckedChange = {
-                    checked = it
-                    item.setChecked(it)
+                    // TODO: checked = it
                 },
             )
 
             Text(
-                text = item.getContent(),
+                text = item.content,
                 modifier = Modifier.weight(1f),
             )
 
@@ -79,6 +74,6 @@ fun MemoLeafCard(
 private fun MemoLeafCardPreview() {
     MemoLeafCard(
         item =
-            MemoItemLeaf("Hello World", false),
+            ProtoMemoItemLeaf.getDefaultInstance(),
     )
 }

@@ -1,69 +1,53 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.api.service.MemoService
-import com.imeanttobe.app901.data.model.Memo
+import android.content.Context
+import com.imeanttobe.app901.ProtoMemoItem
+import com.imeanttobe.app901.api.serializer.memoItemListDataStore
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MemoRepoImpl
     @Inject
     constructor(
-        private val memoService: MemoService,
+        private val context: Context,
     ) : MemoRepo {
-        override suspend fun getAllMemos(userId: String): Result<List<Memo>> {
-            val response = memoService.getAllMemos(userId = userId)
-            return if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    Result.success(body.items)
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
-            } else {
-                Result.failure(Exception("Failed to fetch memos"))
+        private val dataStore = context.memoItemListDataStore
+
+        val getMemosFlow: Flow<List<ProtoMemoItem>> =
+            context.memoItemListDataStore.data.map { memoListItem ->
+                memoListItem.itemsList
+            }
+
+        override suspend fun saveMemos(memos: List<ProtoMemoItem>) {
+            dataStore.updateData { memoListItem ->
+                memoListItem
+                    .toBuilder()
+                    .clearItems()
+                    .addAllItems(memos)
+                    .build()
             }
         }
 
-        override suspend fun createMemo(
-            userId: String,
-            memo: Memo,
-        ): Result<Boolean> {
-            var contents = ""
-            memo.contents.forEachIndexed { index, item ->
-                contents +=
-                    if (index != 0) {
-                        item.getContent() + ", "
-                    } else {
-                        item.getContent()
-                    }
-            }
-
-            val response = memoService.createMemo(userId = userId, contents = contents)
-            return if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    Result.success(true)
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
-            } else {
-                Result.failure(Exception("Failed to create memo"))
+        override suspend fun addMemo(memo: ProtoMemoItem) {
+            dataStore.updateData { memoListItem ->
+                memoListItem
+                    .toBuilder()
+                    .addItems(memo)
+                    .build()
             }
         }
 
-        override suspend fun deleteMemo(
-            userId: String,
-            memoId: Long,
-        ): Result<Boolean> {
-            val response = memoService.deleteMemo(memoId = memoId, userId = userId)
-            return if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    Result.success(true)
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
-            } else {
-                Result.failure(Exception("Failed to delete memo"))
+        override suspend fun removeMemo(memoId: Long) {
+            dataStore.updateData { memoListItem ->
+                memoListItem
+                    .toBuilder()
+                    .clearItems()
+                    .addAllItems(
+                        memoListItem.itemsList.filter { memoItem ->
+                            memoItem.id != memoId
+                        },
+                    ).build()
             }
         }
     }

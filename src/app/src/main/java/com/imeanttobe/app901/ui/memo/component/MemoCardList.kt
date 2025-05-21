@@ -6,15 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imeanttobe.app901.data.type.MemoItem
-import com.imeanttobe.app901.data.type.MemoItemGroup
-import com.imeanttobe.app901.data.type.MemoItemLeaf
+import com.imeanttobe.app901.ProtoMemoItem
+import com.imeanttobe.app901.ProtoMemoItemGroup
+import com.imeanttobe.app901.ProtoMemoItemLeaf
 import com.imeanttobe.app901.ui.memo.MemoSection
 import kotlin.collections.forEach
 
 @Composable
 fun MemoCardList(
-    memoItems: List<MemoItem>,
+    memoItems: List<ProtoMemoItem>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -22,10 +22,10 @@ fun MemoCardList(
         modifier = Modifier.then(modifier),
     ) {
         memoItems.forEach { item ->
-            if (item is MemoItemLeaf) {
+            if (item is ProtoMemoItemLeaf) {
                 MemoLeafCard(item = item)
             } else {
-                MemoGroupCard(item = item as MemoItemGroup)
+                MemoGroupCard(item = item as ProtoMemoItemGroup)
             }
         }
     }
