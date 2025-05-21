@@ -2,26 +2,26 @@ syntax = "proto3";
 option java_package = "com.imeanttobe.app901";
 option java_multiple_files = true;
 
-message MemoItemLeaf {
+message ProtoMemoItemLeaf {
   int64 id = 1;
   string content = 2;
 }
 
-message MemoItemGroup {
+message ProtoMemoItemGroup {
   int64 id = 1;
   string content = 2;
-  repeated MemoItemLeaf items = 3;
+  repeated ProtoMemoItemLeaf items = 3;
 }
 
-message MemoItem {
+message ProtoMemoItem {
   int64 id = 1;
 
   oneof item {
-    MemoItemLeaf leaf = 2;
-    MemoItemGroup group = 3;
+    ProtoMemoItemLeaf leaf = 2;
+    ProtoMemoItemGroup group = 3;
   }
 }
 
-message MemoItemList {
-  repeated MemoItem items = 1;
+message ProtoMemoItemList {
+  repeated ProtoMemoItem items = 1;
 }
