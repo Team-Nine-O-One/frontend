@@ -11,9 +11,11 @@ import com.imeanttobe.app901.api.repo.MemoRepoImpl
 import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.api.repo.UserRepoImpl
 import com.imeanttobe.app901.api.service.CartService
+import com.imeanttobe.app901.data.type.IdGenerator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -36,7 +38,15 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideMemoRepo(context: Context): MemoRepo = MemoRepoImpl(context)
+    fun provideMemoRepo(
+        @ApplicationContext context: Context,
+    ): MemoRepo = MemoRepoImpl(context)
+
+    @Provides
+    @Singleton
+    fun provideIdGenerator(
+        @ApplicationContext context: Context,
+    ): IdGenerator = IdGenerator(context)
 
     // API services here
     @Provides
