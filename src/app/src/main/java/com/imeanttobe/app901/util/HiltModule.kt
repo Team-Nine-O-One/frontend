@@ -1,9 +1,10 @@
-package com.imeanttobe.app901.api
+package com.imeanttobe.app901.util
 
 import android.app.Application
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.imeanttobe.app901.BuildConfig
+import com.imeanttobe.app901.api.RetrofitClient
 import com.imeanttobe.app901.api.repo.CartRepo
 import com.imeanttobe.app901.api.repo.FakeCartRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
