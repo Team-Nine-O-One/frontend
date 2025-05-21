@@ -1,11 +1,11 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.MemoItem
+import com.imeanttobe.app901.ProtoMemoItem
 
 interface MemoRepo {
-    suspend fun saveMemos(memos: List<MemoItem>)
+    suspend fun saveMemos(memos: List<ProtoMemoItem>)
 
-    suspend fun addMemo(memo: MemoItem)
+    suspend fun addMemo(memo: ProtoMemoItem)
 
     suspend fun removeMemo(memoId: Long)
 }

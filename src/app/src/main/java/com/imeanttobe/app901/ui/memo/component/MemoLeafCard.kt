@@ -18,11 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imeanttobe.app901.data.type.MemoItemLeaf
+import com.imeanttobe.app901.ProtoMemoItemLeaf
 
 @Composable
 fun MemoLeafCard(
-    item: MemoItemLeaf,
+    item: ProtoMemoItemLeaf,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard(
@@ -43,7 +43,7 @@ fun MemoLeafCard(
             )
 
             Text(
-                text = item.getContent(),
+                text = item.content,
                 modifier = Modifier.weight(1f),
             )
 
@@ -74,6 +74,6 @@ fun MemoLeafCard(
 private fun MemoLeafCardPreview() {
     MemoLeafCard(
         item =
-            MemoItemLeaf("Hello World"),
+            ProtoMemoItemLeaf.getDefaultInstance(),
     )
 }

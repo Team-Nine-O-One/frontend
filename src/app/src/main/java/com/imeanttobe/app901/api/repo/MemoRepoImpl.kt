@@ -1,7 +1,7 @@
 package com.imeanttobe.app901.api.repo
 
 import android.content.Context
-import com.imeanttobe.app901.MemoItem
+import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.serializer.memoItemListDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -14,12 +14,12 @@ class MemoRepoImpl
     ) : MemoRepo {
         private val dataStore = context.memoItemListDataStore
 
-        val getMemosFlow: Flow<List<MemoItem>> =
+        val getMemosFlow: Flow<List<ProtoMemoItem>> =
             context.memoItemListDataStore.data.map { memoListItem ->
                 memoListItem.itemsList
             }
 
-        override suspend fun saveMemos(memos: List<MemoItem>) {
+        override suspend fun saveMemos(memos: List<ProtoMemoItem>) {
             dataStore.updateData { memoListItem ->
                 memoListItem
                     .toBuilder()
@@ -29,7 +29,7 @@ class MemoRepoImpl
             }
         }
 
-        override suspend fun addMemo(memo: MemoItem) {
+        override suspend fun addMemo(memo: ProtoMemoItem) {
             dataStore.updateData { memoListItem ->
                 memoListItem
                     .toBuilder()
