@@ -20,16 +20,16 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Button(
-                onClick = { },
-            ) {
-                Text(text = "register")
-            }
+            Text(
+                text = "id = ${viewModel.id.value}",
+            )
 
             Button(
-                onClick = { },
+                onClick = {
+                    viewModel.assignId()
+                },
             ) {
-                Text(text = "login")
+                Text(text = "assign id")
             }
         }
     }
