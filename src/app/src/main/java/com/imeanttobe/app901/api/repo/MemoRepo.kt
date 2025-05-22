@@ -5,7 +5,7 @@ import com.imeanttobe.app901.ProtoMemoItem
 interface MemoRepo {
     suspend fun saveMemos(memos: List<ProtoMemoItem>)
 
-    suspend fun addMemo(memo: ProtoMemoItem)
+    suspend fun addMemo(content: String)
 
     suspend fun removeMemo(memoId: Long)
 }

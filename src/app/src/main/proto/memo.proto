@@ -14,11 +14,9 @@ message ProtoMemoItemGroup {
 }
 
 message ProtoMemoItem {
-  int64 id = 1;
-
   oneof item {
-    ProtoMemoItemLeaf leaf = 2;
-    ProtoMemoItemGroup group = 3;
+    ProtoMemoItemLeaf leaf = 1;
+    ProtoMemoItemGroup group = 2;
   }
 }
 
