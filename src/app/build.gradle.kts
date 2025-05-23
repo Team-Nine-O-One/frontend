@@ -69,6 +69,11 @@ android {
         compose = true
         buildConfig = true
     }
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(8))
+        }
+    }
 }
 
 protobuf {
