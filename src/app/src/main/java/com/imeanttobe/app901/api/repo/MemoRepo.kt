@@ -1,8 +1,11 @@
 package com.imeanttobe.app901.api.repo
 
 import com.imeanttobe.app901.ProtoMemoItem
+import kotlinx.coroutines.flow.Flow
 
 interface MemoRepo {
+    val getMemosFlow: Flow<List<ProtoMemoItem>>
+
     suspend fun saveMemos(memos: List<ProtoMemoItem>)
 
     suspend fun addMemo(content: String)

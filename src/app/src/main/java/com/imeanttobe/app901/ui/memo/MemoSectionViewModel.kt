@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.repo.MemoRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,8 +18,13 @@ class MemoSectionViewModel
         private val memoRepo: MemoRepo,
     ) : ViewModel() {
         // Variables
-        private val _memos = MutableStateFlow<List<ProtoMemoItem>>(emptyList())
-        val memos: StateFlow<List<ProtoMemoItem>> = _memos
+        val memos: StateFlow<List<ProtoMemoItem>> =
+            memoRepo.getMemosFlow.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = emptyList(),
+            )
+        val
 
         // Functions
         fun addMemo(content: String) {

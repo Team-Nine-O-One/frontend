@@ -2,7 +2,6 @@ package com.imeanttobe.app901.api.repo
 
 import android.content.Context
 import com.imeanttobe.app901.ProtoMemoItem
-import com.imeanttobe.app901.ProtoMemoItemLeaf
 import com.imeanttobe.app901.api.serializer.memoItemListDataStore
 import com.imeanttobe.app901.data.type.IdGenerator
 import kotlinx.coroutines.flow.Flow
@@ -17,10 +16,8 @@ class MemoRepoImpl
     ) : MemoRepo {
         private val dataStore = context.memoItemListDataStore
 
-        val getMemosFlow: Flow<List<ProtoMemoItem>> =
-            context.memoItemListDataStore.data.map { memoListItem ->
-                memoListItem.itemsList
-            }
+        override val getMemosFlow: Flow<List<ProtoMemoItem>> =
+            dataStore.data.map { memoItemList -> memoItemList.itemsList }
 
         override suspend fun saveMemos(memos: List<ProtoMemoItem>) {
             dataStore.updateData { memoListItem ->
@@ -35,20 +32,16 @@ class MemoRepoImpl
         override suspend fun addMemo(content: String) {
             dataStore.updateData { memoListItem ->
                 val newMemoItemLeaf =
-                    ProtoMemoItemLeaf
-                        .newBuilder()
-                        .setId(idGenerator.assignId())
-                        .setContent(content)
-                        .build()
-                val newMemoItem =
                     ProtoMemoItem
                         .newBuilder()
-                        .setLeaf(newMemoItemLeaf)
+                        .setIsLeaf(true)
+                        .setId(idGenerator.assignId())
+                        .setContent(content)
                         .build()
 
                 memoListItem
                     .toBuilder()
-                    .addItems(newMemoItem)
+                    .addItems(newMemoItemLeaf)
                     .build()
             }
         }
