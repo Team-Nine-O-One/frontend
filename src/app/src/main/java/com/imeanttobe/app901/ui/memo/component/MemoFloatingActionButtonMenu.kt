@@ -91,7 +91,10 @@ fun MemoFloatingActionButtonMenu(
                                     )
                             }
                         },
-                    onClick = { setFabMenuExpanded(false) },
+                    onClick = {
+                        item.third()
+                        setFabMenuExpanded(false)
+                    },
                     icon = { Icon(item.first, contentDescription = null) },
                     text = { Text(text = item.second) },
                 )
