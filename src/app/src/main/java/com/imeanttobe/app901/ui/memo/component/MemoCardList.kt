@@ -6,12 +6,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.ProtoMemoItem
@@ -29,6 +30,17 @@ fun MemoCardList(
     setDialogState: (value: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isAllChecked = memoItems.all { item -> isChecked(item.id) }
+    val isAllUnchecked = memoItems.none { item -> isChecked(item.id) }
+    val isSomeChecked = memoItems.any { item -> isChecked(item.id) }
+    val toggleableState =
+        when {
+            isAllChecked -> ToggleableState.On
+            isAllUnchecked -> ToggleableState.Off
+            isSomeChecked -> ToggleableState.Indeterminate
+            else -> ToggleableState.Off
+        }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.then(modifier),
@@ -38,17 +50,22 @@ fun MemoCardList(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Checkbox(
-                checked =
-                    memoItems.all { item ->
-                        isChecked(item.id)
-                    },
-                onCheckedChange = { newValue ->
-                    memoItems.forEach { item ->
-                        setChecked(item, newValue)
-                        if (!item.isLeaf) {
-                            item.itemsList.forEach { leaf ->
-                                setChecked(leaf, newValue)
+            TriStateCheckbox(
+                state = toggleableState,
+                onClick = {
+                    val newValue =
+                        when (toggleableState) {
+                            ToggleableState.On -> false
+                            ToggleableState.Off -> true
+                            ToggleableState.Indeterminate -> null
+                        }
+                    if (newValue != null) {
+                        memoItems.forEach { item ->
+                            setChecked(item, newValue)
+                            if (!item.isLeaf) {
+                                item.itemsList.forEach { leaf ->
+                                    setChecked(leaf, newValue)
+                                }
                             }
                         }
                     }
