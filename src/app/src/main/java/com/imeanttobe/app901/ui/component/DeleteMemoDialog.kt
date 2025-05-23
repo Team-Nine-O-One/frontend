@@ -11,7 +11,8 @@ import androidx.compose.ui.res.stringResource
 import com.imeanttobe.app901.R
 
 @Composable
-fun DeleteAllMemosDialog(
+fun DeleteMemoDialog(
+    isAllUnchecked: Boolean,
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
 ) {
@@ -19,12 +20,12 @@ fun DeleteAllMemosDialog(
         icon = {
             Icon(
                 imageVector = Icons.Rounded.Delete,
-                contentDescription = "Delete all memos",
+                contentDescription = "Delete memo",
             )
         },
         onDismissRequest = { onDismiss() },
-        title = { Text(text = stringResource(R.string.delete_all_memos)) },
-        text = { Text(text = stringResource(R.string.tips_delete_all_memos)) },
+        title = { Text(text = stringResource(if (isAllUnchecked) R.string.delete_all_memos else R.string.delete_selected_memos)) },
+        text = { Text(text = stringResource(if (isAllUnchecked) R.string.tips_delete_all_memos else R.string.tips_delete_selected_memos)) },
         confirmButton = {
             TextButton(onClick = {
                 onConfirm()

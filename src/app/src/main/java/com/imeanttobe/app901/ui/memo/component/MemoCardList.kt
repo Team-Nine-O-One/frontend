@@ -3,20 +3,24 @@ package com.imeanttobe.app901.ui.memo.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Delete
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.ProtoMemoItem
-import com.imeanttobe.app901.ui.component.DeleteAllMemosDialog
+import com.imeanttobe.app901.R
+import com.imeanttobe.app901.ui.component.DeleteMemoDialog
 import com.imeanttobe.app901.ui.memo.MemoSection
 import kotlin.collections.forEach
 
@@ -41,6 +45,25 @@ fun MemoCardList(
             else -> ToggleableState.Off
         }
 
+    fun calculateToggleableState() {
+        val newValue =
+            when (toggleableState) {
+                ToggleableState.On -> false
+                ToggleableState.Off -> true
+                ToggleableState.Indeterminate -> null
+            }
+        if (newValue != null) {
+            memoItems.forEach { item ->
+                setChecked(item, newValue)
+                if (!item.isLeaf) {
+                    item.itemsList.forEach { leaf ->
+                        setChecked(leaf, newValue)
+                    }
+                }
+            }
+        }
+    }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier.then(modifier),
@@ -50,35 +73,25 @@ fun MemoCardList(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            TriStateCheckbox(
-                state = toggleableState,
-                onClick = {
-                    val newValue =
-                        when (toggleableState) {
-                            ToggleableState.On -> false
-                            ToggleableState.Off -> true
-                            ToggleableState.Indeterminate -> null
-                        }
-                    if (newValue != null) {
-                        memoItems.forEach { item ->
-                            setChecked(item, newValue)
-                            if (!item.isLeaf) {
-                                item.itemsList.forEach { leaf ->
-                                    setChecked(leaf, newValue)
-                                }
-                            }
-                        }
-                    }
-                },
-            )
+            TextButton(
+                onClick = { calculateToggleableState() },
+            ) {
+                TriStateCheckbox(
+                    state = toggleableState,
+                    onClick = null,
+                    colors =
+                        CheckboxDefaults.colors(
+                            uncheckedColor = ButtonDefaults.textButtonColors().contentColor,
+                        ),
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(text = stringResource(R.string.select_all))
+            }
 
-            IconButton(
+            TextButton(
                 onClick = { setDialogState(true) },
             ) {
-                Icon(
-                    imageVector = Icons.Rounded.Delete,
-                    contentDescription = null,
-                )
+                Text(text = stringResource(if (isAllUnchecked) R.string.delete_all else R.string.delete_selected))
             }
         }
 
@@ -102,9 +115,20 @@ fun MemoCardList(
     }
 
     if (dialogState) {
-        DeleteAllMemosDialog(
+        DeleteMemoDialog(
+            isAllUnchecked = isAllUnchecked,
             onDismiss = { setDialogState(false) },
-            onConfirm = { memoItems.forEach { item -> onDelete(item) } },
+            onConfirm = {
+                if (isAllUnchecked) {
+                    memoItems.forEach { item -> onDelete(item) }
+                } else {
+                    memoItems.forEach { item ->
+                        if (isChecked(item.id)) {
+                            onDelete(item)
+                        }
+                    }
+                }
+            },
         )
     }
 }
