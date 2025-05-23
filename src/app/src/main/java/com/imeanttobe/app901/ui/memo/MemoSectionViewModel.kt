@@ -18,7 +18,7 @@ class MemoSectionViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
-        val memoStateHolder: MemoStateHolder,
+        private val memoStateHolder: MemoStateHolder,
     ) : ViewModel() {
         // Variables
         val memos: StateFlow<List<ProtoMemoItem>> =
@@ -29,13 +29,6 @@ class MemoSectionViewModel
             )
 
         // Functions
-        fun addMemo(content: String) {
-            viewModelScope.launch {
-                val newMemo = memoRepo.addMemo(content = content)
-                memoStateHolder.addMemo(newMemo)
-            }
-        }
-
         fun removeMemo(item: ProtoMemoItem) {
             viewModelScope.launch {
                 memoRepo.removeMemo(memoId = item.id)

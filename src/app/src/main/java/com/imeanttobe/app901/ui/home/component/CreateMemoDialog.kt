@@ -41,13 +41,13 @@ fun CreateMemoDialog(
             )
         },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
                     text = stringResource(R.string.tips_memo),
                 )
                 OutlinedTextField(
                     value = textFieldContent,
-                    onValueChange = { newValue -> onTextFieldChange(newValue) },
+                    onValueChange = { newValue -> if (newValue.length <= 30) onTextFieldChange(newValue.replace("\n", "")) },
                     maxLines = 1,
                     singleLine = true,
                     placeholder = { Text(text = stringResource(id = R.string.example_memo)) },

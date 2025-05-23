@@ -15,6 +15,7 @@ fun MemoCardList(
     memoItems: List<ProtoMemoItem>,
     isChecked: (id: Long) -> Boolean,
     setChecked: (id: Long, value: Boolean) -> Unit,
+    onDelete: (item: ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -25,22 +26,16 @@ fun MemoCardList(
             if (item.isLeaf) {
                 MemoLeafCard(
                     item = item,
-                    // checked = memoStateHolder.isChecked(item.id),
                     checked = isChecked(item.id),
-                    onCheckedChange = { id, newValue ->
-                        // memoStateHolder.setChecked(id, newValue)
-                        setChecked(id, newValue)
-                    },
+                    onCheckedChange = { id, newValue -> setChecked(id, newValue) },
+                    onDelete = onDelete,
                 )
             } else {
                 MemoGroupCard(
                     item = item,
-                    // checked = memoStateHolder.isChecked(item.id),
                     checked = isChecked(item.id),
-                    onCheckedChange = { id, newValue ->
-                        // memoStateHolder.setChecked(id, newValue)
-                        setChecked(id, newValue)
-                    },
+                    onCheckedChange = { id, newValue -> setChecked(id, newValue) },
+                    onDelete = onDelete,
                 )
             }
         }

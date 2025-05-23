@@ -25,6 +25,7 @@ fun MemoGroupCard(
     item: ProtoMemoItem,
     checked: Boolean,
     onCheckedChange: (Long, Boolean) -> Unit,
+    onDelete: (item: ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -62,7 +63,12 @@ fun MemoGroupCard(
                 )
 
                 IconButton(
-                    onClick = {},
+                    onClick = {
+                        item.itemsList.forEach { leaf ->
+                            onDelete(leaf)
+                        }
+                        onDelete(item)
+                    },
                 ) {
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -81,8 +87,13 @@ fun MemoGroupCard(
                             if (newValue == false) {
                                 onCheckedChange(item.id, false)
                             }
+
+                            if (item.itemsList.isEmpty()) {
+                                onDelete(item)
+                            }
                         }
                     },
+                    onDelete = { onDelete(leaf) },
                 )
             }
         }
@@ -96,5 +107,6 @@ private fun MemoGroupCardPreview() {
         item = ProtoMemoItem.getDefaultInstance(),
         checked = false,
         onCheckedChange = { _, _ -> },
+        onDelete = {},
     )
 }

@@ -35,7 +35,7 @@ class MemoRepoImpl
                     .newBuilder()
                     .setIsLeaf(true)
                     .setId(idGenerator.assignId())
-                    .setContent(content)
+                    .setContent(content.trim().replace("\n", ""))
                     .build()
 
             dataStore.updateData { memoListItem ->

@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.ProtoMemoItem
@@ -23,6 +24,7 @@ fun MemoLeafCard(
     item: ProtoMemoItem,
     checked: Boolean,
     onCheckedChange: (Long, Boolean) -> Unit,
+    onDelete: (item: ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard(
@@ -43,6 +45,8 @@ fun MemoLeafCard(
             Text(
                 text = item.content,
                 modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
             )
 
             Row {
@@ -55,7 +59,7 @@ fun MemoLeafCard(
                     )
                 }
                 IconButton(
-                    onClick = {},
+                    onClick = { onDelete(item) },
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Delete,
@@ -74,5 +78,6 @@ private fun MemoLeafCardPreview() {
         item = ProtoMemoItem.getDefaultInstance(),
         checked = false,
         onCheckedChange = { _, _ -> },
+        onDelete = {},
     )
 }

@@ -42,16 +42,16 @@ fun ImportFromRecipeDialog(
             )
         },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
-                    text = stringResource(R.string.tips_memo),
+                    text = stringResource(R.string.tips_import_from_recipe),
                 )
                 OutlinedTextField(
                     value = urlFieldContent,
-                    onValueChange = { newValue -> onUrlChange(newValue) },
+                    onValueChange = { newValue -> onUrlChange(newValue.replace("\n", "")) },
                     maxLines = 1,
                     singleLine = true,
-                    placeholder = { Text(text = stringResource(id = R.string.example_memo)) },
+                    placeholder = { Text(text = stringResource(id = R.string.example_import_from_recipe)) },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Uri),
                     trailingIcon = {
                         IconButton(
@@ -72,7 +72,7 @@ fun ImportFromRecipeDialog(
                 onConfirm()
                 onDismiss()
             }) {
-                Text(text = stringResource(R.string.confirm))
+                Text(text = stringResource(R.string.importing))
             }
         },
         dismissButton = {
