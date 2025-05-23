@@ -14,14 +14,14 @@ import com.imeanttobe.app901.navigation.BottomNavItem
 @Composable
 fun BottomBar(
     selectedIndex: Int = 0,
-    onChangeIndex: (Int) -> Unit,
+    onChangeIndex: (BottomNavItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     NavigationBar(modifier = modifier) {
         BottomNavItem.items.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = selectedIndex == index,
-                onClick = { onChangeIndex(index) },
+                onClick = { onChangeIndex(item) },
                 icon = { Icon(item.icon, contentDescription = item.label) },
                 label = { Text(stringResource(item.stringResId)) },
             )

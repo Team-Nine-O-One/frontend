@@ -10,29 +10,34 @@ import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.R
 
 sealed class BottomNavItem(
+    open val index: Int,
     open val stringResId: Int,
     open val label: String,
     open val icon: ImageVector,
 ) {
-    object CartBottomNavItem : BottomNavItem(
+    object MemoBottomNavItem : BottomNavItem(
+        index = 0,
         stringResId = R.string.cart,
-        label = "cart",
+        label = "memo",
         icon = Icons.Rounded.ShoppingCart,
     )
 
     object HistoryBottomNavItem : BottomNavItem(
+        index = 1,
         stringResId = R.string.history,
         label = "history",
         icon = Icons.Rounded.History,
     )
 
     object ProfileBottomNavItem : BottomNavItem(
+        index = 2,
         stringResId = R.string.profile,
         label = "profile",
         icon = Icons.Rounded.Person,
     )
 
     object DevBottomItem : BottomNavItem(
+        index = 3,
         stringResId = R.string.dev,
         label = "dev",
         icon = Icons.Rounded.DeveloperMode,
@@ -42,14 +47,14 @@ sealed class BottomNavItem(
         val items =
             if (BuildConfig.IS_DEV_MODE_ENABLED) {
                 listOf(
-                    CartBottomNavItem,
+                    MemoBottomNavItem,
                     HistoryBottomNavItem,
                     ProfileBottomNavItem,
                     DevBottomItem,
                 )
             } else {
                 listOf(
-                    CartBottomNavItem,
+                    MemoBottomNavItem,
                     HistoryBottomNavItem,
                     ProfileBottomNavItem,
                 )

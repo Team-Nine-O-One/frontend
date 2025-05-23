@@ -1,12 +1,12 @@
 package com.imeanttobe.app901.ui.home
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.data.enum.HomePageDialogState
+import com.imeanttobe.app901.navigation.BottomNavItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class HomePageViewModel
         private val memoRepo: MemoRepo,
     ) : ViewModel() {
         // Variables
-        private val _bottomNavIndex = mutableIntStateOf(0)
+        private val _bottomNavIndex = mutableStateOf(BottomNavItem.MemoBottomNavItem)
         private val _fabMenuExpanded = mutableStateOf(false)
         private val _dialogState = mutableStateOf(HomePageDialogState.NONE)
 
@@ -26,7 +26,7 @@ class HomePageViewModel
         private val _urlDialogText = mutableStateOf("")
 
         // Getter
-        val bottomNavIndex: State<Int> = _bottomNavIndex
+        val bottomNavIndex: State<BottomNavItem> = _bottomNavIndex
         val fabMenuExpanded: State<Boolean> = _fabMenuExpanded
         val dialogState: State<HomePageDialogState> = _dialogState
 
@@ -34,8 +34,8 @@ class HomePageViewModel
         val urlDialogText: State<String> = _urlDialogText
 
         // Setter
-        fun setBottomNavIndex(newValue: Int) {
-            _bottomNavIndex.intValue = newValue
+        fun setBottomNavIndex(newValue: BottomNavItem) {
+            _bottomNavIndex.value = newValue
         }
 
         fun setFabMenuExpanded(newValue: Boolean) {

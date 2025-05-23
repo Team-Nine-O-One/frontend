@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
+import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.ui.component.BottomBar
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
@@ -50,7 +51,7 @@ fun HomePage(
         topBar = {},
         bottomBar = {
             BottomBar(
-                selectedIndex = viewModel.bottomNavIndex.value,
+                selectedIndex = viewModel.bottomNavIndex.value.index,
                 onChangeIndex = { newValue -> viewModel.setBottomNavIndex(newValue) },
             )
         },
@@ -63,36 +64,40 @@ fun HomePage(
                     .padding(horizontal = 8.dp),
         ) {
             when (viewModel.bottomNavIndex.value) {
-                0 -> MemoSection()
-                1 -> HistorySection()
-                2 -> Box {}
-                3 -> DevSection()
+                BottomNavItem.MemoBottomNavItem -> MemoSection()
+                BottomNavItem.HistoryBottomNavItem -> HistorySection()
+                BottomNavItem.ProfileBottomNavItem -> Box { }
+                BottomNavItem.DevBottomItem -> DevSection()
             }
 
-            MemoFloatingActionButtonMenu(
-                fabMenuExpanded = viewModel.fabMenuExpanded.value,
-                setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
-                items = fabItems,
-            )
+            if (viewModel.bottomNavIndex.value == BottomNavItem.MemoBottomNavItem) {
+                MemoFloatingActionButtonMenu(
+                    fabMenuExpanded = viewModel.fabMenuExpanded.value,
+                    setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
+                    items = fabItems,
+                )
+            }
         }
     }
 
-    when (viewModel.dialogState.value) {
-        HomePageDialogState.CREATE_MEMO ->
-            CreateMemoDialog(
-                textFieldContent = viewModel.memoDialogText.value,
-                onTextFieldChange = { newValue -> viewModel.setMemoDialogText(newValue) },
-                onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
-                onConfirm = { viewModel.createMemo(viewModel.memoDialogText.value) },
-            )
-        HomePageDialogState.IMPORT_FROM_RECIPE ->
-            ImportFromRecipeDialog(
-                urlFieldContent = viewModel.urlDialogText.value,
-                onUrlChange = { newValue -> viewModel.setUrlDialogText(newValue) },
-                onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
-                onConfirm = { }, // TODO: Have to attach API here
-            )
-        HomePageDialogState.NONE -> null
+    if (viewModel.bottomNavIndex.value == BottomNavItem.MemoBottomNavItem) {
+        when (viewModel.dialogState.value) {
+            HomePageDialogState.CREATE_MEMO ->
+                CreateMemoDialog(
+                    textFieldContent = viewModel.memoDialogText.value,
+                    onTextFieldChange = { newValue -> viewModel.setMemoDialogText(newValue) },
+                    onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
+                    onConfirm = { viewModel.createMemo(viewModel.memoDialogText.value) },
+                )
+            HomePageDialogState.IMPORT_FROM_RECIPE ->
+                ImportFromRecipeDialog(
+                    urlFieldContent = viewModel.urlDialogText.value,
+                    onUrlChange = { newValue -> viewModel.setUrlDialogText(newValue) },
+                    onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
+                    onConfirm = { }, // TODO: Have to attach API here
+                )
+            HomePageDialogState.NONE -> null
+        }
     }
 }
 
