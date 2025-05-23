@@ -14,6 +14,7 @@
 
     <string name="create_memo">메모 추가</string>
     <string name="confirm_password">비밀번호 확인</string>
+    <string name="import_from_recipe">레시피에서 추가</string>
 
     <string name="dont_have_account">계정이 없으신가요?</string>
     <string name="failed_to_login">로그인에 실패했어요... 다시 시도해보세요.</string>
