@@ -1,5 +1,7 @@
 package com.imeanttobe.app901.ui.memo
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
@@ -21,6 +23,10 @@ class MemoSectionViewModel
         private val memoStateHolder: MemoStateHolder,
     ) : ViewModel() {
         // Variables
+        private val _deleteAllMemosDialogState = mutableStateOf(false)
+
+        val deleteAllMemosDialogState: State<Boolean> = _deleteAllMemosDialogState
+
         val memos: StateFlow<List<ProtoMemoItem>> =
             memoRepo.getMemosFlow.stateIn(
                 scope = viewModelScope,
@@ -29,6 +35,10 @@ class MemoSectionViewModel
             )
 
         // Functions
+        fun setDeleteAllMemosDialogState(value: Boolean) {
+            _deleteAllMemosDialogState.value = value
+        }
+
         fun removeMemo(item: ProtoMemoItem) {
             viewModelScope.launch {
                 memoRepo.removeMemo(memoId = item.id)

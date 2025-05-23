@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component
+package com.imeanttobe.app901.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -70,6 +70,7 @@ fun ImportFromRecipeDialog(
         confirmButton = {
             TextButton(onClick = {
                 onConfirm()
+                onUrlChange("")
                 onDismiss()
             }) {
                 Text(text = stringResource(R.string.importing))
@@ -77,6 +78,7 @@ fun ImportFromRecipeDialog(
         },
         dismissButton = {
             TextButton(onClick = {
+                onUrlChange("")
                 onDismiss()
             }) {
                 Text(text = stringResource(R.string.close))

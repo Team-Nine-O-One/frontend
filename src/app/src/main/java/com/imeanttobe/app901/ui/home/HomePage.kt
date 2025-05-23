@@ -19,10 +19,10 @@ import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
 import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.ui.component.BottomBar
+import com.imeanttobe.app901.ui.component.CreateMemoDialog
+import com.imeanttobe.app901.ui.component.ImportFromRecipeDialog
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
-import com.imeanttobe.app901.ui.home.component.CreateMemoDialog
-import com.imeanttobe.app901.ui.home.component.ImportFromRecipeDialog
 import com.imeanttobe.app901.ui.memo.MemoSection
 import com.imeanttobe.app901.ui.memo.component.MemoFloatingActionButtonMenu
 

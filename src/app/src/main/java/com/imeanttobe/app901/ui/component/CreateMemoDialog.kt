@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.ui.home.component
+package com.imeanttobe.app901.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,11 +35,7 @@ fun CreateMemoDialog(
             )
         },
         onDismissRequest = { onDismiss() },
-        title = {
-            Text(
-                text = stringResource(R.string.create_memo),
-            )
-        },
+        title = { Text(text = stringResource(R.string.create_memo)) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text(
@@ -47,7 +43,7 @@ fun CreateMemoDialog(
                 )
                 OutlinedTextField(
                     value = textFieldContent,
-                    onValueChange = { newValue -> if (newValue.length <= 30) onTextFieldChange(newValue.replace("\n", "")) },
+                    onValueChange = { newValue -> onTextFieldChange(newValue.replace("\n", "")) },
                     maxLines = 1,
                     singleLine = true,
                     placeholder = { Text(text = stringResource(id = R.string.example_memo)) },
@@ -69,6 +65,7 @@ fun CreateMemoDialog(
         confirmButton = {
             TextButton(onClick = {
                 onConfirm()
+                onTextFieldChange("")
                 onDismiss()
             }) {
                 Text(text = stringResource(R.string.add))
@@ -76,6 +73,7 @@ fun CreateMemoDialog(
         },
         dismissButton = {
             TextButton(onClick = {
+                onTextFieldChange("")
                 onDismiss()
             }) {
                 Text(text = stringResource(R.string.close))
