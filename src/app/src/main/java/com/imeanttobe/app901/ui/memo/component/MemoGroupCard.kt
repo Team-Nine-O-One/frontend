@@ -59,7 +59,12 @@ fun MemoGroupCard(
             ) {
                 Checkbox(
                     checked = getChecked(item.id),
-                    onCheckedChange = { newValue -> onCheckedChange(item, newValue) },
+                    onCheckedChange = { newValue ->
+                        onCheckedChange(item, newValue)
+                        item.itemsList.forEach { leaf ->
+                            onCheckedChange(leaf, newValue)
+                        }
+                    },
                 )
 
                 Text(

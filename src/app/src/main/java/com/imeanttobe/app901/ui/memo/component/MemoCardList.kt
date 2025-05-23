@@ -39,8 +39,20 @@ fun MemoCardList(
             modifier = Modifier.fillMaxWidth(),
         ) {
             Checkbox(
-                checked = memoItems.all { item -> isChecked(item.id) },
-                onCheckedChange = { newValue -> memoItems.forEach { item -> setChecked(item, newValue) } },
+                checked =
+                    memoItems.all { item ->
+                        isChecked(item.id)
+                    },
+                onCheckedChange = { newValue ->
+                    memoItems.forEach { item ->
+                        setChecked(item, newValue)
+                        if (!item.isLeaf) {
+                            item.itemsList.forEach { leaf ->
+                                setChecked(leaf, newValue)
+                            }
+                        }
+                    }
+                },
             )
 
             IconButton(
