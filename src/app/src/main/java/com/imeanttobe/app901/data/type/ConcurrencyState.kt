@@ -5,7 +5,9 @@ sealed class ConcurrencyState {
 
     object Loading : ConcurrencyState()
 
-    object Success : ConcurrencyState()
+    data class Success(
+        val result: Any? = null,
+    ) : ConcurrencyState()
 
     data class Failure(
         val message: String,

@@ -18,15 +18,15 @@ class HomePageViewModel
         private val memoRepo: MemoRepo,
     ) : ViewModel() {
         // Variables
-        private val _bottomNavIndex = mutableStateOf(BottomNavItem.MemoBottomNavItem)
+        private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.MemoBottomNavItem)
         private val _fabMenuExpanded = mutableStateOf(false)
-        private val _dialogState = mutableStateOf(HomePageDialogState.NONE)
+        private val _dialogState = mutableStateOf<HomePageDialogState>(HomePageDialogState.NONE)
 
         private val _memoDialogText = mutableStateOf("")
         private val _urlDialogText = mutableStateOf("")
 
         // Getter
-        val bottomNavIndex: State<BottomNavItem> = _bottomNavIndex
+        val bottomNavItem: State<BottomNavItem> = _bottomNavItem
         val fabMenuExpanded: State<Boolean> = _fabMenuExpanded
         val dialogState: State<HomePageDialogState> = _dialogState
 
@@ -35,7 +35,7 @@ class HomePageViewModel
 
         // Setter
         fun setBottomNavIndex(newValue: BottomNavItem) {
-            _bottomNavIndex.value = newValue
+            _bottomNavItem.value = newValue
         }
 
         fun setFabMenuExpanded(newValue: Boolean) {

@@ -166,7 +166,7 @@ class RegisterPageViewModel
                     )
 
                 if (result.isSuccess) {
-                    _registerState.value = ConcurrencyState.Success
+                    _registerState.value = ConcurrencyState.Success()
                 } else {
                     if (result.exceptionOrNull() != null && result.exceptionOrNull()!!.message != null) {
                         _registerState.value = ConcurrencyState.Failure(result.exceptionOrNull()!!.message!!)

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.data.type.MemoStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -39,6 +40,29 @@ class MemoSectionViewModel
             viewModelScope.launch {
                 memoRepo.removeMemo(memoId = item.id)
                 memoStateHolder.removeMemo(item)
+            }
+        }
+
+        fun isChecked(id: Long): Boolean {
+            var concurrencyState: ConcurrencyState = ConcurrencyState.Default
+
+            viewModelScope.launch {
+                val result = memoStateHolder.isChecked(id)
+                concurrencyState = ConcurrencyState.Success(result)
+            }
+
+            return when (concurrencyState) {
+                is ConcurrencyState.Success -> concurrencyState.result as Boolean
+                else -> false
+            }
+        }
+
+        fun setChecked(
+            id: Long,
+            value: Boolean,
+        ) {
+            viewModelScope.launch {
+                memoStateHolder.setChecked(id, value)
             }
         }
     }

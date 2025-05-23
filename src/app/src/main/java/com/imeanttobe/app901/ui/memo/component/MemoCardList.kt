@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.ProtoMemoItem
-import com.imeanttobe.app901.data.type.MemoStateHolder
 import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.memo.MemoSection
 import kotlin.collections.forEach
@@ -18,7 +17,8 @@ import kotlin.collections.forEach
 @Composable
 fun MemoCardList(
     memoItems: List<ProtoMemoItem>,
-    memoStateHolder: MemoStateHolder,
+    isChecked: (id: Long) -> Boolean,
+    setChecked: (id: Long, value: Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (memoItems.isNotEmpty()) {
@@ -30,17 +30,21 @@ fun MemoCardList(
                 if (item.isLeaf) {
                     MemoLeafCard(
                         item = item,
-                        checked = memoStateHolder.isChecked(item.id),
+                        // checked = memoStateHolder.isChecked(item.id),
+                        checked = isChecked(item.id),
                         onCheckedChange = { id, newValue ->
-                            memoStateHolder.setChecked(id, newValue)
+                            // memoStateHolder.setChecked(id, newValue)
+                            setChecked(id, newValue)
                         },
                     )
                 } else {
                     MemoGroupCard(
                         item = item,
-                        checked = memoStateHolder.isChecked(item.id),
+                        // checked = memoStateHolder.isChecked(item.id),
+                        checked = isChecked(item.id),
                         onCheckedChange = { id, newValue ->
-                            memoStateHolder.setChecked(id, newValue)
+                            // memoStateHolder.setChecked(id, newValue)
+                            setChecked(id, newValue)
                         },
                     )
                 }

@@ -28,7 +28,8 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
     ) {
         MemoCardList(
             memoItems = memos,
-            memoStateHolder = viewModel.memoStateHolder,
+            isChecked = { id -> viewModel.isChecked(id) },
+            setChecked = { id, value -> viewModel.setChecked(id, value) },
         )
     }
 }

@@ -92,7 +92,7 @@ class LoginPageViewModel
             viewModelScope.launch {
                 val result = userRepo.login(email.value, password.value)
                 if (result.isSuccess) {
-                    _loginState.value = ConcurrencyState.Success
+                    _loginState.value = ConcurrencyState.Success()
                 } else {
                     if (result.exceptionOrNull() != null && result.exceptionOrNull()!!.message != null) {
                         _loginState.value = ConcurrencyState.Failure(result.exceptionOrNull()!!.message!!)

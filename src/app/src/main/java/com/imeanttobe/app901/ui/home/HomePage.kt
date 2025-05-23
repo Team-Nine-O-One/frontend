@@ -51,7 +51,7 @@ fun HomePage(
         topBar = {},
         bottomBar = {
             BottomBar(
-                selectedIndex = viewModel.bottomNavIndex.value.index,
+                selectedIndex = viewModel.bottomNavItem.value.index,
                 onChangeIndex = { newValue -> viewModel.setBottomNavIndex(newValue) },
             )
         },
@@ -63,14 +63,14 @@ fun HomePage(
                     .padding(innerPadding)
                     .padding(horizontal = 8.dp),
         ) {
-            when (viewModel.bottomNavIndex.value) {
+            when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
                 BottomNavItem.HistoryBottomNavItem -> HistorySection()
                 BottomNavItem.ProfileBottomNavItem -> Box { }
                 BottomNavItem.DevBottomItem -> DevSection()
             }
 
-            if (viewModel.bottomNavIndex.value == BottomNavItem.MemoBottomNavItem) {
+            if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
                 MemoFloatingActionButtonMenu(
                     fabMenuExpanded = viewModel.fabMenuExpanded.value,
                     setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
@@ -80,7 +80,7 @@ fun HomePage(
         }
     }
 
-    if (viewModel.bottomNavIndex.value == BottomNavItem.MemoBottomNavItem) {
+    if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
         when (viewModel.dialogState.value) {
             HomePageDialogState.CREATE_MEMO ->
                 CreateMemoDialog(
