@@ -35,7 +35,7 @@ import androidx.compose.ui.semantics.traversalIndex
 fun MemoFloatingActionButtonMenu(
     fabMenuExpanded: Boolean,
     setFabMenuExpanded: (Boolean) -> Unit,
-    items: List<Pair<ImageVector, String>>,
+    items: List<Triple<ImageVector, String, () -> Unit>>,
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         BackHandler(enabled = fabMenuExpanded) { setFabMenuExpanded(false) }

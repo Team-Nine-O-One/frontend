@@ -12,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.imeanttobe.app901.data.enum.HomePageDialogState
 import com.imeanttobe.app901.ui.component.BottomBar
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
@@ -27,10 +29,18 @@ fun HomePage(
     navigate: (String) -> Unit,
     viewModel: HomePageViewModel = hiltViewModel(),
 ) {
-    val items =
+    val items: List<Triple<ImageVector, String, () -> Unit>> =
         listOf(
-            Icons.Rounded.Add to "메모 추가",
-            Icons.Rounded.AutoGraph to "분석",
+            Triple(
+                Icons.Rounded.Add,
+                "메모 추가",
+                { viewModel.setDialogState(HomePageDialogState.CREATE_MEMO) },
+            ),
+            Triple(
+                Icons.Rounded.AutoGraph,
+                "AI로 재료 가져오기",
+                { viewModel.setDialogState(HomePageDialogState.IMPORT_FROM_URL) },
+            ),
         )
 
     Scaffold(

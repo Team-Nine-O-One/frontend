@@ -8,10 +8,12 @@
     <string name="dev">개발</string>
     <string name="email">전자 메일 주소</string>
     <string name="password">비밀번호</string>
-    <string name="confirm_password">비밀번호 확인</string>
     <string name="nickname">별명</string>
     <string name="login">로그인</string>
     <string name="register">회원 가입</string>
+
+    <string name="create_memo">메모 추가</string>
+    <string name="confirm_password">비밀번호 확인</string>
 
     <string name="dont_have_account">계정이 없으신가요?</string>
     <string name="failed_to_login">로그인에 실패했어요... 다시 시도해보세요.</string>
@@ -26,10 +28,12 @@
     <string name="tips_password">로그인 시 사용할 비밀번호를 입력해주세요. 비밀번호는 6자 이상이면 돼요.</string>
     <string name="tips_confirm_password">비밀번호를 다시 입력해주세요.</string>
     <string name="tips_nickname">별명을 입력해주세요. 별명은 1자 이상 16자 이하여야 해요.</string>
+    <string name="tips_memo">장바구니에 담을 물건 이름을 적어주세요. 개수까지 같이 적으면 분석 결과가 훨씬 정확해져요.</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
     <string name="example_nickname">홍길동</string>
+    <string name="example_memo">바나나 한 송이</string>
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
 </resources>
