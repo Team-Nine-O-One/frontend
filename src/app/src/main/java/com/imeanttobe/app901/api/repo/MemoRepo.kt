@@ -8,7 +8,7 @@ interface MemoRepo {
 
     suspend fun saveMemos(memos: List<ProtoMemoItem>)
 
-    suspend fun addMemo(content: String)
+    suspend fun addMemo(content: String): ProtoMemoItem
 
     suspend fun removeMemo(memoId: Long)
 }

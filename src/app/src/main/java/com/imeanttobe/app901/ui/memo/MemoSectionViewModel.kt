@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.data.type.MemoStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,6 +17,7 @@ class MemoSectionViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
+        val memoStateHolder: MemoStateHolder,
     ) : ViewModel() {
         // Variables
         val memos: StateFlow<List<ProtoMemoItem>> =
@@ -24,10 +26,19 @@ class MemoSectionViewModel
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList(),
             )
-        val
 
         // Functions
         fun addMemo(content: String) {
-            viewModelScope.launch { memoRepo.addMemo(content = content) }
+            viewModelScope.launch {
+                val newMemo = memoRepo.addMemo(content = content)
+                memoStateHolder.addMemo(newMemo)
+            }
+        }
+
+        fun removeMemo(item: ProtoMemoItem) {
+            viewModelScope.launch {
+                memoRepo.removeMemo(memoId = item.id)
+                memoStateHolder.removeMemo(item)
+            }
         }
     }

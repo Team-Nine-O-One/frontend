@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object HiltModule {
     // Repositories here
     @Provides
     @Singleton
@@ -41,7 +41,8 @@ object RepositoryModule {
     @Singleton
     fun provideMemoRepo(
         @ApplicationContext context: Context,
-    ): MemoRepo = MemoRepoImpl(context)
+        idGenerator: IdGenerator,
+    ): MemoRepo = MemoRepoImpl(context, idGenerator)
 
     @Provides
     @Singleton
@@ -49,7 +50,6 @@ object RepositoryModule {
         @ApplicationContext context: Context,
     ): IdGenerator = IdGenerator(context)
 
-    // API services here
     @Provides
     @Singleton
     fun provideCartService(): CartService = RetrofitClient.cartService

@@ -29,21 +29,23 @@ class MemoRepoImpl
             }
         }
 
-        override suspend fun addMemo(content: String) {
-            dataStore.updateData { memoListItem ->
-                val newMemoItemLeaf =
-                    ProtoMemoItem
-                        .newBuilder()
-                        .setIsLeaf(true)
-                        .setId(idGenerator.assignId())
-                        .setContent(content)
-                        .build()
+        override suspend fun addMemo(content: String): ProtoMemoItem {
+            val newMemoItemLeaf =
+                ProtoMemoItem
+                    .newBuilder()
+                    .setIsLeaf(true)
+                    .setId(idGenerator.assignId())
+                    .setContent(content)
+                    .build()
 
+            dataStore.updateData { memoListItem ->
                 memoListItem
                     .toBuilder()
                     .addItems(newMemoItemLeaf)
                     .build()
             }
+
+            return newMemoItemLeaf
         }
 
         override suspend fun removeMemo(memoId: Long) {

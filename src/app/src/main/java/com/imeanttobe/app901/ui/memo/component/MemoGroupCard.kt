@@ -18,11 +18,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.imeanttobe.app901.ProtoMemoItemGroup
+import com.imeanttobe.app901.ProtoMemoItem
 
 @Composable
 fun MemoGroupCard(
-    item: ProtoMemoItemGroup,
+    item: ProtoMemoItem,
+    checked: Boolean,
+    onCheckedChange: (Long, Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -40,12 +42,21 @@ fun MemoGroupCard(
                 modifier = Modifier.padding(4.dp),
             ) {
                 Checkbox(
-                    checked = true, // TODO
-                    onCheckedChange = { value -> },
+                    checked = checked,
+                    onCheckedChange = { newValue ->
+                        {
+                            onCheckedChange(item.id, newValue)
+                            if (newValue == false) {
+                                item.itemsList.forEach { leaf ->
+                                    onCheckedChange(leaf.id, false)
+                                }
+                            }
+                        }
+                    },
                 )
 
                 Text(
-                    text = item.getContent(),
+                    text = item.content,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.weight(1f),
                 )
@@ -61,7 +72,18 @@ fun MemoGroupCard(
             }
 
             item.itemsList.forEach { leaf ->
-                MemoLeafCard(item = leaf)
+                MemoLeafCard(
+                    item = leaf,
+                    checked = checked,
+                    onCheckedChange = { _, newValue ->
+                        {
+                            onCheckedChange(leaf.id, newValue)
+                            if (newValue == false) {
+                                onCheckedChange(item.id, false)
+                            }
+                        }
+                    },
+                )
             }
         }
     }
@@ -71,7 +93,8 @@ fun MemoGroupCard(
 @Composable
 private fun MemoGroupCardPreview() {
     MemoGroupCard(
-        item =
-            ProtoMemoItemGroup.getDefaultInstance(),
+        item = ProtoMemoItem.getDefaultInstance(),
+        checked = false,
+        onCheckedChange = { _, _ -> },
     )
 }
