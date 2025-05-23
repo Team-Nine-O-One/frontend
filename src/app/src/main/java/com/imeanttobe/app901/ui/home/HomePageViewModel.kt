@@ -23,6 +23,7 @@ class HomePageViewModel
         private val _dialogState = mutableStateOf(HomePageDialogState.NONE)
 
         private val _memoDialogText = mutableStateOf("")
+        private val _urlDialogText = mutableStateOf("")
 
         // Getter
         val bottomNavIndex: State<Int> = _bottomNavIndex
@@ -30,6 +31,7 @@ class HomePageViewModel
         val dialogState: State<HomePageDialogState> = _dialogState
 
         val memoDialogText: State<String> = _memoDialogText
+        val urlDialogText: State<String> = _urlDialogText
 
         // Setter
         fun setBottomNavIndex(newValue: Int) {
@@ -46,6 +48,10 @@ class HomePageViewModel
 
         fun setMemoDialogText(newValue: String) {
             _memoDialogText.value = newValue
+        }
+
+        fun setUrlDialogText(newValue: String) {
+            _urlDialogText.value = newValue
         }
 
         fun createMemo(content: String) {

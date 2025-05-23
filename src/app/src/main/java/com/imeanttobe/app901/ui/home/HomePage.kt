@@ -20,7 +20,8 @@ import com.imeanttobe.app901.data.enum.HomePageDialogState
 import com.imeanttobe.app901.ui.component.BottomBar
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
-import com.imeanttobe.app901.ui.home.component.CreatingMemoDialog
+import com.imeanttobe.app901.ui.home.component.CreateMemoDialog
+import com.imeanttobe.app901.ui.home.component.ImportFromRecipeDialog
 import com.imeanttobe.app901.ui.memo.MemoSection
 import com.imeanttobe.app901.ui.memo.component.MemoFloatingActionButtonMenu
 
@@ -78,13 +79,19 @@ fun HomePage(
 
     when (viewModel.dialogState.value) {
         HomePageDialogState.CREATE_MEMO ->
-            CreatingMemoDialog(
+            CreateMemoDialog(
                 textFieldContent = viewModel.memoDialogText.value,
                 onTextFieldChange = { newValue -> viewModel.setMemoDialogText(newValue) },
                 onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
                 onConfirm = { viewModel.createMemo(viewModel.memoDialogText.value) },
             )
-        HomePageDialogState.IMPORT_FROM_RECIPE -> null
+        HomePageDialogState.IMPORT_FROM_RECIPE ->
+            ImportFromRecipeDialog(
+                urlFieldContent = viewModel.urlDialogText.value,
+                onUrlChange = { newValue -> viewModel.setUrlDialogText(newValue) },
+                onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
+                onConfirm = { }, // TODO: Have to attach API here
+            )
         HomePageDialogState.NONE -> null
     }
 }
