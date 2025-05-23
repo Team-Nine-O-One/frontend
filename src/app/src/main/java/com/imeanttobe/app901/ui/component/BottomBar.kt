@@ -5,10 +5,9 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.navigation.BottomNavItem
 
 @Composable
@@ -17,12 +16,19 @@ fun BottomBar(
     onChangeIndex: (BottomNavItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val list =
+        listOf(
+            BottomNavItem.MemoBottomNavItem,
+            BottomNavItem.HistoryBottomNavItem,
+            BottomNavItem.ProfileBottomNavItem,
+        ) + if (BuildConfig.IS_DEV_MODE_ENABLED) listOf(BottomNavItem.DevBottomNavItem) else emptyList<BottomNavItem>()
+
     NavigationBar(modifier = modifier) {
-        BottomNavItem.items.forEachIndexed { index, item ->
+        list.forEach { item ->
             NavigationBarItem(
-                selected = selectedIndex == index,
+                selected = selectedIndex == item.id,
                 onClick = { onChangeIndex(item) },
-                icon = { Icon(item.icon, contentDescription = item.label) },
+                icon = { Icon(imageVector = item.icon, contentDescription = item.label) },
                 label = { Text(stringResource(item.stringResId)) },
             )
         }

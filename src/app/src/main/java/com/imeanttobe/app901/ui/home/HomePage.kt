@@ -51,7 +51,7 @@ fun HomePage(
         topBar = {},
         bottomBar = {
             BottomBar(
-                selectedIndex = viewModel.bottomNavItem.value.index,
+                selectedIndex = viewModel.bottomNavItem.value.id,
                 onChangeIndex = { newValue -> viewModel.setBottomNavIndex(newValue) },
             )
         },
@@ -67,7 +67,7 @@ fun HomePage(
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
                 BottomNavItem.HistoryBottomNavItem -> HistorySection()
                 BottomNavItem.ProfileBottomNavItem -> Box { }
-                BottomNavItem.DevBottomItem -> DevSection()
+                BottomNavItem.DevBottomNavItem -> DevSection()
             }
 
             if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
