@@ -23,11 +23,26 @@ import com.imeanttobe.app901.ProtoMemoItem
 @Composable
 fun MemoGroupCard(
     item: ProtoMemoItem,
-    checked: Boolean,
-    onCheckedChange: (Long, Boolean) -> Unit,
-    onDelete: (item: ProtoMemoItem) -> Unit,
+    getChecked: (Long) -> Boolean,
+    onCheckedChange: (ProtoMemoItem, Boolean) -> Unit,
+    onDelete: (ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val onLeafDelete = { leaf: ProtoMemoItem ->
+        onDelete(leaf)
+        if (item.itemsList.isEmpty()) {
+            onDelete(item)
+        }
+    }
+    val onLeafCheckedChange = { leaf: ProtoMemoItem, value: Boolean ->
+        onCheckedChange(leaf, value)
+        if (item.itemsList.all { leaf -> getChecked(leaf.id) }) {
+            onCheckedChange(item, true)
+        } else {
+            onCheckedChange(item, false)
+        }
+    }
+
     Card(
         modifier =
             Modifier
@@ -36,24 +51,15 @@ fun MemoGroupCard(
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier.padding(8.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(4.dp),
+                modifier = Modifier.padding(0.dp),
             ) {
                 Checkbox(
-                    checked = checked,
-                    onCheckedChange = { newValue ->
-                        {
-                            onCheckedChange(item.id, newValue)
-                            if (newValue == false) {
-                                item.itemsList.forEach { leaf ->
-                                    onCheckedChange(leaf.id, false)
-                                }
-                            }
-                        }
-                    },
+                    checked = getChecked(item.id),
+                    onCheckedChange = { newValue -> onCheckedChange(item, newValue) },
                 )
 
                 Text(
@@ -80,20 +86,9 @@ fun MemoGroupCard(
             item.itemsList.forEach { leaf ->
                 MemoLeafCard(
                     item = leaf,
-                    checked = checked,
-                    onCheckedChange = { _, newValue ->
-                        {
-                            onCheckedChange(leaf.id, newValue)
-                            if (newValue == false) {
-                                onCheckedChange(item.id, false)
-                            }
-
-                            if (item.itemsList.isEmpty()) {
-                                onDelete(item)
-                            }
-                        }
-                    },
-                    onDelete = { onDelete(leaf) },
+                    getChecked = getChecked,
+                    onCheckedChange = onLeafCheckedChange,
+                    onDelete = onLeafDelete,
                 )
             }
         }
@@ -105,8 +100,8 @@ fun MemoGroupCard(
 private fun MemoGroupCardPreview() {
     MemoGroupCard(
         item = ProtoMemoItem.getDefaultInstance(),
-        checked = false,
-        onCheckedChange = { _, _ -> },
+        getChecked = { false },
+        onCheckedChange = { _, _ -> {} },
         onDelete = {},
     )
 }

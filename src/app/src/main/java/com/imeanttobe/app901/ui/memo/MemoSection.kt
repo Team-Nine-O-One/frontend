@@ -34,7 +34,7 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
             MemoCardList(
                 memoItems = memos,
                 isChecked = { id -> viewModel.isChecked(id) },
-                setChecked = { id, value -> viewModel.setChecked(id, value) },
+                setChecked = { item, value -> viewModel.setChecked(item, value) },
                 onDelete = { item -> viewModel.removeMemo(item) },
                 dialogState = viewModel.deleteAllMemosDialogState.value,
                 setDialogState = { value -> viewModel.setDeleteAllMemosDialogState(value) },

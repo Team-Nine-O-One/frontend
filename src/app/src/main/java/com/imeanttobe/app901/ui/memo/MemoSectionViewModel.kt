@@ -61,11 +61,11 @@ class MemoSectionViewModel
         }
 
         fun setChecked(
-            id: Long,
+            item: ProtoMemoItem,
             value: Boolean,
         ) {
             viewModelScope.launch {
-                memoStateHolder.setChecked(id, value)
+                memoStateHolder.setChecked(item, value)
             }
         }
     }

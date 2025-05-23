@@ -24,11 +24,11 @@ class MemoStateHolder
         }
 
         suspend fun setChecked(
-            id: Long,
+            item: ProtoMemoItem,
             value: Boolean,
         ) {
             mutex.withLock {
-                checkStates[id] = value
+                checkStates[item.id] = value
             }
         }
 

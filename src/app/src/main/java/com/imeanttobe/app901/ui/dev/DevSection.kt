@@ -31,6 +31,14 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
             ) {
                 Text(text = "assign id")
             }
+
+            Button(
+                onClick = {
+                    viewModel.addGroupMemo()
+                },
+            ) {
+                Text(text = "add Group")
+            }
         }
     }
 }

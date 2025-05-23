@@ -29,7 +29,7 @@ class MemoRepoImpl
             }
         }
 
-        override suspend fun addMemo(content: String): ProtoMemoItem {
+        override suspend fun addMemoLeaf(content: String): ProtoMemoItem {
             val newMemoItemLeaf =
                 ProtoMemoItem
                     .newBuilder()
@@ -48,14 +48,45 @@ class MemoRepoImpl
             return newMemoItemLeaf
         }
 
+        override suspend fun addMemoGroup(
+            title: String,
+            contents: List<String>,
+        ): ProtoMemoItem {
+            val newMemoItemGroup =
+                ProtoMemoItem
+                    .newBuilder()
+                    .setIsLeaf(false)
+                    .setId(idGenerator.assignId())
+                    .setContent(title)
+                    .addAllItems(
+                        contents.map { content ->
+                            ProtoMemoItem
+                                .newBuilder()
+                                .setId(idGenerator.assignId())
+                                .setIsLeaf(true)
+                                .setContent(content.trim().replace("", ""))
+                                .build()
+                        },
+                    ).build()
+
+            dataStore.updateData { memoListItem ->
+                memoListItem
+                    .toBuilder()
+                    .addItems(newMemoItemGroup)
+                    .build()
+            }
+
+            return newMemoItemGroup
+        }
+
         override suspend fun removeMemo(memoId: Long) {
             dataStore.updateData { memoListItem ->
                 memoListItem
                     .toBuilder()
                     .clearItems()
                     .addAllItems(
-                        memoListItem.itemsList.filter { memoItem ->
-                            memoItem.id != memoId
+                        memoListItem.itemsList.filter { item ->
+                            item.id != memoId
                         },
                     ).build()
             }

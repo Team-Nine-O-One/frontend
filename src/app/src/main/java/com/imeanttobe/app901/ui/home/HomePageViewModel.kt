@@ -23,6 +23,7 @@ class HomePageViewModel
         private val _dialogState = mutableStateOf<HomePageDialogState>(HomePageDialogState.NONE)
 
         private val _memoDialogText = mutableStateOf("")
+        private val _editMemoDialogText = mutableStateOf("")
         private val _urlDialogText = mutableStateOf("")
 
         // Getter
@@ -31,6 +32,7 @@ class HomePageViewModel
         val dialogState: State<HomePageDialogState> = _dialogState
 
         val memoDialogText: State<String> = _memoDialogText
+        val editMemoDialogText: State<String> = _editMemoDialogText
         val urlDialogText: State<String> = _urlDialogText
 
         // Setter
@@ -50,13 +52,17 @@ class HomePageViewModel
             _memoDialogText.value = newValue
         }
 
+        fun setEditMemoDialogText(newValue: String) {
+            _editMemoDialogText.value = newValue
+        }
+
         fun setUrlDialogText(newValue: String) {
             _urlDialogText.value = newValue
         }
 
         fun createMemo(content: String) {
             viewModelScope.launch {
-                memoRepo.addMemo(content)
+                memoRepo.addMemoLeaf(content)
             }
         }
     }

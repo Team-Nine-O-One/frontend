@@ -22,9 +22,9 @@ import com.imeanttobe.app901.ProtoMemoItem
 @Composable
 fun MemoLeafCard(
     item: ProtoMemoItem,
-    checked: Boolean,
-    onCheckedChange: (Long, Boolean) -> Unit,
-    onDelete: (item: ProtoMemoItem) -> Unit,
+    getChecked: (Long) -> Boolean,
+    onCheckedChange: (ProtoMemoItem, Boolean) -> Unit,
+    onDelete: (ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     OutlinedCard(
@@ -38,8 +38,8 @@ fun MemoLeafCard(
             modifier = Modifier.padding(4.dp),
         ) {
             Checkbox(
-                checked = checked,
-                onCheckedChange = { newValue -> onCheckedChange(item.id, newValue) },
+                checked = getChecked(item.id),
+                onCheckedChange = { newValue -> onCheckedChange(item, newValue) },
             )
 
             Text(
@@ -76,7 +76,7 @@ fun MemoLeafCard(
 private fun MemoLeafCardPreview() {
     MemoLeafCard(
         item = ProtoMemoItem.getDefaultInstance(),
-        checked = false,
+        getChecked = { false },
         onCheckedChange = { _, _ -> },
         onDelete = {},
     )

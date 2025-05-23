@@ -23,7 +23,7 @@ import kotlin.collections.forEach
 fun MemoCardList(
     memoItems: List<ProtoMemoItem>,
     isChecked: (id: Long) -> Boolean,
-    setChecked: (id: Long, value: Boolean) -> Unit,
+    setChecked: (item: ProtoMemoItem, value: Boolean) -> Unit,
     onDelete: (item: ProtoMemoItem) -> Unit,
     dialogState: Boolean,
     setDialogState: (value: Boolean) -> Unit,
@@ -40,7 +40,7 @@ fun MemoCardList(
         ) {
             Checkbox(
                 checked = memoItems.all { item -> isChecked(item.id) },
-                onCheckedChange = { newValue -> memoItems.forEach { item -> setChecked(item.id, newValue) } },
+                onCheckedChange = { newValue -> memoItems.forEach { item -> setChecked(item, newValue) } },
             )
 
             IconButton(
@@ -57,15 +57,15 @@ fun MemoCardList(
             if (item.isLeaf) {
                 MemoLeafCard(
                     item = item,
-                    checked = isChecked(item.id),
-                    onCheckedChange = { id, newValue -> setChecked(id, newValue) },
+                    getChecked = isChecked,
+                    onCheckedChange = setChecked,
                     onDelete = onDelete,
                 )
             } else {
                 MemoGroupCard(
                     item = item,
-                    checked = isChecked(item.id),
-                    onCheckedChange = { id, newValue -> setChecked(id, newValue) },
+                    getChecked = isChecked,
+                    onCheckedChange = setChecked,
                     onDelete = onDelete,
                 )
             }
