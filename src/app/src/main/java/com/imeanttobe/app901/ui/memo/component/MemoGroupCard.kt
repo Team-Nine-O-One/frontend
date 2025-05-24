@@ -29,6 +29,7 @@ fun MemoGroupCard(
     onToggleGroup: (ProtoMemoItem, Boolean) -> Unit,
     onDeleteMemoLeafInGroup: (ProtoMemoItem, ProtoMemoItem) -> Unit,
     onDelete: (ProtoMemoItem) -> Unit,
+    onEditInGroup: (ProtoMemoItem, ProtoMemoItem, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -77,6 +78,7 @@ fun MemoGroupCard(
                     isChecked = isChecked,
                     setChecked = { subItem, value -> setChecked(subItem, value) },
                     onDelete = { subItem -> onDeleteMemoLeafInGroup(item, subItem) },
+                    onEdit = { subItem, newContent -> onEditInGroup(item, subItem, newContent) },
                 )
             }
         }
@@ -93,5 +95,6 @@ private fun MemoGroupCardPreview() {
         onToggleGroup = { _, _ -> {} },
         onDeleteMemoLeafInGroup = { _, _ -> {} },
         onDelete = {},
+        onEditInGroup = { _, _, _ -> {} },
     )
 }

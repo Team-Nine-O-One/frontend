@@ -170,6 +170,21 @@ class MemoSectionViewModel
             }
         }
 
+        fun editMemo(
+            item: ProtoMemoItem,
+            newContent: String,
+        ) {
+            viewModelScope.launch { memoRepo.editMemo(item, newContent) }
+        }
+
+        fun editMemoLeafInGroup(
+            parent: ProtoMemoItem,
+            item: ProtoMemoItem,
+            newContent: String,
+        ) {
+            viewModelScope.launch { memoRepo.editMemoLeafInGroup(parent, item, newContent) }
+        }
+
         private fun getGroupToggleState(item: ProtoMemoItem): ToggleableState {
             val leafIds = item.itemsList.map { subItem -> subItem.id }
             val checkedCount = leafIds.count { id -> checkedState[id] == ToggleableState.On }

@@ -111,41 +111,36 @@ class MemoRepoImpl
 
             dataStore.updateData { currentMemoItemList ->
                 val parentIndex = currentMemoItemList.itemsList.indexOfFirst { it.id == parent.id }
-
-                if (parentIndex != -1) {
-                    val parentItem = currentMemoItemList.itemsList[parentIndex]
-                    val itemIndex = parentItem.itemsList.indexOfFirst { it.id == itemToEdit.id }
-
-                    if (itemIndex != -1) {
-                        val oldItem = parentItem.itemsList[itemIndex]
-                        val updatedItem =
-                            oldItem
-                                .toBuilder()
-                                .setContent(
-                                    newContent.trim().replace("\n", ""),
-                                ) // Apply same trimming as in addMemoLeaf
-                                .build()
-                        editedProtoItem = updatedItem // Store for returning
-
-                        parentItem
-                            .toBuilder()
-                            .setItems(
-                                itemIndex,
-                                updatedItem,
-                            ) // Replace the item at the specific index
-                            .build()
-                    }
-
-                    currentMemoItemList
-                        .toBuilder()
-                        .setItems(
-                            parentIndex,
-                            parentItem,
-                        ).build() // Replace the parent item at the specific index
-                } else {
-                    currentMemoItemList
+                if (parentIndex == -1) {
+                    return@updateData currentMemoItemList
                 }
+
+                val originalParentItem = currentMemoItemList.itemsList[parentIndex]
+                val itemToEditIndex = originalParentItem.itemsList.indexOfFirst { it.id == itemToEdit.id }
+                if (itemToEditIndex == -1) {
+                    return@updateData currentMemoItemList
+                }
+
+                val oldChildItem = originalParentItem.itemsList[itemToEditIndex]
+                val updatedChildItem =
+                    oldChildItem
+                        .toBuilder()
+                        .setContent(newContent.trim().replace("\n", ""))
+                        .build()
+                editedProtoItem = updatedChildItem // Store for returning
+
+                val updatedParentItem =
+                    originalParentItem
+                        .toBuilder()
+                        .setItems(itemToEditIndex, updatedChildItem)
+                        .build()
+
+                currentMemoItemList
+                    .toBuilder()
+                    .setItems(parentIndex, updatedParentItem)
+                    .build()
             }
+
             return editedProtoItem
         }
 

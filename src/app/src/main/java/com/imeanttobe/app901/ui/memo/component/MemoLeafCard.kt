@@ -31,9 +31,11 @@ fun MemoLeafCard(
     isChecked: (ProtoMemoItem) -> ToggleableState,
     setChecked: (ProtoMemoItem, Boolean) -> Unit,
     onDelete: (ProtoMemoItem) -> Unit,
+    onEdit: (ProtoMemoItem, String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var dialogState by remember { mutableStateOf(false) }
+    var dialogTextFieldContent by remember { mutableStateOf(item.content) }
 
     OutlinedCard(
         modifier =
@@ -59,7 +61,7 @@ fun MemoLeafCard(
 
             Row {
                 IconButton(
-                    onClick = {},
+                    onClick = { dialogState = true },
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Edit,
@@ -80,10 +82,10 @@ fun MemoLeafCard(
 
     if (dialogState) {
         EditMemoDialog(
-            textFieldContent = item.content,
-            onTextFieldChange = { newValue -> },
+            textFieldContent = dialogTextFieldContent,
+            onTextFieldChange = { newValue -> dialogTextFieldContent = newValue },
             onDismiss = { dialogState = false },
-            onConfirm = { dialogState = false },
+            onConfirm = { onEdit(item, dialogTextFieldContent) },
         )
     }
 }
@@ -96,5 +98,6 @@ private fun MemoLeafCardPreview() {
         isChecked = { ToggleableState.Off },
         setChecked = { _, _ -> },
         onDelete = {},
+        onEdit = { _, _ -> },
     )
 }

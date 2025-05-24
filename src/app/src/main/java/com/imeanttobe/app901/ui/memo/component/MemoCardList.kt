@@ -18,8 +18,9 @@ fun MemoCardList(
     setChecked: (item: ProtoMemoItem, value: Boolean) -> Unit,
     onDelete: (item: ProtoMemoItem) -> Unit,
     onEdit: (item: ProtoMemoItem, newContent: String) -> Unit,
+    onEditInGroup: (parent: ProtoMemoItem, item: ProtoMemoItem, newContent: String) -> Unit,
     onToggleGroup: (ProtoMemoItem, Boolean) -> Unit,
-    onDeleteMemoLeafInGroup: (ProtoMemoItem, ProtoMemoItem) -> Unit,
+    onDeleteInGroup: (ProtoMemoItem, ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -33,6 +34,7 @@ fun MemoCardList(
                     isChecked = isChecked,
                     setChecked = setChecked,
                     onDelete = onDelete,
+                    onEdit = onEdit,
                 )
             } else {
                 MemoGroupCard(
@@ -41,7 +43,8 @@ fun MemoCardList(
                     setChecked = setChecked,
                     onDelete = onDelete,
                     onToggleGroup = onToggleGroup,
-                    onDeleteMemoLeafInGroup = onDeleteMemoLeafInGroup,
+                    onDeleteMemoLeafInGroup = onDeleteInGroup,
+                    onEditInGroup = onEditInGroup,
                 )
             }
         }

@@ -88,11 +88,10 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
                 isChecked = { item -> viewModel.isChecked(item) },
                 setChecked = { item, value -> viewModel.setChecked(item, value) },
                 onDelete = { item -> viewModel.deleteMemo(item) },
-                onEdit = { item, newContent -> },
+                onEdit = { item, newContent -> viewModel.editMemo(item, newContent) },
+                onEditInGroup = { parent, item, newContent -> viewModel.editMemoLeafInGroup(parent, item, newContent) },
                 onToggleGroup = { item, newValue -> viewModel.onToggleGroup(item, newValue) },
-                onDeleteMemoLeafInGroup = { parent, itemToRemove ->
-                    viewModel.deleteMemoLeafInGroup(parent, itemToRemove)
-                },
+                onDeleteInGroup = { parent, itemToRemove -> viewModel.deleteMemoLeafInGroup(parent, itemToRemove) },
             )
         }
 
