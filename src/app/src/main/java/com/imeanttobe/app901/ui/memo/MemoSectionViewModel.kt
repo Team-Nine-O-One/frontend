@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.repo.MemoRepo
-import com.imeanttobe.app901.data.type.MemoStateHolder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,7 +21,6 @@ class MemoSectionViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
-        private val memoStateHolder: MemoStateHolder,
     ) : ViewModel() {
         // Variables
         val checkedState = mutableStateMapOf<Long, ToggleableState>()
