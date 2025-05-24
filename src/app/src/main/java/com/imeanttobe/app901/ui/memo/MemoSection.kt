@@ -73,7 +73,7 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
                     Text(
                         text =
                             stringResource(
-                                if (viewModel.isAllUnchecked()) {
+                                if (viewModel.isAllUncheckedState.value) {
                                     R.string.delete_all
                                 } else {
                                     R.string.delete_selected
@@ -97,7 +97,7 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
 
         if (viewModel.deleteAllMemosDialogState.value) {
             DeleteMemoDialog(
-                isAllUnchecked = viewModel.isAllUnchecked(),
+                isAllUnchecked = viewModel.isAllUncheckedState.value,
                 onDismiss = { viewModel.setDeleteAllMemosDialogState(false) },
                 onConfirm = { viewModel.deleteCheckedMemos() },
             )

@@ -2,6 +2,7 @@ package com.imeanttobe.app901.ui.memo
 
 import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.state.ToggleableState
@@ -30,23 +31,38 @@ class MemoSectionViewModel
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = emptyList(),
             )
+        val isAllUncheckedState: State<Boolean> =
+            derivedStateOf {
+                val currentMemos = memos.value
+                val currentCheckedState = checkedState
+
+                if (currentMemos.isEmpty() || currentCheckedState.isEmpty()) {
+                    true
+                } else {
+                    // Get all relevant item IDs (both leaf items and sub-items of non-leaf items)
+                    val allRelevantItemIds =
+                        currentMemos.flatMap { item ->
+                            listOf(item.id) +
+                                if (!item.isLeaf) {
+                                    // If not a leaf, take IDs of its sub-items
+                                    item.itemsList.map { subItem -> subItem.id }
+                                } else {
+                                    emptyList()
+                                }
+                        }
+
+                    // Check if all these items are in the "Off" state
+                    allRelevantItemIds.all { itemId ->
+                        currentCheckedState[itemId] == ToggleableState.Off || currentCheckedState[itemId] == null
+                    }
+                }
+            }
 
         private val _deleteAllMemosDialogState = mutableStateOf(false)
 
         val deleteAllMemosDialogState: State<Boolean> = _deleteAllMemosDialogState
 
         // Functions
-        fun isAllUnchecked(): Boolean =
-            memos.value.all { item ->
-                if (item.isLeaf) {
-                    checkedState[item.id] == ToggleableState.Off
-                } else {
-                    item.itemsList.all { subItem ->
-                        checkedState[subItem.id] == ToggleableState.Off
-                    }
-                }
-            }
-
         fun setDeleteAllMemosDialogState(value: Boolean) {
             _deleteAllMemosDialogState.value = value
         }
