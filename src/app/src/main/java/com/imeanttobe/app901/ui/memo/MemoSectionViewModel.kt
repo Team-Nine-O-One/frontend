@@ -128,25 +128,22 @@ class MemoSectionViewModel
         }
 
         fun deleteCheckedMemos() {
-            val memosToDelete = mutableListOf<ProtoMemoItem>()
-            memos.value.forEach { item ->
-                if (item.isLeaf) {
-                    if (checkedState[item.id] == ToggleableState.On) {
-                        memosToDelete.add(item)
-                    }
-                } else {
-                    if (getGroupToggleState(item) == ToggleableState.On) {
-                        memosToDelete.add(item)
-                    } else {
-                        item.itemsList.forEach { subItem ->
-                            if (checkedState[subItem.id] == ToggleableState.On) {
-                                memosToDelete.add(subItem)
+            val memosToDelete =
+                memos.value.flatMap { item ->
+                    when {
+                        item.isLeaf && checkedState[item.id] == ToggleableState.On -> listOf(item)
+                        !item.isLeaf && getGroupToggleState(item) == ToggleableState.On -> listOf(item)
+                        !item.isLeaf ->
+                            item.itemsList.filter { subItem ->
+                                checkedState[subItem.id] == ToggleableState.On
                             }
-                        }
+                        else -> emptyList()
                     }
                 }
-            }
             Log.d("deleteCheckedMemos", "memosToDelete: $memosToDelete")
+
+            // Create a lookup for groups for faster access
+            val groupLookup = memos.value.filter { !it.isLeaf }.associateBy { it.id }
 
             viewModelScope.launch {
                 val groups = memos.value.filter { item -> !item.isLeaf }
@@ -155,7 +152,11 @@ class MemoSectionViewModel
                     if (item.isLeaf) {
                         if (groups.any { group -> group.itemsList.contains(item) }) {
                             val parent = groups.first { group -> group.itemsList.contains(item) }
-                            memoRepo.removeMemoLeafInGroup(parent, item)
+                            // Use the lookup for faster parent retrieval if possible
+                            // This part assumes that `item` itself might not have a direct parent ID
+                            // If `item` has a `parentId` field, it would be more efficient.
+                            // For now, sticking to the existing logic but noting the potential optimization.
+                            groupLookup[parent.id]?.let { memoRepo.removeMemoLeafInGroup(it, item) }
                         } else {
                             memoRepo.removeMemo(item)
                         }
