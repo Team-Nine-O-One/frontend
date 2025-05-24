@@ -15,6 +15,11 @@ interface MemoRepo {
         contents: List<String>,
     ): ProtoMemoItem
 
+    suspend fun editMemo(
+        itemToEdit: ProtoMemoItem,
+        newContent: String,
+    ): ProtoMemoItem?
+
     suspend fun removeMemo(memoId: Long)
 }
 

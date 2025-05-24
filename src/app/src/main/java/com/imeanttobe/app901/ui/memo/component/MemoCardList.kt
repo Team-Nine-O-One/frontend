@@ -30,6 +30,7 @@ fun MemoCardList(
     isChecked: (id: Long) -> Boolean,
     setChecked: (item: ProtoMemoItem, value: Boolean) -> Unit,
     onDelete: (item: ProtoMemoItem) -> Unit,
+    onEdit: (item: ProtoMemoItem, newContent: String) -> Unit,
     dialogState: Boolean,
     setDialogState: (value: Boolean) -> Unit,
     modifier: Modifier = Modifier,

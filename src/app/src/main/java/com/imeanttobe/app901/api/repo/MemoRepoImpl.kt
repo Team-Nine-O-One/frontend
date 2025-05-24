@@ -79,6 +79,36 @@ class MemoRepoImpl
             return newMemoItemGroup
         }
 
+        override suspend fun editMemo(
+            itemToEdit: ProtoMemoItem,
+            newContent: String,
+        ): ProtoMemoItem? {
+            var editedProtoItem: ProtoMemoItem? = null
+
+            dataStore.updateData { currentMemoItemList ->
+                val itemIndex = currentMemoItemList.itemsList.indexOfFirst { it.id == itemToEdit.id }
+
+                if (itemIndex != -1) {
+                    val oldItem = currentMemoItemList.itemsList[itemIndex]
+                    val updatedItem =
+                        oldItem
+                            .toBuilder()
+                            .setContent(newContent.trim().replace("\n", "")) // Apply same trimming as in addMemoLeaf
+                            .build()
+                    editedProtoItem = updatedItem // Store for returning
+
+                    currentMemoItemList
+                        .toBuilder()
+                        .setItems(itemIndex, updatedItem) // Replace the item at the specific index
+                        .build()
+                } else {
+                    // Item not found, return current state
+                    currentMemoItemList
+                }
+            }
+            return editedProtoItem
+        }
+
         override suspend fun removeMemo(memoId: Long) {
             dataStore.updateData { memoListItem ->
                 memoListItem

@@ -60,6 +60,15 @@ class MemoSectionViewModel
             }
         }
 
+        fun editMemo(
+            itemToEdit: ProtoMemoItem,
+            newContent: String,
+        ): Boolean {
+            viewModelScope.launch {
+                memoRepo.editMemo(itemToEdit, newContent)
+            }
+        }
+
         fun setChecked(
             item: ProtoMemoItem,
             value: Boolean,

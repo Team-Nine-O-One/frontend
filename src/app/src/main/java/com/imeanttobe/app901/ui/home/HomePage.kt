@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
@@ -60,8 +59,7 @@ fun HomePage(
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 8.dp),
+                    .padding(innerPadding),
         ) {
             when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()

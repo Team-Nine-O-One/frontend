@@ -29,13 +29,14 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
             modifier =
                 Modifier
                     .verticalScroll(scrollState)
-                    .padding(vertical = 8.dp),
+                    .padding(horizontal = 8.dp),
         ) {
             MemoCardList(
                 memoItems = memos,
                 isChecked = { id -> viewModel.isChecked(id) },
                 setChecked = { item, value -> viewModel.setChecked(item, value) },
                 onDelete = { item -> viewModel.removeMemo(item) },
+                onEdit = { item, newContent -> viewModel.editMemo(item, newContent) },
                 dialogState = viewModel.deleteAllMemosDialogState.value,
                 setDialogState = { value -> viewModel.setDeleteAllMemosDialogState(value) },
             )
