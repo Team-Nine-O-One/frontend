@@ -59,7 +59,7 @@ fun LoginPage(
             Toast
                 .makeText(
                     context,
-                    context.getString(R.string.failed_to_login),
+                    context.getString(R.string.tips_failed_to_login),
                     Toast.LENGTH_SHORT,
                 ).show()
         }
@@ -192,7 +192,7 @@ fun LoginPage(
             TextButton(
                 onClick = { navigate(NavItem.RegisterNavItem.route) },
             ) {
-                Text(text = stringResource(id = R.string.dont_have_account))
+                Text(text = stringResource(id = R.string.tips_dont_have_account))
             }
         }
     }

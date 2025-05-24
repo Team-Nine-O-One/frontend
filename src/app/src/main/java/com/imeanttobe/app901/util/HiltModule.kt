@@ -1,9 +1,10 @@
-package com.imeanttobe.app901.api
+package com.imeanttobe.app901.util
 
 import android.app.Application
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.imeanttobe.app901.BuildConfig
+import com.imeanttobe.app901.api.RetrofitClient
 import com.imeanttobe.app901.api.repo.CartRepo
 import com.imeanttobe.app901.api.repo.FakeCartRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+object HiltModule {
     // Repositories here
     @Provides
     @Singleton
@@ -40,7 +41,8 @@ object RepositoryModule {
     @Singleton
     fun provideMemoRepo(
         @ApplicationContext context: Context,
-    ): MemoRepo = MemoRepoImpl(context)
+        idGenerator: IdGenerator,
+    ): MemoRepo = MemoRepoImpl(context, idGenerator)
 
     @Provides
     @Singleton
@@ -48,7 +50,6 @@ object RepositoryModule {
         @ApplicationContext context: Context,
     ): IdGenerator = IdGenerator(context)
 
-    // API services here
     @Provides
     @Singleton
     fun provideCartService(): CartService = RetrofitClient.cartService

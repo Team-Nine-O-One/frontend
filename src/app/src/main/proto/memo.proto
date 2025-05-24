@@ -2,6 +2,7 @@ syntax = "proto3";
 option java_package = "com.imeanttobe.app901";
 option java_multiple_files = true;
 
+/*
 message ProtoMemoItemLeaf {
   int64 id = 1;
   string content = 2;
@@ -12,14 +13,13 @@ message ProtoMemoItemGroup {
   string content = 2;
   repeated ProtoMemoItemLeaf items = 3;
 }
+ */
 
 message ProtoMemoItem {
   int64 id = 1;
-
-  oneof item {
-    ProtoMemoItemLeaf leaf = 2;
-    ProtoMemoItemGroup group = 3;
-  }
+  string content = 2;
+  bool isLeaf = 3;
+  repeated ProtoMemoItem items = 4;
 }
 
 message ProtoMemoItemList {

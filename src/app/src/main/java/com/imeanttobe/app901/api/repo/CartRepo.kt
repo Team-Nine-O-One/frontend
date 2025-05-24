@@ -2,7 +2,6 @@ package com.imeanttobe.app901.api.repo
 
 import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedCart
-import com.imeanttobe.app901.data.type.MemoItem
 
 interface CartRepo {
     suspend fun getAllCarts(userId: String): Result<List<SimplifiedCart>>
@@ -14,7 +13,7 @@ interface CartRepo {
 
     suspend fun createCart(
         userId: String,
-        memoItems: List<MemoItem>,
+        memoContents: String,
     ): Result<Cart>
 
     suspend fun confirmCart(

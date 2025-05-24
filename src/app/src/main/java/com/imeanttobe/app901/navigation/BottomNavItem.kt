@@ -6,53 +6,39 @@ import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.ShoppingCart
 import androidx.compose.ui.graphics.vector.ImageVector
-import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.R
 
 sealed class BottomNavItem(
-    open val stringResId: Int,
-    open val label: String,
-    open val icon: ImageVector,
+    val id: Int,
+    val stringResId: Int,
+    val label: String,
+    val icon: ImageVector,
 ) {
-    object CartBottomNavItem : BottomNavItem(
+    object MemoBottomNavItem : BottomNavItem(
+        id = 0,
         stringResId = R.string.cart,
-        label = "cart",
+        label = "memo",
         icon = Icons.Rounded.ShoppingCart,
     )
 
     object HistoryBottomNavItem : BottomNavItem(
+        id = 1,
         stringResId = R.string.history,
         label = "history",
         icon = Icons.Rounded.History,
     )
 
     object ProfileBottomNavItem : BottomNavItem(
+        id = 2,
         stringResId = R.string.profile,
         label = "profile",
         icon = Icons.Rounded.Person,
     )
 
-    object DevBottomItem : BottomNavItem(
+    object DevBottomNavItem : BottomNavItem(
+        id = 3,
         stringResId = R.string.dev,
         label = "dev",
         icon = Icons.Rounded.DeveloperMode,
     )
-
-    companion object {
-        val items =
-            if (BuildConfig.IS_DEV_MODE_ENABLED) {
-                listOf(
-                    CartBottomNavItem,
-                    HistoryBottomNavItem,
-                    ProfileBottomNavItem,
-                    DevBottomItem,
-                )
-            } else {
-                listOf(
-                    CartBottomNavItem,
-                    HistoryBottomNavItem,
-                    ProfileBottomNavItem,
-                )
-            }
-    }
 }

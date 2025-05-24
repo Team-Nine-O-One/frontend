@@ -30,4 +30,13 @@ class IdGenerator(
         val prefs = idPrefsDataStore.data.first()
         return prefs.currentId
     }
+
+    suspend fun resetId() {
+        idPrefsDataStore.updateData { current ->
+            current
+                .toBuilder()
+                .setCurrentId(0)
+                .build()
+        }
+    }
 }

@@ -8,28 +8,51 @@
     <string name="dev">개발</string>
     <string name="email">전자 메일 주소</string>
     <string name="password">비밀번호</string>
-    <string name="confirm_password">비밀번호 확인</string>
     <string name="nickname">별명</string>
     <string name="login">로그인</string>
     <string name="register">회원 가입</string>
+    <string name="add">추가</string>
+    <string name="close">닫기</string>
+    <string name="confirm">확인</string>
+    <string name="importing">가져오기</string>
+    <string name="delete">삭제</string>
+    <string name="edit">수정</string>
 
-    <string name="dont_have_account">계정이 없으신가요?</string>
-    <string name="failed_to_login">로그인에 실패했어요... 다시 시도해보세요.</string>
-    <string name="failed_to_register">회원 가입에 실패했어요... 다시 시도해보세요.</string>
+    <string name="create_memo">메모 추가</string>
+    <string name="edit_memo">메모 수정</string>
+    <string name="confirm_password">비밀번호 확인</string>
+    <string name="import_from_recipe">레시피에서 추가</string>
+    <string name="delete_all_memos">모든 메모 삭제</string>
+    <string name="delete_selected_memos">선택한 메모 삭제</string>
+    <string name="delete_all">전체 삭제</string>
+    <string name="delete_selected">선택 삭제</string>
+    <string name="select_all">전체 선택</string>
+    <string name="youtube_shorts">YouTube Shorts</string>
+    <string name="naver_blog">네이버 블로그</string>
 
     <string name="error_empty_email">전자 메일 주소가 올바르지 않아요. 다시 작성해주세요.</string>
     <string name="error_empty_password">비밀번호가 올바르지 않아요. 최소 6자 이상 작성해주세요.</string>
     <string name="error_empty_nickname">별명이 올바르지 않아요. 1자 이상 16자 이하로 작성해주세요.</string>
     <string name="error_password_not_match">비밀번호와 비밀번호 확인이 같지 않아요. 다시 입력해주세요.</string>
 
+    <string name="tips_failed_to_login">로그인에 실패했어요... 다시 시도해보세요.</string>
+    <string name="tips_failed_to_register">회원 가입에 실패했어요... 다시 시도해보세요.</string>
+    <string name="tips_dont_have_account">계정이 없으신가요?</string>
     <string name="tips_email">로그인 시 사용할 전자 메일 주소를 입력해주세요.</string>
     <string name="tips_password">로그인 시 사용할 비밀번호를 입력해주세요. 비밀번호는 6자 이상이면 돼요.</string>
     <string name="tips_confirm_password">비밀번호를 다시 입력해주세요.</string>
     <string name="tips_nickname">별명을 입력해주세요. 별명은 1자 이상 16자 이하여야 해요.</string>
+    <string name="tips_memo">장바구니에 담을 물건 이름을 적어주세요. 개수까지 같이 적으면 분석 결과가 훨씬 정확해져요.</string>
+    <string name="tips_edit_memo">메모 내용을 수정할 수 있어요. 개수까지 같이 적으면 분석 결과가 훨씬 정확해져요.</string>
+    <string name="tips_import_from_recipe">재료를 가져올 레시피의 링크를 적어주세요. 네이버 블로그 또는 YouTube Shorts 링크를 사용할 수 있어요.</string>
+    <string name="tips_delete_all_memos">작성하신 모든 메모를 전부 삭제하시겠어요?</string>
+    <string name="tips_delete_selected_memos">선택하신 메모들을 삭제하시겠어요?</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
     <string name="example_nickname">홍길동</string>
+    <string name="example_memo">바나나 한 송이</string>
+    <string name="example_import_from_recipe">https://youtu.be/**********</string>
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
 </resources>
