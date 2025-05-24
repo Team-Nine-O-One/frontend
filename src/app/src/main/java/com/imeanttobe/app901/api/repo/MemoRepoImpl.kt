@@ -5,6 +5,7 @@ import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.serializer.memoItemListDataStore
 import com.imeanttobe.app901.data.type.IdGenerator
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -194,6 +195,20 @@ class MemoRepoImpl
                         .toBuilder()
                         .setItems(parentIndex, updatedParentItem)
                         .build()
+                }
+            }
+        }
+
+        override suspend fun exportToString(): String {
+            val memoItemList = dataStore.data.first()
+
+            return memoItemList.itemsList.joinToString(separator = "|") { item ->
+                if (item.isLeaf) {
+                    item.content
+                } else {
+                    item.itemsList.joinToString(separator = "|") { subItem ->
+                        subItem.content
+                    }
                 }
             }
         }

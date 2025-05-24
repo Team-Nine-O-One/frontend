@@ -30,4 +30,6 @@ interface MemoRepo {
         parent: ProtoMemoItem,
         itemToRemove: ProtoMemoItem,
     )
+
+    suspend fun exportToString(): String
 }

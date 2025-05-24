@@ -39,6 +39,18 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
             ) {
                 Text(text = "add Group")
             }
+
+            Text(
+                text = "result = ${viewModel.result.value}",
+            )
+
+            Button(
+                onClick = {
+                    viewModel.export()
+                },
+            ) {
+                Text(text = "export")
+            }
         }
     }
 }
