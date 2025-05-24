@@ -11,23 +11,13 @@ import javax.inject.Inject
 class MemoRepoImpl
     @Inject
     constructor(
-        private val context: Context,
+        context: Context,
         private val idGenerator: IdGenerator,
     ) : MemoRepo {
         private val dataStore = context.memoItemListDataStore
 
         override val getMemosFlow: Flow<List<ProtoMemoItem>> =
             dataStore.data.map { memoItemList -> memoItemList.itemsList }
-
-        override suspend fun saveMemos(memos: List<ProtoMemoItem>) {
-            dataStore.updateData { memoListItem ->
-                memoListItem
-                    .toBuilder()
-                    .clearItems()
-                    .addAllItems(memos)
-                    .build()
-            }
-        }
 
         override suspend fun addMemoLeaf(content: String): ProtoMemoItem {
             val newMemoItemLeaf =
@@ -93,7 +83,9 @@ class MemoRepoImpl
                     val updatedItem =
                         oldItem
                             .toBuilder()
-                            .setContent(newContent.trim().replace("\n", "")) // Apply same trimming as in addMemoLeaf
+                            .setContent(
+                                newContent.trim().replace("\n", ""),
+                            ) // Apply same trimming as in addMemoLeaf
                             .build()
                     editedProtoItem = updatedItem // Store for returning
 
@@ -106,19 +98,108 @@ class MemoRepoImpl
                     currentMemoItemList
                 }
             }
+
             return editedProtoItem
         }
 
-        override suspend fun removeMemo(memoId: Long) {
-            dataStore.updateData { memoListItem ->
-                memoListItem
+        override suspend fun editMemoLeafInGroup(
+            parent: ProtoMemoItem,
+            itemToEdit: ProtoMemoItem,
+            newContent: String,
+        ): ProtoMemoItem? {
+            var editedProtoItem: ProtoMemoItem? = null
+
+            dataStore.updateData { currentMemoItemList ->
+                val parentIndex = currentMemoItemList.itemsList.indexOfFirst { it.id == parent.id }
+
+                if (parentIndex != -1) {
+                    val parentItem = currentMemoItemList.itemsList[parentIndex]
+                    val itemIndex = parentItem.itemsList.indexOfFirst { it.id == itemToEdit.id }
+
+                    if (itemIndex != -1) {
+                        val oldItem = parentItem.itemsList[itemIndex]
+                        val updatedItem =
+                            oldItem
+                                .toBuilder()
+                                .setContent(
+                                    newContent.trim().replace("\n", ""),
+                                ) // Apply same trimming as in addMemoLeaf
+                                .build()
+                        editedProtoItem = updatedItem // Store for returning
+
+                        parentItem
+                            .toBuilder()
+                            .setItems(
+                                itemIndex,
+                                updatedItem,
+                            ) // Replace the item at the specific index
+                            .build()
+                    }
+
+                    currentMemoItemList
+                        .toBuilder()
+                        .setItems(
+                            parentIndex,
+                            parentItem,
+                        ).build() // Replace the parent item at the specific index
+                } else {
+                    currentMemoItemList
+                }
+            }
+            return editedProtoItem
+        }
+
+        override suspend fun removeMemo(memo: ProtoMemoItem) {
+            dataStore.updateData { currentMemoItemList ->
+                currentMemoItemList
                     .toBuilder()
                     .clearItems()
                     .addAllItems(
-                        memoListItem.itemsList.filter { item ->
-                            item.id != memoId
+                        currentMemoItemList.itemsList.filter { item ->
+                            item.id != memo.id
                         },
                     ).build()
+            }
+        }
+
+        override suspend fun removeMemoLeafInGroup(
+            parent: ProtoMemoItem,
+            itemToRemove: ProtoMemoItem,
+        ) {
+            dataStore.updateData { currentMemoItemList ->
+                val parentIndex = currentMemoItemList.itemsList.indexOfFirst { it.id == parent.id }
+                if (parentIndex == -1) {
+                    return@updateData currentMemoItemList
+                }
+
+                val originalParentItem = currentMemoItemList.itemsList[parentIndex]
+                val itemToRemoveIndex = originalParentItem.itemsList.indexOfFirst { it.id == itemToRemove.id }
+                if (itemToRemoveIndex == -1) {
+                    return@updateData currentMemoItemList
+                }
+
+                if (originalParentItem.itemsList.size == 1) {
+                    val updatedItemsList = currentMemoItemList.itemsList.filter { item -> item.id != parent.id }
+
+                    currentMemoItemList
+                        .toBuilder()
+                        .clearItems()
+                        .addAllItems(updatedItemsList)
+                        .build()
+                } else {
+                    val updatedItemsList = originalParentItem.itemsList.filter { item -> item.id != itemToRemove.id }
+                    val updatedParentItem =
+                        originalParentItem
+                            .toBuilder()
+                            .clearItems()
+                            .addAllItems(updatedItemsList)
+                            .build()
+
+                    currentMemoItemList
+                        .toBuilder()
+                        .setItems(parentIndex, updatedParentItem)
+                        .build()
+                }
             }
         }
     }

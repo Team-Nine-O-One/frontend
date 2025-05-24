@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,8 +28,8 @@ import com.imeanttobe.app901.ui.component.EditMemoDialog
 @Composable
 fun MemoLeafCard(
     item: ProtoMemoItem,
-    getChecked: (Long) -> Boolean,
-    onCheckedChange: (ProtoMemoItem, Boolean) -> Unit,
+    isChecked: (ProtoMemoItem) -> ToggleableState,
+    setChecked: (ProtoMemoItem, Boolean) -> Unit,
     onDelete: (ProtoMemoItem) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -45,8 +46,8 @@ fun MemoLeafCard(
             modifier = Modifier.padding(4.dp),
         ) {
             Checkbox(
-                checked = getChecked(item.id),
-                onCheckedChange = { newValue -> onCheckedChange(item, newValue) },
+                checked = if (isChecked(item) == ToggleableState.On) true else false,
+                onCheckedChange = { newValue -> setChecked(item, newValue) },
             )
 
             Text(
@@ -80,7 +81,7 @@ fun MemoLeafCard(
     if (dialogState) {
         EditMemoDialog(
             textFieldContent = item.content,
-            onTextFieldChange = { newValue -> onCheckedChange(item, newValue) },
+            onTextFieldChange = { newValue -> },
             onDismiss = { dialogState = false },
             onConfirm = { dialogState = false },
         )
@@ -92,8 +93,8 @@ fun MemoLeafCard(
 private fun MemoLeafCardPreview() {
     MemoLeafCard(
         item = ProtoMemoItem.getDefaultInstance(),
-        getChecked = { false },
-        onCheckedChange = { _, _ -> },
+        isChecked = { ToggleableState.Off },
+        setChecked = { _, _ -> },
         onDelete = {},
     )
 }
