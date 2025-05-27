@@ -33,6 +33,7 @@
     <string name="naver_blog">네이버 블로그</string>
     <string name="change_password">비밀번호 변경</string>
     <string name="change_nickname">별명 변경</string>
+    <string name="welcome">반가워요!</string>
 
     <string name="error_empty_email">전자 메일 주소가 올바르지 않아요. 다시 작성해주세요.</string>
     <string name="error_empty_password">비밀번호가 올바르지 않아요. 최소 6자 이상 작성해주세요.</string>
@@ -59,4 +60,5 @@
     <string name="example_import_from_recipe">https://youtu.be/**********</string>
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
+    <string name="format_nickname">%1$s 님,</string>
 </resources>
