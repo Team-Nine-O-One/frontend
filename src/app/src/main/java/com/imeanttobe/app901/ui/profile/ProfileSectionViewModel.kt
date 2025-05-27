@@ -1,7 +1,6 @@
 package com.imeanttobe.app901.ui.profile
 
 import androidx.compose.runtime.State
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +8,10 @@ import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.data.enum.ProfileSectionSheetState
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,7 +22,8 @@ class ProfileSectionViewModel
         private val userRepo: UserRepo,
     ) : ViewModel() {
         // Variables
-        private val _concurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
+        private val _changePasswordState = MutableStateFlow<ConcurrencyState>(ConcurrencyState.Default)
+        private val _changeNicknameState = MutableStateFlow<ConcurrencyState>(ConcurrencyState.Default)
         private val _nicknameTextfieldValue = mutableStateOf("")
         private val _passwordTextfieldValue = mutableStateOf("")
         private val _bottomSheetState =
@@ -28,8 +32,14 @@ class ProfileSectionViewModel
             )
 
         // States
-        val nickname: State<String> = derivedStateOf { userRepo.getNickname() }
-        val concurrencyState: State<ConcurrencyState> = _concurrencyState
+        val nickname: StateFlow<String> =
+            userRepo.getNicknameFlow.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = "",
+            )
+        val changePasswordState: StateFlow<ConcurrencyState> = _changePasswordState
+        val changeNicknameState: StateFlow<ConcurrencyState> = _changeNicknameState
         val nicknameTextfieldValue: State<String> = _nicknameTextfieldValue
         val passwordTextfieldValue: State<String> = _passwordTextfieldValue
         val bottomSheetState: State<ProfileSectionSheetState> = _bottomSheetState
@@ -42,6 +52,11 @@ class ProfileSectionViewModel
 
         fun setBottomSheetState(state: ProfileSectionSheetState) {
             _bottomSheetState.value = state
+        }
+
+        fun resetConcurrencyState() {
+            _changeNicknameState.value = ConcurrencyState.Default
+            _changePasswordState.value = ConcurrencyState.Default
         }
 
         fun setNicknameTextfieldValue(newValue: String) {
@@ -57,29 +72,37 @@ class ProfileSectionViewModel
         }
 
         fun updateNickname() {
-            _concurrencyState.value = ConcurrencyState.Loading
+            if (_changeNicknameState.value is ConcurrencyState.Loading) {
+                return
+            }
+
+            _changeNicknameState.value = ConcurrencyState.Loading
 
             viewModelScope.launch {
                 userRepo
                     .updateNickname(_nicknameTextfieldValue.value)
                     .onSuccess {
-                        _concurrencyState.value = ConcurrencyState.Success()
+                        _changeNicknameState.value = ConcurrencyState.Success()
                     }.onFailure {
-                        _concurrencyState.value = ConcurrencyState.Failure(it.message ?: "Unknown Error")
+                        _changeNicknameState.value = ConcurrencyState.Failure(it.message ?: "Unknown Error")
                     }
             }
         }
 
         fun updatePassword() {
-            _concurrencyState.value = ConcurrencyState.Loading
+            if (_changePasswordState.value is ConcurrencyState.Loading) {
+                return
+            }
+
+            _changePasswordState.value = ConcurrencyState.Loading
 
             viewModelScope.launch {
                 userRepo
                     .updatePassword(_passwordTextfieldValue.value)
                     .onSuccess {
-                        _concurrencyState.value = ConcurrencyState.Success()
+                        _changePasswordState.value = ConcurrencyState.Success()
                     }.onFailure {
-                        _concurrencyState.value = ConcurrencyState.Failure(it.message ?: "Unknown Error")
+                        _changePasswordState.value = ConcurrencyState.Failure(it.message ?: "Unknown Error")
                     }
             }
         }

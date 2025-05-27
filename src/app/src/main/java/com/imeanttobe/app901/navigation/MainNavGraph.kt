@@ -21,7 +21,14 @@ fun MainNavGraph(
         modifier = modifier,
     ) {
         composable(route = NavItem.HomeNavItem.route) {
-            HomePage(navigate = { route -> navController.navigate(route) })
+            HomePage(navigate = { route ->
+                navController.navigate(route) {
+                    popUpTo(NavItem.HomeNavItem.route) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            })
         }
 
         composable(route = NavItem.SplashNavItem.route) {

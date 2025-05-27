@@ -50,15 +50,20 @@ fun SimpleTextFieldSheet(
     setPassWordVisible: (Boolean) -> Unit = {},
     isPassword: Boolean = false,
 ) {
+    val isLoadingIndicatorEnabled =
+        (concurrenceState is ConcurrencyState.Loading) ||
+            (concurrenceState is ConcurrencyState.Failure) ||
+            (concurrenceState is ConcurrencyState.Success)
+
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
     ) {
         Column(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            if (concurrenceState is ConcurrencyState.Loading) {
+            if (isLoadingIndicatorEnabled) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
@@ -123,7 +128,7 @@ fun SimpleTextFieldSheet(
                 )
 
                 Button(
-                    onClick = onConfirm,
+                    onClick = { onConfirm() },
                     colors = ButtonDefaults.filledTonalButtonColors(),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
