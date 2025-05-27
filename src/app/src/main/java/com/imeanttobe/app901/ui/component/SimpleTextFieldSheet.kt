@@ -2,11 +2,14 @@ package com.imeanttobe.app901.ui.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.Visibility
+import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,8 +22,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
@@ -35,6 +41,9 @@ fun SimpleTextFieldSheet(
     buttonLabel: String,
     placeholder: String,
     sheetState: SheetState,
+    isPasswordVisible: Boolean = false,
+    setPassWordVisible: (Boolean) -> Unit = {},
+    isPassword: Boolean = false,
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -62,15 +71,40 @@ fun SimpleTextFieldSheet(
                 placeholder = { Text(text = placeholder) },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 trailingIcon = {
-                    IconButton(
-                        onClick = { onTextChange("") },
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Clear,
-                            contentDescription = "Clear",
-                        )
+                        if (isPassword) {
+                            IconButton(
+                                onClick = { setPassWordVisible(!isPasswordVisible) },
+                            ) {
+                                Icon(
+                                    imageVector =
+                                        if (isPasswordVisible) {
+                                            Icons.Rounded.VisibilityOff
+                                        } else {
+                                            Icons.Rounded.Visibility
+                                        },
+                                    contentDescription = "Set password visible",
+                                )
+                            }
+                        }
+                        IconButton(
+                            onClick = { onTextChange("") },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Clear,
+                                contentDescription = "Clear",
+                            )
+                        }
                     }
                 },
+                visualTransformation =
+                    if (isPassword && !isPasswordVisible) {
+                        PasswordVisualTransformation()
+                    } else {
+                        VisualTransformation.None
+                    },
                 modifier = Modifier.fillMaxWidth(),
             )
 
