@@ -70,17 +70,17 @@ class UserRepoImpl
             }
         }
 
-        override suspend fun updateNickname(newNickname: String): Result<Boolean> {
+        override suspend fun updateNickname(newValue: String): Result<Boolean> {
             if (firebaseAuth.currentUser != null) {
                 firebaseAuth.currentUser!!
                     .updateProfile(
                         UserProfileChangeRequest
                             .Builder()
-                            .setDisplayName(newNickname)
+                            .setDisplayName(newValue)
                             .build(),
                     ).await()
 
-                return if (firebaseAuth.currentUser!!.displayName == newNickname) {
+                return if (firebaseAuth.currentUser!!.displayName == newValue) {
                     Result.success(true)
                 } else {
                     Result.failure(IllegalStateException("Update is failed"))
@@ -89,4 +89,16 @@ class UserRepoImpl
                 throw IllegalStateException("User is not logged in")
             }
         }
+
+        override suspend fun updatePassword(newValue: String): Result<Boolean> =
+            try {
+                if (firebaseAuth.currentUser != null) {
+                    firebaseAuth.currentUser!!.updatePassword(newValue).await()
+                    Result.success(true)
+                } else {
+                    Result.failure(IllegalStateException("User is not logged in"))
+                }
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
     }

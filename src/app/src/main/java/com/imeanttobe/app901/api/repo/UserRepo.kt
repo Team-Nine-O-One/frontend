@@ -14,11 +14,13 @@ interface UserRepo {
 
     fun isLoggedIn(): Boolean
 
-    fun logout(): Unit
+    fun logout()
 
     fun getUserId(): String
 
     fun getNickname(): String
 
-    suspend fun updateNickname(newNickname: String): Result<Boolean>
+    suspend fun updateNickname(newValue: String): Result<Boolean>
+
+    suspend fun updatePassword(newValue: String): Result<Boolean>
 }
