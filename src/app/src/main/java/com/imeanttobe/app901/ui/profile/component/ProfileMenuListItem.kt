@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,7 +28,6 @@ fun ProfileMenuListItem(
     onClick: () -> Unit,
     tint: Color? = null,
     backgroundColor: Color? = null,
-    isLastItem: Boolean = false,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -45,6 +43,7 @@ fun ProfileMenuListItem(
                 Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(16.dp))
+                    .background(color = MaterialTheme.colorScheme.surfaceContainer)
                     .clickable { onClick() }
                     .padding(16.dp),
         ) {
@@ -62,10 +61,8 @@ fun ProfileMenuListItem(
             Text(
                 text = stringResource(item.stringResId),
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-        }
-        if (!isLastItem) {
-            HorizontalDivider(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp))
         }
     }
 }
@@ -76,6 +73,5 @@ fun ProfileMenuItemPreview() {
     ProfileMenuListItem(
         item = ProfileMenuItem.ChangePasswordProfileMenuItem,
         onClick = {},
-        isLastItem = true,
     )
 }

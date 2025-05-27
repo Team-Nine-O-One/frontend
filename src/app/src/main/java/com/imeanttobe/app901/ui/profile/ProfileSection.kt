@@ -18,6 +18,11 @@ import com.imeanttobe.app901.ui.profile.component.ChangePasswordBottomSheet
 import com.imeanttobe.app901.ui.profile.component.ProfileMenuListItem
 import com.imeanttobe.app901.ui.profile.component.WelcomeCard
 
+// TODO: 닉네임 바꾸면 바로 새로고침되도록 개선
+// TODO: 디바이더 색상 더 자연스럽게 변경
+// TODO: 바텀 시트 성공 시 자동으로 닫히게 개선
+// TODO: 바텀 시트 실패 시 오류 메시지를 스낵 바로 출력하도록 개선
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileSection(
