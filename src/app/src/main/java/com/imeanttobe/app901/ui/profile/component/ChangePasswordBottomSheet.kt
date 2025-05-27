@@ -5,6 +5,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.component.SimpleTextFieldSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -17,6 +18,7 @@ fun ChangePasswordBottomSheet(
     sheetState: SheetState,
     isPasswordVisible: Boolean,
     setPassWordVisible: (Boolean) -> Unit,
+    concurrenceState: ConcurrencyState,
 ) {
     SimpleTextFieldSheet(
         text = text,
@@ -31,5 +33,6 @@ fun ChangePasswordBottomSheet(
         isPassword = true,
         isPasswordVisible = isPasswordVisible,
         setPassWordVisible = setPassWordVisible,
+        concurrenceState = concurrenceState,
     )
 }

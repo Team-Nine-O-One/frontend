@@ -5,6 +5,7 @@ import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.component.SimpleTextFieldSheet
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -15,6 +16,7 @@ fun ChangeNicknameBottomSheet(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
     sheetState: SheetState,
+    concurrenceState: ConcurrencyState,
 ) {
     SimpleTextFieldSheet(
         text = text,
@@ -26,5 +28,6 @@ fun ChangeNicknameBottomSheet(
         buttonLabel = stringResource(id = R.string.change),
         placeholder = stringResource(id = R.string.example_nickname),
         sheetState = sheetState,
+        concurrenceState = concurrenceState,
     )
 }

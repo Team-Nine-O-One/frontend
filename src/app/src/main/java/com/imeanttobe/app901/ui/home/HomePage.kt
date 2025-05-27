@@ -65,7 +65,7 @@ fun HomePage(
             when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
                 BottomNavItem.HistoryBottomNavItem -> HistorySection()
-                BottomNavItem.ProfileBottomNavItem -> ProfileSection()
+                BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigate = navigate)
                 BottomNavItem.DevBottomNavItem -> DevSection()
             }
 
