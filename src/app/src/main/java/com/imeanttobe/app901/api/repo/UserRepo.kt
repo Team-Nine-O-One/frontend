@@ -1,5 +1,7 @@
 package com.imeanttobe.app901.api.repo
 
+import kotlinx.coroutines.flow.Flow
+
 interface UserRepo {
     suspend fun login(
         email: String,
@@ -14,11 +16,14 @@ interface UserRepo {
 
     fun isLoggedIn(): Boolean
 
-    fun logout(): Unit
+    fun logout()
 
     fun getUserId(): String
 
-    fun getNickname(): String
+    // fun getNickname(): String
+    val getNicknameFlow: Flow<String>
 
-    suspend fun updateNickname(newNickname: String): Result<Boolean>
+    suspend fun updateNickname(newValue: String): Result<Boolean>
+
+    suspend fun updatePassword(newValue: String): Result<Boolean>
 }

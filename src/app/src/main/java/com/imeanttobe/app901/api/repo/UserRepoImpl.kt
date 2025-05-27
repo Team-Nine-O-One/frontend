@@ -1,7 +1,12 @@
 package com.imeanttobe.app901.api.repo
 
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -10,6 +15,18 @@ class UserRepoImpl
     constructor(
         private val firebaseAuth: FirebaseAuth,
     ) : UserRepo {
+        private val _nicknameFlow =
+            MutableStateFlow(
+                if (firebaseAuth.currentUser != null) {
+                    firebaseAuth.currentUser!!.displayName ?: ""
+                } else {
+                    throw IllegalStateException("User is not logged in")
+                },
+            )
+        val nicknameFlow: StateFlow<String> = _nicknameFlow.asStateFlow()
+
+        override val getNicknameFlow: Flow<String> = nicknameFlow
+
         override suspend fun login(
             email: String,
             password: String,
@@ -62,25 +79,26 @@ class UserRepoImpl
             }
         }
 
-        override fun getNickname(): String {
-            if (firebaseAuth.currentUser != null) {
-                return firebaseAuth.currentUser!!.displayName ?: ""
-            } else {
-                throw IllegalStateException("User is not logged in")
-            }
-        }
+//        override fun getNickname(): String {
+//            if (firebaseAuth.currentUser != null) {
+//                return firebaseAuth.currentUser!!.displayName ?: ""
+//            } else {
+//                throw IllegalStateException("User is not logged in")
+//            }
+//        }
 
-        override suspend fun updateNickname(newNickname: String): Result<Boolean> {
+        override suspend fun updateNickname(newValue: String): Result<Boolean> {
             if (firebaseAuth.currentUser != null) {
                 firebaseAuth.currentUser!!
                     .updateProfile(
                         UserProfileChangeRequest
                             .Builder()
-                            .setDisplayName(newNickname)
+                            .setDisplayName(newValue)
                             .build(),
                     ).await()
 
-                return if (firebaseAuth.currentUser!!.displayName == newNickname) {
+                return if (firebaseAuth.currentUser!!.displayName == newValue) {
+                    _nicknameFlow.value = newValue
                     Result.success(true)
                 } else {
                     Result.failure(IllegalStateException("Update is failed"))
@@ -89,4 +107,18 @@ class UserRepoImpl
                 throw IllegalStateException("User is not logged in")
             }
         }
+
+        override suspend fun updatePassword(newValue: String): Result<Boolean> =
+            try {
+                if (firebaseAuth.currentUser != null) {
+                    firebaseAuth.currentUser!!.updatePassword(newValue).await()
+                    Result.success(true)
+                } else {
+                    Log.e("UserRepoImpl", "User is not logged in")
+                    Result.failure(IllegalStateException("User is not logged in"))
+                }
+            } catch (e: Exception) {
+                Log.e("UserRepoImpl", "Error updating password", e)
+                Result.failure(e)
+            }
     }

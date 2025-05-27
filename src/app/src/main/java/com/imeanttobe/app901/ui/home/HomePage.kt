@@ -24,6 +24,7 @@ import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
 import com.imeanttobe.app901.ui.memo.MemoSection
 import com.imeanttobe.app901.ui.memo.component.MemoFloatingActionButtonMenu
+import com.imeanttobe.app901.ui.profile.ProfileSection
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -64,7 +65,7 @@ fun HomePage(
             when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
                 BottomNavItem.HistoryBottomNavItem -> HistorySection()
-                BottomNavItem.ProfileBottomNavItem -> Box { }
+                BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigate = navigate)
                 BottomNavItem.DevBottomNavItem -> DevSection()
             }
 
