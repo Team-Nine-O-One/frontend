@@ -134,4 +134,22 @@ class CartRepoImpl
                 Result.failure(Exception("Failed to complete cart"))
             }
         }
+
+        override suspend fun deleteCart(
+            cartId: Long,
+            userId: String,
+        ): Result<Boolean> {
+            val response = cartService.deleteCart(cartId = cartId, userId = userId)
+
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(true)
+                } else {
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Failed to delete cart"))
+            }
+        }
     }

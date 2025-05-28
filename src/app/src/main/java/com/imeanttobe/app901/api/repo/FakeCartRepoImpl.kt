@@ -80,4 +80,12 @@ class FakeCartRepoImpl
             val mockedResponse = true
             return Result.success(mockedResponse)
         }
+
+        override suspend fun deleteCart(
+            cartId: Long,
+            userId: String,
+        ): Result<Boolean> {
+            val mockedResponse = true
+            return Result.success(mockedResponse)
+        }
     }

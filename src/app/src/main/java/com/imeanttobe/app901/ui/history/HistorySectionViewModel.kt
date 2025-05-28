@@ -38,7 +38,7 @@ class HistorySectionViewModel
             _cartConcurrencyState.value = ConcurrencyState.Default
         }
 
-        fun loadCarts() {
+        fun loadHistories() {
             _cartConcurrencyState.value = ConcurrencyState.Loading
 
             viewModelScope.launch {
@@ -53,6 +53,17 @@ class HistorySectionViewModel
                     _cartConcurrencyState.value = ConcurrencyState.Failure(exception.toString())
                 }
             }
+        }
+
+        fun deleteHistory(history: SimplifiedHistory) {
+            viewModelScope.launch {
+                cartRepo.deleteCart(
+                    cartId = history.cartId,
+                    userId = userRepo.getUserId(),
+                )
+            }
+
+            loadHistories()
         }
 
         fun search() {}

@@ -3,10 +3,12 @@ package com.imeanttobe.app901.api.service
 import com.imeanttobe.app901.api.response.CompleteCartResponse
 import com.imeanttobe.app901.api.response.ConfirmCartResponse
 import com.imeanttobe.app901.api.response.CreateCartResponse
+import com.imeanttobe.app901.api.response.DeleteCartResponse
 import com.imeanttobe.app901.api.response.GetAllCartsResponse
 import com.imeanttobe.app901.api.response.GetCartByIdResponse
 import com.imeanttobe.app901.api.response.UpdateWeightResponse
 import retrofit2.Response
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -47,4 +49,10 @@ interface CartService {
         @Path("cartId") cartId: Long,
         userId: String,
     ): Response<CompleteCartResponse>
+
+    @DELETE("/api/carts/{cartId}")
+    suspend fun deleteCart(
+        @Path("cartId") cartId: Long,
+        userId: String,
+    ): Response<DeleteCartResponse>
 }

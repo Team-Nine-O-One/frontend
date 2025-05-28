@@ -32,4 +32,9 @@ interface CartRepo {
         cartId: Long,
         userId: String,
     ): Result<Boolean>
+
+    suspend fun deleteCart(
+        cartId: Long,
+        userId: String,
+    ): Result<Boolean>
 }
