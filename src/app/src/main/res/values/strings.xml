@@ -62,6 +62,7 @@
     <string name="example_nickname">홍길동</string>
     <string name="example_memo">바나나 한 송이</string>
     <string name="example_import_from_recipe">https://youtu.be/**********</string>
+    <string name="example_search">검색…</string>
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
     <string name="format_nickname">%1$s 님,</string>
