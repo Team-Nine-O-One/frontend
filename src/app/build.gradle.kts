@@ -102,6 +102,8 @@ dependencies {
     implementation(libs.protobuf.kotlin.lite)
     implementation(libs.datastore.core)
     implementation(libs.datastore.preferences)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
 
     // Default
     implementation(libs.androidx.core.ktx)

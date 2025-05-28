@@ -8,8 +8,8 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.9.0"
 activityCompose = "1.10.1"
-composeBom = "2025.05.00"
-material3 = "1.4.0-alpha14"
+composeBom = "2025.05.01"
+material3 = "1.4.0-alpha15"
 # Additional
 ksp = "2.1.10-1.0.31"
 navigation = "2.9.0"
@@ -17,13 +17,14 @@ hilt = "2.52"
 androidxHilt = "1.2.0"
 icon = "1.7.8"
 gms = "4.4.2"
-firebaseBom = "33.13.0"
-firebaseAuth = "23.2.0"
+firebaseBom = "33.14.0"
+firebaseAuth = "23.2.1"
 retrofit2 = "2.11.0"
 gson = "2.11.0"
 protobuf-kotlin = "4.26.1"
 protobuf = "0.9.4"
-datastore = "1.1.6"
+datastore = "1.1.7"
+coil = "3.2.0"
 
 [libraries]
 # Default
@@ -56,6 +57,8 @@ google-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gs
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf-kotlin" }
 datastore-core = { group = "androidx.datastore", name = "datastore-core", version.ref = "datastore" }
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 [plugins]
 # Default
