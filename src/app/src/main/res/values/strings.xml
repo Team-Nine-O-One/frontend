@@ -66,4 +66,5 @@
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
     <string name="format_nickname">%1$s 님,</string>
+    <string name="format_total_items_count">"총 %1$d개 물품"</string>
 </resources>

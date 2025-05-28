@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.CartRepo
 import com.imeanttobe.app901.api.repo.UserRepo
-import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.data.model.SimplifiedHistory
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,12 +21,12 @@ class HistorySectionViewModel
     ) : ViewModel() {
         // Variables
         private val _searchBarTextValue = mutableStateOf("")
-        private val _cartList = mutableStateOf<List<SimplifiedCart>>(emptyList())
+        private val _historyList = mutableStateOf<List<SimplifiedHistory>>(emptyList())
         private val _cartConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
 
         // States
         val searchBarTextValue: State<String> = _searchBarTextValue
-        val cartList: State<List<SimplifiedCart>> = _cartList
+        val historyList: State<List<SimplifiedHistory>> = _historyList
         val cartConcurrencyState: State<ConcurrencyState> = _cartConcurrencyState
 
         // Functions
@@ -46,7 +46,7 @@ class HistorySectionViewModel
                 val result = cartRepo.getAllCarts(userId = userId)
 
                 if (result.isSuccess) {
-                    _cartList.value = result.getOrThrow()
+                    _historyList.value = result.getOrThrow()
                     _cartConcurrencyState.value = ConcurrencyState.Success()
                 } else {
                     val exception = result.exceptionOrNull() ?: Exception("Unknown error")
