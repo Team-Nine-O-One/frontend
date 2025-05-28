@@ -2,7 +2,7 @@ package com.imeanttobe.app901.api.repo
 
 import com.imeanttobe.app901.api.service.CartService
 import com.imeanttobe.app901.data.model.Cart
-import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.data.model.SimplifiedHistory
 import com.imeanttobe.app901.util.Converter
 import javax.inject.Inject
 
@@ -11,8 +11,9 @@ class CartRepoImpl
     constructor(
         private val cartService: CartService,
     ) : CartRepo {
-        override suspend fun getAllCarts(userId: String): Result<List<SimplifiedCart>> {
+        override suspend fun getAllCarts(userId: String): Result<List<SimplifiedHistory>> {
             val response = cartService.getAllCarts(userId = userId)
+
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {

@@ -1,10 +1,10 @@
 package com.imeanttobe.app901.api.repo
 
 import com.imeanttobe.app901.data.model.Cart
-import com.imeanttobe.app901.data.model.SimplifiedCart
+import com.imeanttobe.app901.data.model.SimplifiedHistory
 
 interface CartRepo {
-    suspend fun getAllCarts(userId: String): Result<List<SimplifiedCart>>
+    suspend fun getAllCarts(userId: String): Result<List<SimplifiedHistory>>
 
     suspend fun getCartById(
         cartId: Long,
