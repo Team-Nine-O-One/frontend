@@ -34,6 +34,8 @@ import com.imeanttobe.app901.data.model.SimplifiedHistory
 fun HistoryListItem(
     history: SimplifiedHistory,
     onClick: () -> Unit,
+    onDelete: (SimplifiedHistory) -> Unit,
+    onShare: (SimplifiedHistory) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -69,7 +71,7 @@ fun HistoryListItem(
             ) {
                 // Delete button
                 IconButton(
-                    onClick = {},
+                    onClick = { onDelete(history) },
                     modifier = Modifier.size(32.dp),
                 ) {
                     Icon(
@@ -81,7 +83,7 @@ fun HistoryListItem(
 
                 // Share button
                 IconButton(
-                    onClick = {},
+                    onClick = { onShare(history) },
                     modifier = Modifier.size(32.dp),
                 ) {
                     Icon(
@@ -134,5 +136,7 @@ fun HistoryListItemPreview() {
     HistoryListItem(
         history = SimplifiedHistory.getDefaultInstance(),
         onClick = {},
+        onDelete = {},
+        onShare = {},
     )
 }

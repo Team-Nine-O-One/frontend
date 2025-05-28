@@ -64,7 +64,7 @@ fun HomePage(
         ) {
             when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
-                BottomNavItem.HistoryBottomNavItem -> HistorySection()
+                BottomNavItem.HistoryBottomNavItem -> HistorySection(navigateToCart = { cartId -> navigate("cart/$cartId") })
                 BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigate = navigate)
                 BottomNavItem.DevBottomNavItem -> DevSection()
             }
