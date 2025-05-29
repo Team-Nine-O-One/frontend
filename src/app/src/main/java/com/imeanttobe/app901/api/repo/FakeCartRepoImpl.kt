@@ -4,6 +4,7 @@ import com.imeanttobe.app901.data.model.Cart
 import com.imeanttobe.app901.data.model.SimplifiedHistory
 import com.imeanttobe.app901.data.model.SimplifiedMart
 import javax.inject.Inject
+import kotlin.random.Random
 
 class FakeCartRepoImpl
     @Inject
@@ -27,14 +28,22 @@ class FakeCartRepoImpl
                     ),
                 totalItems = 7,
                 totalPrice = 26500 + 12400,
+                isCompleted = false,
             )
 
         override suspend fun getAllCarts(userId: String): Result<List<SimplifiedHistory>> {
             val mockedResponse =
                 listOf(
-                    sampleHistory.copy(),
-                    sampleHistory.copy(),
-                    sampleHistory.copy(),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
+                    sampleHistory.copy(isCompleted = Random.nextBoolean()),
                 )
             return Result.success(mockedResponse)
         }

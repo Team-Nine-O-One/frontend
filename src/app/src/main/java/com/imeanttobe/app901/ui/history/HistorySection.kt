@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material3.ContainedLoadingIndicator
@@ -21,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
@@ -73,7 +75,16 @@ fun HistorySection(
         } else {
             if (viewModel.historyList.value.isNotEmpty()) {
                 LazyColumn {
-                    items(viewModel.historyList.value.size) { index ->
+                    itemsIndexed(
+                        viewModel.historyList.value.filter { history ->
+                            history.isCompleted ==
+                                when (viewModel.filterTab.value) {
+                                    HistorySectionFilterType.ALL -> history.isCompleted
+                                    HistorySectionFilterType.ON_GOING -> false
+                                    HistorySectionFilterType.COMPLETED -> true
+                                }
+                        },
+                    ) { index, history ->
                         val topPadding = if (index == 0) 16.dp else 8.dp
                         val bottomPadding = if (index == viewModel.historyList.value.lastIndex) 16.dp else 8.dp
 
@@ -87,7 +98,6 @@ fun HistorySection(
                                     textToShare = history.toString(),
                                 )
                             },
-                            isCompleted = isCompleted, // TODO: Have to replaced with real value
                             modifier =
                                 Modifier
                                     .padding(

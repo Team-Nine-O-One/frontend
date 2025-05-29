@@ -3,6 +3,7 @@ package com.imeanttobe.app901.ui.history.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,7 +35,6 @@ import com.imeanttobe.app901.ui.component.PriceText
 @Composable
 fun HistoryListItem(
     history: SimplifiedHistory,
-    isCompleted: Boolean,
     onClick: () -> Unit,
     onDelete: (SimplifiedHistory) -> Unit,
     onShare: (SimplifiedHistory) -> Unit,
@@ -63,6 +63,18 @@ fun HistoryListItem(
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     val priceColor = MaterialTheme.colorScheme.primary
+    val labelContentColor =
+        if (history.isCompleted) {
+            MaterialTheme.colorScheme.onSecondaryContainer
+        } else {
+            MaterialTheme.colorScheme.onPrimaryContainer
+        }
+    val labelBackgroundColor =
+        if (history.isCompleted) {
+            MaterialTheme.colorScheme.secondaryContainer
+        } else {
+            MaterialTheme.colorScheme.primaryContainer
+        }
 
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -82,13 +94,48 @@ fun HistoryListItem(
             modifier = Modifier.fillMaxWidth(),
         ) {
             // Title
-            Text(
-                text = history.title,
-                style = MaterialTheme.typography.titleMedium,
-                color = contentColor,
-                fontWeight = FontWeight.Bold,
-                overflow = TextOverflow.Ellipsis,
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                // Status here
+                Box(
+                    modifier =
+                        Modifier
+                            .clip(RoundedCornerShape(100.dp))
+                            .background(color = labelBackgroundColor)
+                            .padding(horizontal = 8.dp, vertical = 4.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    // Filter button contents
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        Text(
+                            text =
+                                stringResource(
+                                    if (history.isCompleted) {
+                                        R.string.completed
+                                    } else {
+                                        R.string.on_going
+                                    },
+                                ),
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = labelContentColor,
+                        )
+                    }
+                }
+
+                // Title here
+                Text(
+                    text = history.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = contentColor,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
 
             // Buttons
             Row(
@@ -182,6 +229,5 @@ fun HistoryListItemPreview() {
         onClick = {},
         onDelete = {},
         onShare = {},
-        isCompleted = false,
     )
 }
