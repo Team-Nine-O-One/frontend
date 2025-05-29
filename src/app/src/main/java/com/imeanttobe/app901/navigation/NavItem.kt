@@ -28,4 +28,9 @@ sealed class NavItem(
         label = "Register",
         route = "/register",
     )
+
+    object AnalysisNavItem : NavItem(
+        label = "Analysis",
+        route = "/analysis",
+    )
 }

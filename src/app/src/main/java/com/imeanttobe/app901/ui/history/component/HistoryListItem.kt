@@ -28,15 +28,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
-import com.imeanttobe.app901.data.model.SimplifiedHistory
+import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.ui.component.PriceText
 
 @Composable
 fun HistoryListItem(
-    history: SimplifiedHistory,
+    history: SimplifiedAnalysis,
     onClick: () -> Unit,
-    onDelete: (SimplifiedHistory) -> Unit,
-    onShare: (SimplifiedHistory) -> Unit,
+    onDelete: (SimplifiedAnalysis) -> Unit,
+    onShare: (SimplifiedAnalysis) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     /*
@@ -219,7 +219,7 @@ fun HistoryListItem(
 @Composable
 fun HistoryListItemPreview() {
     HistoryListItem(
-        history = SimplifiedHistory.getDefaultInstance(),
+        history = SimplifiedAnalysis.getDefaultInstance(),
         onClick = {},
         onDelete = {},
         onShare = {},

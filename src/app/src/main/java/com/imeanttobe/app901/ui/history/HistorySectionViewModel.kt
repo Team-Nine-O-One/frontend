@@ -5,11 +5,11 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.imeanttobe.app901.api.repo.CartRepo
+import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.enum.HistorySectionSearchType
-import com.imeanttobe.app901.data.model.SimplifiedHistory
+import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,12 +19,12 @@ import javax.inject.Inject
 class HistorySectionViewModel
     @Inject
     constructor(
-        private val cartRepo: CartRepo,
+        private val analysisRepo: AnalysisRepo,
         private val userRepo: UserRepo,
     ) : ViewModel() {
         // Variables
         private val _searchBarTextValue = mutableStateOf("")
-        private val _historyList = mutableStateOf<List<SimplifiedHistory>>(emptyList())
+        private val _historyList = mutableStateOf<List<SimplifiedAnalysis>>(emptyList())
         private val _cartConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
         private val _filterTab = mutableStateOf(HistorySectionFilterType.ALL)
         private val _searchTypeMenuExtended = mutableStateOf(false)
@@ -32,7 +32,7 @@ class HistorySectionViewModel
 
         // States
         val searchBarTextValue: State<String> = _searchBarTextValue
-        val historyList: State<List<SimplifiedHistory>> =
+        val historyList: State<List<SimplifiedAnalysis>> =
             derivedStateOf {
                 when (_filterTab.value) {
                     HistorySectionFilterType.ALL -> _historyList.value
@@ -71,7 +71,7 @@ class HistorySectionViewModel
 
             viewModelScope.launch {
                 val userId = userRepo.getUserId()
-                val result = cartRepo.getAllCarts(userId = userId)
+                val result = analysisRepo.getAllAnalyses(userId = userId)
 
                 if (result.isSuccess) {
                     _historyList.value = result.getOrThrow()
@@ -83,9 +83,9 @@ class HistorySectionViewModel
             }
         }
 
-        fun deleteHistory(history: SimplifiedHistory) {
+        fun deleteHistory(history: SimplifiedAnalysis) {
             viewModelScope.launch {
-                cartRepo.deleteCart(
+                analysisRepo.deleteAnalysis(
                     cartId = history.cartId,
                     userId = userRepo.getUserId(),
                 )

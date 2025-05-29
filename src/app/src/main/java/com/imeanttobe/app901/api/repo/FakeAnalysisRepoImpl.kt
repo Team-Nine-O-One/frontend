@@ -1,15 +1,15 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.data.model.Cart
-import com.imeanttobe.app901.data.model.SimplifiedHistory
+import com.imeanttobe.app901.data.model.Analysis
+import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.data.model.SimplifiedMart
 import javax.inject.Inject
 
-class FakeCartRepoImpl
+class FakeAnalysisRepoImpl
     @Inject
-    constructor() : CartRepo {
+    constructor() : AnalysisRepo {
         private val sampleHistory =
-            SimplifiedHistory(
+            SimplifiedAnalysis(
                 cartId = 4,
                 title = "8월 17일 수요일 12시 30분",
                 marts =
@@ -30,7 +30,7 @@ class FakeCartRepoImpl
                 isCompleted = false,
             )
 
-        override suspend fun getAllCarts(userId: String): Result<List<SimplifiedHistory>> {
+        override suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>> {
             val mockedResponse =
                 listOf(
                     sampleHistory.copy(isCompleted = true),
@@ -47,23 +47,23 @@ class FakeCartRepoImpl
             return Result.success(mockedResponse)
         }
 
-        override suspend fun getCartById(
+        override suspend fun getAnalysisById(
             cartId: Long,
             userId: String,
-        ): Result<Cart> {
-            val mockedResponse = Cart.getDefaultInstance()
+        ): Result<Analysis> {
+            val mockedResponse = Analysis.getDefaultInstance()
             return Result.success(mockedResponse)
         }
 
-        override suspend fun createCart(
+        override suspend fun createAnalysis(
             userId: String,
             memoContents: String,
-        ): Result<Cart> {
-            val mockedResponse = Cart.getDefaultInstance()
+        ): Result<Analysis> {
+            val mockedResponse = Analysis.getDefaultInstance()
             return Result.success(mockedResponse)
         }
 
-        override suspend fun confirmCart(
+        override suspend fun confirmAnalysis(
             cartId: Long,
             userId: String,
         ): Result<Boolean> {
@@ -81,7 +81,7 @@ class FakeCartRepoImpl
             return Result.success(mockedResponse)
         }
 
-        override suspend fun completeCart(
+        override suspend fun completeAnalysis(
             cartId: Long,
             userId: String,
         ): Result<Boolean> {
@@ -89,7 +89,7 @@ class FakeCartRepoImpl
             return Result.success(mockedResponse)
         }
 
-        override suspend fun deleteCart(
+        override suspend fun deleteAnalysis(
             cartId: Long,
             userId: String,
         ): Result<Boolean> {

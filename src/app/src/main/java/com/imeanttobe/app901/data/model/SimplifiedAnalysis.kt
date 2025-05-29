@@ -2,7 +2,7 @@ package com.imeanttobe.app901.data.model
 
 import kotlin.random.Random
 
-data class SimplifiedHistory(
+data class SimplifiedAnalysis(
     val cartId: Long,
     val title: String,
     val marts: List<SimplifiedMart>,
@@ -12,7 +12,7 @@ data class SimplifiedHistory(
 ) {
     companion object {
         fun getDefaultInstance() =
-            SimplifiedHistory(
+            SimplifiedAnalysis(
                 cartId = 0,
                 title = "",
                 marts = emptyList(),

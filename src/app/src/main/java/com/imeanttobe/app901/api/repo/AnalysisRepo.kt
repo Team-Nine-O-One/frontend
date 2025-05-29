@@ -1,22 +1,22 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.data.model.Cart
-import com.imeanttobe.app901.data.model.SimplifiedHistory
+import com.imeanttobe.app901.data.model.Analysis
+import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 
-interface CartRepo {
-    suspend fun getAllCarts(userId: String): Result<List<SimplifiedHistory>>
+interface AnalysisRepo {
+    suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>>
 
-    suspend fun getCartById(
+    suspend fun getAnalysisById(
         cartId: Long,
         userId: String,
-    ): Result<Cart>
+    ): Result<Analysis>
 
-    suspend fun createCart(
+    suspend fun createAnalysis(
         userId: String,
         memoContents: String,
-    ): Result<Cart>
+    ): Result<Analysis>
 
-    suspend fun confirmCart(
+    suspend fun confirmAnalysis(
         cartId: Long,
         userId: String,
     ): Result<Boolean>
@@ -28,12 +28,12 @@ interface CartRepo {
         distanceWeight: Double,
     ): Result<Boolean>
 
-    suspend fun completeCart(
+    suspend fun completeAnalysis(
         cartId: Long,
         userId: String,
     ): Result<Boolean>
 
-    suspend fun deleteCart(
+    suspend fun deleteAnalysis(
         cartId: Long,
         userId: String,
     ): Result<Boolean>

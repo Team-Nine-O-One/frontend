@@ -1,6 +1,5 @@
 package com.imeanttobe.app901.api.response
 
-data class DeleteCartResponse(
+data class CompleteAnalysisResponse(
     val message: String,
-    val cartId: Long,
 )
