@@ -82,6 +82,7 @@ fun MainNavGraph(
             AnalysisPage(
                 analysisId = analysisId,
                 navigateBack = { navController.popBackStack() },
+                onDone = {},
             )
         }
     }

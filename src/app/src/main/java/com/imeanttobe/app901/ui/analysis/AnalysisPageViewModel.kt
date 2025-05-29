@@ -1,6 +1,7 @@
 package com.imeanttobe.app901.ui.analysis
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +10,6 @@ import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,14 +23,20 @@ class AnalysisPageViewModel
         // Variables
         private val _analysisConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
         private val _analysis = mutableStateOf<Analysis?>(null)
+        private val _sliderValue = mutableFloatStateOf(0f)
 
         // States
         val analysisConcurrencyState: State<ConcurrencyState> = _analysisConcurrencyState
         val analysis: State<Analysis?> = _analysis
+        val sliderValue: State<Float> = _sliderValue
 
         // Functions
         fun resetConcurrencyState() {
             _analysisConcurrencyState.value = ConcurrencyState.Default
+        }
+
+        fun setSliderValue(value: Float) {
+            _sliderValue.value = value
         }
 
         fun fetchAnalysis(analysisId: Long) {
@@ -43,7 +49,6 @@ class AnalysisPageViewModel
                             analysisId = analysisId,
                             userId = userRepo.getUserId(),
                         )
-                    delay(1000)
                     if (result.isSuccess) {
                         _analysis.value = result.getOrNull()
                         _analysisConcurrencyState.value = ConcurrencyState.Success()

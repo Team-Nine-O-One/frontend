@@ -3,6 +3,7 @@ package com.imeanttobe.app901.api.repo
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.data.model.SimplifiedMart
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class FakeAnalysisRepoImpl
@@ -44,6 +45,7 @@ class FakeAnalysisRepoImpl
                     sampleHistory.copy(isCompleted = false),
                     sampleHistory.copy(isCompleted = false),
                 )
+            delay(300) // IO delay
             return Result.success(mockedResponse)
         }
 
@@ -52,6 +54,7 @@ class FakeAnalysisRepoImpl
             userId: String,
         ): Result<Analysis> {
             val mockedResponse = Analysis.getDefaultInstance()
+            delay(1000) // IO delay
             return Result.success(mockedResponse)
         }
 

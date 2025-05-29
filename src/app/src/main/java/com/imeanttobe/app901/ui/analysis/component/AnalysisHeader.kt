@@ -80,7 +80,7 @@ fun AnalysisHeader(analysis: Analysis) {
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.offlineMart.products
+                                    analysis.offlineStore.products
                                         .first()
                                         .name,
                                     analysis.offlineCount,
@@ -101,7 +101,7 @@ fun AnalysisHeader(analysis: Analysis) {
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.onlineMart.products
+                                    analysis.onlineStore.products
                                         .first()
                                         .name,
                                     analysis.onlineCount,

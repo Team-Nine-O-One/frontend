@@ -1,7 +1,5 @@
 package com.imeanttobe.app901.ui.history
 
-import android.content.Context
-import android.content.Intent
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +28,7 @@ import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
 import com.imeanttobe.app901.ui.history.component.HistoryListItem
 import com.imeanttobe.app901.ui.history.component.HistorySearchBar
+import com.imeanttobe.app901.util.NativeUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -115,7 +114,7 @@ fun HistorySection(
                             onClick = { navigateToCart(viewModel.historyList.value[index].cartId) },
                             onDelete = { history -> viewModel.deleteHistory(history) },
                             onShare = { history ->
-                                shareText(
+                                NativeUtil.shareText(
                                     context = context,
                                     textToShare = history.toString(),
                                 )
@@ -141,23 +140,4 @@ fun HistorySection(
             }
         }
     }
-}
-
-// Helper function from above (can be in a separate utility file)
-fun shareText(
-    context: Context,
-    textToShare: String,
-    subject: String = "",
-) {
-    val sendIntent: Intent =
-        Intent().apply {
-            action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, textToShare)
-            type = "text/plain"
-            if (subject.isNotBlank()) {
-                putExtra(Intent.EXTRA_SUBJECT, subject)
-            }
-        }
-    val shareIntent = Intent.createChooser(sendIntent, null)
-    context.startActivity(shareIntent)
 }

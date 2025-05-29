@@ -18,21 +18,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.model.Product
 import com.imeanttobe.app901.ui.component.EmphasizedText
+import com.imeanttobe.app901.util.Formatter
+import kotlin.math.ceil
 
 @Composable
 fun ProductListItem(
+    product: Product,
     imageUrl: String,
-    name: String,
-    price: String,
-    description: @Composable () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
     ) {
         // Image
         AsyncImage(
@@ -44,23 +48,43 @@ fun ProductListItem(
                 Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(color = MaterialTheme.colorScheme.surfaceVariant)
+                    .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                     .padding(4.dp),
         )
 
         // Details of product
-        Column(verticalArrangement = Arrangement.spacedBy(0.dp)) {
+        Column(
+            modifier = Modifier.weight(1f),
+        ) {
             Text(
-                text = name,
+                text = product.name,
                 style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            description()
+            Text(
+                text =
+                    stringResource(
+                        R.string.format_price_per_100_gram,
+                        Formatter.formatPrice(ceil(product.pricePer100g).toInt()),
+                    ),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+            )
         }
-    }
 
-    // Price
-    EmphasizedText(
-        content = price,
-        tail = stringResource(R.string.won),
+        // Price
+        EmphasizedText(
+            content = product.price,
+            tail = stringResource(R.string.won),
+        )
+    }
+}
+
+@Preview
+@Composable
+fun ProductListItemPreview() {
+    ProductListItem(
+        imageUrl = "",
+        product = Product.getDefaultObject(),
     )
 }

@@ -4,9 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,20 +23,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.ui.component.EmphasizedText
 
 @Composable
 fun StoreCard(
     imageUrl: String,
-    name: String,
-    numOfProducts: Int,
-    price: String,
-    description: @Composable () -> Unit,
+    store: Store,
     modifier: Modifier = Modifier,
+    description: @Composable () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -72,9 +72,12 @@ fun StoreCard(
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = name,
+                    text = store.name,
                     style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 description()
             }
         }
@@ -96,7 +99,7 @@ fun StoreCard(
                         .padding(16.dp),
             ) {
                 EmphasizedText(
-                    content = numOfProducts,
+                    content = store.totalItems,
                     tail = stringResource(R.string.count),
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
@@ -117,7 +120,7 @@ fun StoreCard(
                         .padding(16.dp),
             ) {
                 EmphasizedText(
-                    content = price,
+                    content = store.totalPrice,
                     tail = stringResource(R.string.won),
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
@@ -135,9 +138,7 @@ fun StoreCard(
 fun StoreCardPreview() {
     StoreCard(
         imageUrl = "",
-        name = "Mart",
-        numOfProducts = 10,
-        price = "10000",
+        store = Store.getDefaultInstance(),
         description = {
             Text(
                 text = "Mart is a store that sells products.",
