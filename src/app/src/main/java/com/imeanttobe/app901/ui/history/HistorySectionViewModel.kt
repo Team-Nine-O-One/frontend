@@ -86,7 +86,7 @@ class HistorySectionViewModel
         fun deleteHistory(history: SimplifiedAnalysis) {
             viewModelScope.launch {
                 analysisRepo.deleteAnalysis(
-                    cartId = history.cartId,
+                    analysisId = history.cartId,
                     userId = userRepo.getUserId(),
                 )
             }

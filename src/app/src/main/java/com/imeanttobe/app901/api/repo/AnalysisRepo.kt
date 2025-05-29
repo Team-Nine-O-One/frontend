@@ -7,7 +7,7 @@ interface AnalysisRepo {
     suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>>
 
     suspend fun getAnalysisById(
-        cartId: Long,
+        analysisId: Long,
         userId: String,
     ): Result<Analysis>
 
@@ -17,24 +17,24 @@ interface AnalysisRepo {
     ): Result<Analysis>
 
     suspend fun confirmAnalysis(
-        cartId: Long,
+        analysisId: Long,
         userId: String,
     ): Result<Boolean>
 
     suspend fun updateWeights(
-        cartId: Long,
+        analysisId: Long,
         userId: String,
         priceWeight: Double,
         distanceWeight: Double,
     ): Result<Boolean>
 
     suspend fun completeAnalysis(
-        cartId: Long,
+        analysisId: Long,
         userId: String,
     ): Result<Boolean>
 
     suspend fun deleteAnalysis(
-        cartId: Long,
+        analysisId: Long,
         userId: String,
     ): Result<Boolean>
 }

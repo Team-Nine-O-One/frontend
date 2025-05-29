@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileSection(
-    navigate: (String) -> Unit,
+    navigateAndClearBackStack: (String) -> Unit,
     viewModel: ProfileSectionViewModel = hiltViewModel(),
 ) {
     val scope = rememberCoroutineScope()
@@ -158,7 +158,7 @@ fun ProfileSection(
                         }
                         ProfileMenuItem.LogoutProfileMenuItem -> {
                             viewModel.logout()
-                            navigate(NavItem.LoginNavItem.route)
+                            navigateAndClearBackStack(NavItem.LoginNavItem.route)
                         }
                     }
                 },

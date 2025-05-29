@@ -26,10 +26,10 @@ class AnalysisRepoImpl
         }
 
         override suspend fun getAnalysisById(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Analysis> {
-            val response = analysisService.getCartById(cartId = cartId, userId = userId)
+            val response = analysisService.getCartById(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -64,10 +64,10 @@ class AnalysisRepoImpl
         }
 
         override suspend fun confirmAnalysis(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
-            val response = analysisService.confirmCart(cartId = cartId, userId = userId)
+            val response = analysisService.confirmCart(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -81,14 +81,14 @@ class AnalysisRepoImpl
         }
 
         override suspend fun updateWeights(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
             priceWeight: Double,
             distanceWeight: Double,
         ): Result<Boolean> {
             val response =
                 analysisService.updateWeights(
-                    cartId = cartId,
+                    cartId = analysisId,
                     userId = userId,
                     priceWeight = priceWeight,
                     distanceWeight = distanceWeight,
@@ -106,10 +106,10 @@ class AnalysisRepoImpl
         }
 
         override suspend fun completeAnalysis(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
-            val response = analysisService.completeCart(cartId = cartId, userId = userId)
+            val response = analysisService.completeCart(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -123,10 +123,10 @@ class AnalysisRepoImpl
         }
 
         override suspend fun deleteAnalysis(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
-            val response = analysisService.deleteCart(cartId = cartId, userId = userId)
+            val response = analysisService.deleteCart(cartId = analysisId, userId = userId)
 
             return if (response.isSuccessful) {
                 val body = response.body()

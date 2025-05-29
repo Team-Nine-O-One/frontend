@@ -48,7 +48,7 @@ class FakeAnalysisRepoImpl
         }
 
         override suspend fun getAnalysisById(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Analysis> {
             val mockedResponse = Analysis.getDefaultInstance()
@@ -64,7 +64,7 @@ class FakeAnalysisRepoImpl
         }
 
         override suspend fun confirmAnalysis(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
             val mockedResponse = true
@@ -72,7 +72,7 @@ class FakeAnalysisRepoImpl
         }
 
         override suspend fun updateWeights(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
             priceWeight: Double,
             distanceWeight: Double,
@@ -82,7 +82,7 @@ class FakeAnalysisRepoImpl
         }
 
         override suspend fun completeAnalysis(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
             val mockedResponse = true
@@ -90,7 +90,7 @@ class FakeAnalysisRepoImpl
         }
 
         override suspend fun deleteAnalysis(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
             val mockedResponse = true

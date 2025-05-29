@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
 import com.imeanttobe.app901.navigation.BottomNavItem
+import com.imeanttobe.app901.navigation.NavItem
 import com.imeanttobe.app901.ui.component.BottomBar
 import com.imeanttobe.app901.ui.component.CreateMemoDialog
 import com.imeanttobe.app901.ui.component.ImportFromRecipeDialog
@@ -30,6 +31,7 @@ import com.imeanttobe.app901.ui.profile.ProfileSection
 @Composable
 fun HomePage(
     navigate: (String) -> Unit,
+    navigateAndClearBackStack: (String) -> Unit,
     viewModel: HomePageViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -64,8 +66,11 @@ fun HomePage(
         ) {
             when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
-                BottomNavItem.HistoryBottomNavItem -> HistorySection(navigateToCart = { cartId -> navigate("cart/$cartId") })
-                BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigate = navigate)
+                BottomNavItem.HistoryBottomNavItem ->
+                    HistorySection(navigateToCart = { cartId ->
+                        navigate(NavItem.AnalysisNavItem.route + "/$cartId")
+                    })
+                BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigateAndClearBackStack = navigateAndClearBackStack)
                 BottomNavItem.DevBottomNavItem -> DevSection()
             }
 
@@ -105,5 +110,6 @@ fun HomePage(
 private fun HomePagePreview() {
     HomePage(
         navigate = {},
+        navigateAndClearBackStack = {},
     )
 }
