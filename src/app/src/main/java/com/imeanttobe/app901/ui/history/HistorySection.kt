@@ -2,6 +2,7 @@ package com.imeanttobe.app901.ui.history
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,11 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
@@ -71,7 +74,38 @@ fun HistorySection(
             )
         } else {
             if (viewModel.historyList.value.isNotEmpty()) {
-                LazyColumn {
+                LazyColumn(
+                    modifier =
+                        Modifier.pointerInput(viewModel.filterTab.value) {
+                            var accumulatedDrag: Float = 0f
+
+                            detectHorizontalDragGestures(
+                                onDragStart = { accumulatedDrag = 0f },
+                                onHorizontalDrag = { _, dragAmount ->
+                                    accumulatedDrag += dragAmount
+                                },
+                                onDragEnd = {
+                                    val swipeThreshold = 50f // Larger threshold for end-of-drag
+                                    val entries = HistorySectionFilterType.entries
+                                    val currentIndex = entries.indexOf(viewModel.filterTab.value)
+
+                                    if (accumulatedDrag > swipeThreshold) { // Swiped right
+                                        if (currentIndex == 0) {
+                                            return@detectHorizontalDragGestures
+                                        }
+                                        val prevIndex = (currentIndex - 1 + entries.size) % entries.size
+                                        viewModel.setFilterTab(entries[prevIndex])
+                                    } else if (accumulatedDrag < -swipeThreshold) { // Swiped left
+                                        if (currentIndex == entries.lastIndex) {
+                                            return@detectHorizontalDragGestures
+                                        }
+                                        val nextIndex = (currentIndex + 1) % entries.size
+                                        viewModel.setFilterTab(entries[nextIndex])
+                                    }
+                                },
+                            )
+                        },
+                ) {
                     itemsIndexed(viewModel.historyList.value) { index, history ->
                         val topPadding = if (index == 0) 16.dp else 8.dp
                         val bottomPadding = if (index == viewModel.historyList.value.lastIndex) 16.dp else 8.dp
