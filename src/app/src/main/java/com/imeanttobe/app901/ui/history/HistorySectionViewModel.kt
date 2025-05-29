@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.CartRepo
 import com.imeanttobe.app901.api.repo.UserRepo
+import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.model.SimplifiedHistory
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,15 +24,21 @@ class HistorySectionViewModel
         private val _searchBarTextValue = mutableStateOf("")
         private val _historyList = mutableStateOf<List<SimplifiedHistory>>(emptyList())
         private val _cartConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
+        private val _tabIndex = mutableStateOf(HistorySectionFilterType.ALL)
 
         // States
         val searchBarTextValue: State<String> = _searchBarTextValue
         val historyList: State<List<SimplifiedHistory>> = _historyList
         val cartConcurrencyState: State<ConcurrencyState> = _cartConcurrencyState
+        val tabIndex: State<HistorySectionFilterType> = _tabIndex
 
         // Functions
         fun setSearchBarTextValue(value: String) {
             _searchBarTextValue.value = value
+        }
+
+        fun setTabIndex(value: HistorySectionFilterType) {
+            _tabIndex.value = value
         }
 
         fun resetConcurrencyState() {

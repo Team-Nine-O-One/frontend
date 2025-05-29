@@ -19,6 +19,9 @@
     <string name="edit">수정</string>
     <string name="logout">로그아웃</string>
     <string name="change">변경</string>
+    <string name="all">모두</string>
+    <string name="completed">완료</string>
+    <string name="on_going">진행 중</string>
 
     <string name="create_memo">메모 추가</string>
     <string name="edit_memo">메모 수정</string>

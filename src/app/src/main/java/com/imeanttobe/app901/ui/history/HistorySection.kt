@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.component.IconAndText
+import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
 import com.imeanttobe.app901.ui.history.component.HistoryListItem
 import com.imeanttobe.app901.ui.history.component.HistorySearchBar
 
@@ -44,6 +45,11 @@ fun HistorySection(
             onValueChange = viewModel::setSearchBarTextValue,
             onSearch = viewModel::search,
             modifier = Modifier.padding(16.dp),
+        )
+        HistoryFilterTab(
+            tab = viewModel.tabIndex.value,
+            onChangeTab = viewModel::setTabIndex,
+            modifier = Modifier.padding(bottom = 8.dp),
         )
 
         if (viewModel.cartConcurrencyState.value is ConcurrencyState.Loading) {
