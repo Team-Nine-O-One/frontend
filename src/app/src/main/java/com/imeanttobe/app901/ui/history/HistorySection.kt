@@ -22,13 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
-import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
 import com.imeanttobe.app901.ui.history.component.HistoryListItem
 import com.imeanttobe.app901.ui.history.component.HistorySearchBar
-import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -37,7 +35,6 @@ fun HistorySection(
     viewModel: HistorySectionViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
-    val isCompleted = Random.nextBoolean()
 
     LaunchedEffect(key1 = null) {
         viewModel.loadHistories()
@@ -75,16 +72,7 @@ fun HistorySection(
         } else {
             if (viewModel.historyList.value.isNotEmpty()) {
                 LazyColumn {
-                    itemsIndexed(
-                        viewModel.historyList.value.filter { history ->
-                            history.isCompleted ==
-                                when (viewModel.filterTab.value) {
-                                    HistorySectionFilterType.ALL -> history.isCompleted
-                                    HistorySectionFilterType.ON_GOING -> false
-                                    HistorySectionFilterType.COMPLETED -> true
-                                }
-                        },
-                    ) { index, history ->
+                    itemsIndexed(viewModel.historyList.value) { index, history ->
                         val topPadding = if (index == 0) 16.dp else 8.dp
                         val bottomPadding = if (index == viewModel.historyList.value.lastIndex) 16.dp else 8.dp
 

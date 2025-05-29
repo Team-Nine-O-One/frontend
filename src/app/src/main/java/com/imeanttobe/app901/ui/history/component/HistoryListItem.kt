@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.material.icons.rounded.Share
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -108,24 +107,19 @@ fun HistoryListItem(
                     contentAlignment = Alignment.Center,
                 ) {
                     // Filter button contents
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        Text(
-                            text =
-                                stringResource(
-                                    if (history.isCompleted) {
-                                        R.string.completed
-                                    } else {
-                                        R.string.on_going
-                                    },
-                                ),
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = labelContentColor,
-                        )
-                    }
+                    Text(
+                        text =
+                            stringResource(
+                                if (history.isCompleted) {
+                                    R.string.completed
+                                } else {
+                                    R.string.on_going
+                                },
+                            ),
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = labelContentColor,
+                    )
                 }
 
                 // Title here
@@ -187,7 +181,7 @@ fun HistoryListItem(
         )
 
         // Total price
-        HorizontalDivider(modifier = Modifier)
+        // HorizontalDivider(modifier = Modifier, color = contentColor)
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,

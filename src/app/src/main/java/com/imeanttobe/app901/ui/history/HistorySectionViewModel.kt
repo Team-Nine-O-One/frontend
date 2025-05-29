@@ -1,6 +1,7 @@
 package com.imeanttobe.app901.ui.history
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -31,7 +32,14 @@ class HistorySectionViewModel
 
         // States
         val searchBarTextValue: State<String> = _searchBarTextValue
-        val historyList: State<List<SimplifiedHistory>> = _historyList
+        val historyList: State<List<SimplifiedHistory>> =
+            derivedStateOf {
+                when (_filterTab.value) {
+                    HistorySectionFilterType.ALL -> _historyList.value
+                    HistorySectionFilterType.COMPLETED -> _historyList.value.filter { it.isCompleted }
+                    HistorySectionFilterType.ON_GOING -> _historyList.value.filter { !it.isCompleted }
+                }
+            }
         val cartConcurrencyState: State<ConcurrencyState> = _cartConcurrencyState
         val filterTab: State<HistorySectionFilterType> = _filterTab
         val searchTypeMenuExpanded: State<Boolean> = _searchTypeMenuExtended
