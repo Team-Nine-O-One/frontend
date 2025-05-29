@@ -29,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
-import com.imeanttobe.app901.ui.component.PriceText
+import com.imeanttobe.app901.ui.component.EmphasizedText
 
 @Composable
 fun HistoryListItem(
@@ -207,9 +207,10 @@ fun HistoryListItem(
             }
 
             // Price
-            PriceText(
-                price = history.totalPrice,
+            EmphasizedText(
+                content = history.totalPrice,
                 color = priceColor,
+                tail = stringResource(R.string.won),
             )
         }
     }
