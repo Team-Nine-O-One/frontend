@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -22,22 +23,47 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.model.SimplifiedHistory
+import com.imeanttobe.app901.ui.component.PriceText
 
 @Composable
 fun HistoryListItem(
     history: SimplifiedHistory,
+    isCompleted: Boolean,
     onClick: () -> Unit,
     onDelete: (SimplifiedHistory) -> Unit,
     onShare: (SimplifiedHistory) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    /*
+    val backgroundColor =
+        if (isCompleted) {
+            MaterialTheme.colorScheme.secondaryContainer
+        } else {
+            MaterialTheme.colorScheme.primaryContainer
+        }
+    val contentColor =
+        if (isCompleted) {
+            MaterialTheme.colorScheme.onSecondaryContainer
+        } else {
+            MaterialTheme.colorScheme.onPrimaryContainer
+        }
+    val priceColor =
+        if (isCompleted) {
+            MaterialTheme.colorScheme.secondary
+        } else {
+            MaterialTheme.colorScheme.primary
+        }
+     */
+    val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
+    val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val priceColor = MaterialTheme.colorScheme.primary
+
     Column(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier =
@@ -45,7 +71,7 @@ fun HistoryListItem(
                 .then(modifier)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(16.dp))
-                .background(color = MaterialTheme.colorScheme.surfaceContainer)
+                .background(color = backgroundColor)
                 .clickable { onClick() }
                 .padding(16.dp),
     ) {
@@ -59,7 +85,7 @@ fun HistoryListItem(
             Text(
                 text = history.title,
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = contentColor,
                 fontWeight = FontWeight.Bold,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -72,11 +98,12 @@ fun HistoryListItem(
                 // Delete button
                 IconButton(
                     onClick = { onDelete(history) },
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(24.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Delete,
                         contentDescription = "Delete history",
+                        tint = contentColor,
                         modifier = Modifier.padding(4.dp).weight(1f),
                     )
                 }
@@ -84,11 +111,12 @@ fun HistoryListItem(
                 // Share button
                 IconButton(
                     onClick = { onShare(history) },
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(24.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Share,
                         contentDescription = "Share history",
+                        tint = contentColor,
                         modifier = Modifier.padding(4.dp).weight(1f),
                     )
                 }
@@ -99,11 +127,15 @@ fun HistoryListItem(
         MartInfoItem(
             mart = history.marts[0],
             imageUrl = "",
+            contentColor = contentColor,
+            priceColor = priceColor,
             modifier = Modifier.fillMaxWidth(),
         )
         MartInfoItem(
             mart = history.marts[1],
             imageUrl = "",
+            contentColor = contentColor,
+            priceColor = priceColor,
             modifier = Modifier.fillMaxWidth(),
         )
 
@@ -114,17 +146,29 @@ fun HistoryListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text(
-                text = stringResource(R.string.format_total_items_count, history.totalItems),
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Bold,
-            )
-            Text(
-                text = history.totalPrice.toString(),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                fontStyle = FontStyle.Italic,
-                color = MaterialTheme.colorScheme.primary,
+            // Icon and title
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Sell,
+                    contentDescription = "Total price",
+                    tint = contentColor,
+                    modifier = Modifier.size(16.dp),
+                )
+                Text(
+                    text = stringResource(R.string.format_total_items_count, history.totalItems),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Bold,
+                    color = contentColor,
+                )
+            }
+
+            // Price
+            PriceText(
+                price = history.totalPrice,
+                color = priceColor,
             )
         }
     }
@@ -138,5 +182,6 @@ fun HistoryListItemPreview() {
         onClick = {},
         onDelete = {},
         onShare = {},
+        isCompleted = false,
     )
 }

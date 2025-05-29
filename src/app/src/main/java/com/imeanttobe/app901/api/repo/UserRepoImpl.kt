@@ -20,7 +20,7 @@ class UserRepoImpl
                 if (firebaseAuth.currentUser != null) {
                     firebaseAuth.currentUser!!.displayName ?: ""
                 } else {
-                    throw IllegalStateException("User is not logged in")
+                    ""
                 },
             )
         val nicknameFlow: StateFlow<String> = _nicknameFlow.asStateFlow()
@@ -69,7 +69,14 @@ class UserRepoImpl
 
         override fun logout(): Unit = firebaseAuth.signOut()
 
-        override fun isLoggedIn(): Boolean = firebaseAuth.currentUser != null
+        override fun isLoggedIn(): Boolean {
+            try {
+                return firebaseAuth.currentUser != null
+            } catch (e: Exception) {
+                Log.e("UserRepoImpl", "Error checking login status", e)
+                return false
+            }
+        }
 
         override fun getUserId(): String {
             if (firebaseAuth.currentUser != null) {

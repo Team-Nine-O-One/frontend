@@ -17,17 +17,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.imeanttobe.app901.data.model.SimplifiedMart
+import com.imeanttobe.app901.ui.component.PriceText
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun MartInfoItem(
+    contentColor: Color,
+    priceColor: Color,
     mart: SimplifiedMart,
     imageUrl: String,
     modifier: Modifier = Modifier,
@@ -62,21 +65,20 @@ fun MartInfoItem(
                     text = mart.martName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
+                    color = contentColor,
                 )
                 Text(
                     text = mart.displayName,
                     style = MaterialTheme.typography.bodyMedium,
+                    color = contentColor,
                 )
             }
         }
 
         // Price
-        Text(
-            text = mart.totalPrice.toString(),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            fontStyle = FontStyle.Italic,
-            color = MaterialTheme.colorScheme.primary,
+        PriceText(
+            price = mart.totalPrice,
+            color = priceColor,
         )
     }
 }
@@ -92,5 +94,7 @@ fun MartInfoItemPreview() {
                 totalPrice = 10000,
             ),
         imageUrl = "https://picsum.photos/200",
+        contentColor = Color.White,
+        priceColor = Color.Black,
     )
 }

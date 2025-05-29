@@ -26,6 +26,7 @@ import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
 import com.imeanttobe.app901.ui.history.component.HistoryListItem
 import com.imeanttobe.app901.ui.history.component.HistorySearchBar
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -34,6 +35,7 @@ fun HistorySection(
     viewModel: HistorySectionViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val isCompleted = Random.nextBoolean()
 
     LaunchedEffect(key1 = null) {
         viewModel.loadHistories()
@@ -85,6 +87,7 @@ fun HistorySection(
                                     textToShare = history.toString(),
                                 )
                             },
+                            isCompleted = isCompleted, // TODO: Have to replaced with real value
                             modifier =
                                 Modifier
                                     .padding(
