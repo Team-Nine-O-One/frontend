@@ -2,6 +2,8 @@
     <string name="app_name">app901</string>
 
     <string name="memo">메모</string>
+    <string name="distance">거리</string>
+    <string name="price">가격</string>
     <string name="history">히스토리</string>
     <string name="cart">장바구니</string>
     <string name="profile">내 정보</string>
@@ -24,6 +26,7 @@
     <string name="store">구매처</string>
     <string name="title">제목</string>
     <string name="won">원</string>
+    <string name="priority">우선</string>
 
     <string name="create_memo">메모 추가</string>
     <string name="edit_memo">메모 수정</string>
