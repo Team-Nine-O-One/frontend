@@ -87,4 +87,5 @@
     <string name="format_analysis_items_count">메모하신 %1$d개의 상품을</string>
     <string name="format_analysis_online">온라인에서 %1$s 등 %2$d개 상품</string>
     <string name="format_analysis_offline">오프라인에서 %1$s 등 %2$d개 상품</string>
+    <string name="format_price_per_100_gram">100g 당 %1$d원</string>
 </resources>
