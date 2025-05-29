@@ -44,12 +44,16 @@ fun HistorySection(
             text = viewModel.searchBarTextValue.value,
             onValueChange = viewModel::setSearchBarTextValue,
             onSearch = viewModel::search,
+            expanded = viewModel.searchTypeMenuExpanded.value,
+            onExpandedChange = viewModel::setSearchTypeMenuExtended,
+            searchType = viewModel.searchType.value,
+            onSearchTypeChange = viewModel::setSearchType,
             modifier = Modifier.padding(16.dp),
         )
         HistoryFilterTab(
-            tab = viewModel.tabIndex.value,
-            onChangeTab = viewModel::setTabIndex,
-            modifier = Modifier.padding(bottom = 8.dp),
+            tab = viewModel.filterTab.value,
+            onChangeTab = viewModel::setFilterTab,
+            modifier = Modifier.padding(),
         )
 
         if (viewModel.cartConcurrencyState.value is ConcurrencyState.Loading) {
@@ -68,6 +72,9 @@ fun HistorySection(
             if (viewModel.historyList.value.isNotEmpty()) {
                 LazyColumn {
                     items(viewModel.historyList.value.size) { index ->
+                        val topPadding = if (index == 0) 16.dp else 8.dp
+                        val bottomPadding = if (index == viewModel.historyList.value.lastIndex) 16.dp else 8.dp
+
                         HistoryListItem(
                             history = viewModel.historyList.value[index],
                             onClick = { navigateToCart(viewModel.historyList.value[index].cartId) },
@@ -80,8 +87,12 @@ fun HistorySection(
                             },
                             modifier =
                                 Modifier
-                                    .padding(horizontal = 16.dp, vertical = 8.dp)
-                                    .fillMaxWidth(),
+                                    .padding(
+                                        start = 16.dp,
+                                        end = 16.dp,
+                                        top = topPadding,
+                                        bottom = bottomPadding,
+                                    ).fillMaxWidth(),
                         )
                     }
                 }
