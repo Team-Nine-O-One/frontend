@@ -15,4 +15,6 @@ object Formatter {
     ): String = context.getString(R.string.format_modified_date, dateTime.monthValue, dateTime.dayOfMonth)
 
     fun encodeUrl(string: String): String = URLEncoder.encode(string, "UTF-8")
+
+    fun formatPrice(price: Int): String = "%,d".format(price)
 }

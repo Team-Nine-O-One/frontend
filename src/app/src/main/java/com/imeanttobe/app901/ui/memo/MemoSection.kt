@@ -105,7 +105,7 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
     } else {
         IconAndText(
             icon = Icons.Rounded.Error,
-            text = "장 볼 목록이 비어 있어요.",
+            text = stringResource(R.string.error_no_items_memo),
             contentDescription = "Empty memo",
             modifier = Modifier.fillMaxSize(),
         )

@@ -5,13 +5,13 @@ import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.RetrofitClient
-import com.imeanttobe.app901.api.repo.CartRepo
-import com.imeanttobe.app901.api.repo.FakeCartRepoImpl
+import com.imeanttobe.app901.api.repo.AnalysisRepo
+import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
 import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.api.repo.UserRepoImpl
-import com.imeanttobe.app901.api.service.CartService
+import com.imeanttobe.app901.api.service.AnalysisService
 import com.imeanttobe.app901.data.type.IdGenerator
 import dagger.Module
 import dagger.Provides
@@ -26,11 +26,11 @@ object HiltModule {
     // Repositories here
     @Provides
     @Singleton
-    fun provideCartRepo(cartService: CartService): CartRepo =
+    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo =
         if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeCartRepoImpl()
+            FakeAnalysisRepoImpl()
         } else {
-            FakeCartRepoImpl()
+            FakeAnalysisRepoImpl()
         }
 
     @Provides
@@ -52,7 +52,7 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideCartService(): CartService = RetrofitClient.cartService
+    fun provideCartService(): AnalysisService = RetrofitClient.analysisService
 
     @Provides
     @Singleton

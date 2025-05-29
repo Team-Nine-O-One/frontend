@@ -1,5 +1,5 @@
 package com.imeanttobe.app901.api.response
 
-data class CompleteCartResponse(
+data class ConfirmAnalysisResponse(
     val message: String,
 )

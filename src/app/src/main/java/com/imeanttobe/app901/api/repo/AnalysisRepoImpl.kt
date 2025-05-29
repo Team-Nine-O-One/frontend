@@ -1,18 +1,18 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.api.service.CartService
-import com.imeanttobe.app901.data.model.Cart
-import com.imeanttobe.app901.data.model.SimplifiedCart
-import com.imeanttobe.app901.util.Converter
+import com.imeanttobe.app901.api.service.AnalysisService
+import com.imeanttobe.app901.data.model.Analysis
+import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import javax.inject.Inject
 
-class CartRepoImpl
+class AnalysisRepoImpl
     @Inject
     constructor(
-        private val cartService: CartService,
-    ) : CartRepo {
-        override suspend fun getAllCarts(userId: String): Result<List<SimplifiedCart>> {
-            val response = cartService.getAllCarts(userId = userId)
+        private val analysisService: AnalysisService,
+    ) : AnalysisRepo {
+        override suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>> {
+            val response = analysisService.getAllCarts(userId = userId)
+
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -25,22 +25,16 @@ class CartRepoImpl
             }
         }
 
-        override suspend fun getCartById(
-            cartId: Long,
+        override suspend fun getAnalysisById(
+            analysisId: Long,
             userId: String,
-        ): Result<Cart> {
-            val response = cartService.getCartById(cartId = cartId, userId = userId)
+        ): Result<Analysis> {
+            val response = analysisService.getCartById(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
                     Result.success(
-                        Cart(
-                            cartId = body.cartId,
-                            memoContents = body.memoContents,
-                            status = body.status,
-                            createdAt = Converter.getLocalDateTimeFromString(body.createdAt),
-                            recommendedResults = body.recommendedResult,
-                        ),
+                        Analysis.getDefaultInstance(),
                     )
                 } else {
                     Result.failure(Exception("Response body is null"))
@@ -50,22 +44,16 @@ class CartRepoImpl
             }
         }
 
-        override suspend fun createCart(
+        override suspend fun createAnalysis(
             userId: String,
             memoContents: String,
-        ): Result<Cart> {
-            val response = cartService.createCart(userId = userId, memoContents = memoContents)
+        ): Result<Analysis> {
+            val response = analysisService.createCart(userId = userId, memoContents = memoContents)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
                     Result.success(
-                        Cart(
-                            cartId = body.cartId,
-                            memoContents = body.memoContents,
-                            status = body.status,
-                            createdAt = Converter.getLocalDateTimeFromString(body.createdAt),
-                            recommendedResults = emptyList(),
-                        ),
+                        Analysis.getDefaultInstance(),
                     )
                 } else {
                     Result.failure(Exception("Response body is null"))
@@ -75,11 +63,11 @@ class CartRepoImpl
             }
         }
 
-        override suspend fun confirmCart(
-            cartId: Long,
+        override suspend fun confirmAnalysis(
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
-            val response = cartService.confirmCart(cartId = cartId, userId = userId)
+            val response = analysisService.confirmCart(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -93,14 +81,14 @@ class CartRepoImpl
         }
 
         override suspend fun updateWeights(
-            cartId: Long,
+            analysisId: Long,
             userId: String,
             priceWeight: Double,
             distanceWeight: Double,
         ): Result<Boolean> {
             val response =
-                cartService.updateWeights(
-                    cartId = cartId,
+                analysisService.updateWeights(
+                    cartId = analysisId,
                     userId = userId,
                     priceWeight = priceWeight,
                     distanceWeight = distanceWeight,
@@ -117,11 +105,11 @@ class CartRepoImpl
             }
         }
 
-        override suspend fun completeCart(
-            cartId: Long,
+        override suspend fun completeAnalysis(
+            analysisId: Long,
             userId: String,
         ): Result<Boolean> {
-            val response = cartService.completeCart(cartId = cartId, userId = userId)
+            val response = analysisService.completeCart(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -131,6 +119,24 @@ class CartRepoImpl
                 }
             } else {
                 Result.failure(Exception("Failed to complete cart"))
+            }
+        }
+
+        override suspend fun deleteAnalysis(
+            analysisId: Long,
+            userId: String,
+        ): Result<Boolean> {
+            val response = analysisService.deleteCart(cartId = analysisId, userId = userId)
+
+            return if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(true)
+                } else {
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                Result.failure(Exception("Failed to delete cart"))
             }
         }
     }
