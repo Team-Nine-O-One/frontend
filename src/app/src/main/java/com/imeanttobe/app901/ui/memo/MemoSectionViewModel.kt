@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.api.repo.UtilRepo
+import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +24,7 @@ class MemoSectionViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
+        private val utilRepo: UtilRepo,
     ) : ViewModel() {
         // Variables
         val checkedState = mutableStateMapOf<Long, ToggleableState>()
@@ -59,12 +62,18 @@ class MemoSectionViewModel
             }
 
         private val _deleteAllMemosDialogState = mutableStateOf(false)
+        private val _importFromUrlConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
 
         val deleteAllMemosDialogState: State<Boolean> = _deleteAllMemosDialogState
+        val importFromUrlConcurrencyState: State<ConcurrencyState> = _importFromUrlConcurrencyState
 
         // Functions
         fun setDeleteAllMemosDialogState(value: Boolean) {
             _deleteAllMemosDialogState.value = value
+        }
+
+        fun resetImportFromUrlConcurrencyState() {
+            _importFromUrlConcurrencyState.value = ConcurrencyState.Default
         }
 
         fun getOverallToggleState(): ToggleableState {
@@ -207,6 +216,26 @@ class MemoSectionViewModel
                 leafIds.size -> ToggleableState.On
                 0 -> ToggleableState.Off
                 else -> ToggleableState.Indeterminate
+            }
+        }
+
+        fun importMemosFromUrl(url: String) {
+            _importFromUrlConcurrencyState.value = ConcurrencyState.Loading
+
+            viewModelScope.launch {
+                val result = utilRepo.importStringsFromUrl()
+
+                if (result.isSuccess) {
+                    val importedMemos = result.getOrNull()
+                    if (importedMemos != null) {
+                        memoRepo.addMemoGroup(importedMemos.first, importedMemos.second)
+                        _importFromUrlConcurrencyState.value = ConcurrencyState.Success()
+                    } else {
+                        _importFromUrlConcurrencyState.value = ConcurrencyState.Failure("No memos imported")
+                    }
+                } else {
+                    _importFromUrlConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown error")
+                }
             }
         }
     }
