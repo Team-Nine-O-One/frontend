@@ -5,7 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.api.repo.UtilRepo
 import com.imeanttobe.app901.data.enum.HomePageDialogState
+import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.navigation.BottomNavItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,6 +18,7 @@ class HomePageViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
+        private val utilRepo: UtilRepo,
     ) : ViewModel() {
         // Variables
         private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.MemoBottomNavItem)
@@ -25,6 +28,7 @@ class HomePageViewModel
         private val _memoDialogText = mutableStateOf("")
         private val _editMemoDialogText = mutableStateOf("")
         private val _urlDialogText = mutableStateOf("")
+        private val _importFromUrlConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
 
         // Getter
         val bottomNavItem: State<BottomNavItem> = _bottomNavItem
@@ -34,6 +38,7 @@ class HomePageViewModel
         val memoDialogText: State<String> = _memoDialogText
         val editMemoDialogText: State<String> = _editMemoDialogText
         val urlDialogText: State<String> = _urlDialogText
+        val importFromUrlConcurrencyState: State<ConcurrencyState> = _importFromUrlConcurrencyState
 
         // Setter
         fun setBottomNavIndex(newValue: BottomNavItem) {
@@ -63,6 +68,30 @@ class HomePageViewModel
         fun createMemo(content: String) {
             viewModelScope.launch {
                 memoRepo.addMemoLeaf(content)
+            }
+        }
+
+        fun resetImportFromUrlConcurrencyState() {
+            _importFromUrlConcurrencyState.value = ConcurrencyState.Default
+        }
+
+        fun importMemosFromUrl(url: String) {
+            _importFromUrlConcurrencyState.value = ConcurrencyState.Loading
+
+            viewModelScope.launch {
+                val result = utilRepo.importStringsFromUrl()
+
+                if (result.isSuccess) {
+                    val importedMemos = result.getOrNull()
+                    if (importedMemos != null) {
+                        memoRepo.addMemoGroup(importedMemos.first, importedMemos.second)
+                        _importFromUrlConcurrencyState.value = ConcurrencyState.Success()
+                    } else {
+                        _importFromUrlConcurrencyState.value = ConcurrencyState.Failure("No memos imported")
+                    }
+                } else {
+                    _importFromUrlConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown error")
+                }
             }
         }
     }
