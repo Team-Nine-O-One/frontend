@@ -104,7 +104,7 @@ dependencies {
     implementation(libs.datastore.preferences)
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
-    implementation(libs.naver.maps)
+    implementation(libs.naver.maps.compose)
 
     // Default
     implementation(libs.androidx.core.ktx)

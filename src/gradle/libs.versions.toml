@@ -25,7 +25,7 @@ protobuf-kotlin = "4.26.1"
 protobuf = "0.9.4"
 datastore = "1.1.7"
 coil = "3.2.0"
-naverMaps = "3.21.0"
+naverMapsCompose = "1.7.4"
 
 [libraries]
 # Default
@@ -60,7 +60,7 @@ datastore-core = { group = "androidx.datastore", name = "datastore-core", versio
 datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
-naver-maps = { group = "com.naver.maps", name = "map-sdk", version.ref = "naverMaps" }
+naver-maps-compose = { group = 'io.github.fornewid', name = "naver-map-compose", version.ref = 'naverMapsCompose' }
 
 [plugins]
 # Default
