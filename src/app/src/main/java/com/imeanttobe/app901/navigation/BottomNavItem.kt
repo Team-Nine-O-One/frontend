@@ -16,14 +16,14 @@ sealed class BottomNavItem(
 ) {
     object MemoBottomNavItem : BottomNavItem(
         id = 0,
-        stringResId = R.string.cart,
+        stringResId = R.string.memo,
         label = "memo",
         icon = Icons.Rounded.ShoppingCart,
     )
 
     object HistoryBottomNavItem : BottomNavItem(
         id = 1,
-        stringResId = R.string.history,
+        stringResId = R.string.cart,
         label = "history",
         icon = Icons.Rounded.History,
     )
