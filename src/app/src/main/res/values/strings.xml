@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app901</string>
+    <string name="app_name">똑장</string>
 
     <string name="memo">메모</string>
     <string name="distance">거리</string>
@@ -54,6 +54,7 @@
     <string name="number_of_products">사야 할 물건 수</string>
     <string name="total_price">총 가격</string>
     <string name="complete_cart">장 다 봤어요!</string>
+    <string name="add_new_memo">새 메모 추가하기</string>
 
     <string name="error_empty_email">전자 메일 주소가 올바르지 않아요. 다시 작성해주세요.</string>
     <string name="error_empty_password">비밀번호가 올바르지 않아요. 최소 6자 이상 작성해주세요.</string>
@@ -81,6 +82,7 @@
     <string name="tips_change_nickname">새로운 별명을 입력해주세요.</string>
     <string name="tips_loading_analysis">장바구니를 분석하고 있어요…</string>
     <string name="tips_analysis_efficient">에서는 이렇게 구매하면\n제일 효율적이에요!</string>
+    <string name="tips_add_new_memo">버튼을 눌러 장바구니에 사야 할 물건들을 채워보세요!</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>

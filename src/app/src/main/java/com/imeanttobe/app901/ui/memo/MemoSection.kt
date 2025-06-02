@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material3.ButtonDefaults
@@ -43,16 +42,14 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
 
     if (memos.isNotEmpty()) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier =
-                Modifier
-                    .verticalScroll(scrollState)
-                    .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(16.dp),
         ) {
+            // Checkbox for selecting all
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth(),
             ) {
                 TextButton(onClick = { viewModel.onToggleOverall() }) {
                     TriStateCheckbox(
@@ -83,6 +80,7 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
                 }
             }
 
+            // Items
             MemoCardList(
                 memoItems = memos,
                 isChecked = { item -> viewModel.isChecked(item) },
@@ -92,9 +90,11 @@ fun MemoSection(viewModel: MemoSectionViewModel = hiltViewModel()) {
                 onEditInGroup = { parent, item, newContent -> viewModel.editMemoLeafInGroup(parent, item, newContent) },
                 onToggleGroup = { item, newValue -> viewModel.onToggleGroup(item, newValue) },
                 onDeleteInGroup = { parent, itemToRemove -> viewModel.deleteMemoLeafInGroup(parent, itemToRemove) },
+                modifier = Modifier,
             )
         }
 
+        // Prints dialog when user requests to delete specific memo
         if (viewModel.deleteAllMemosDialogState.value) {
             DeleteMemoDialog(
                 isAllUnchecked = viewModel.isAllUncheckedState.value,
