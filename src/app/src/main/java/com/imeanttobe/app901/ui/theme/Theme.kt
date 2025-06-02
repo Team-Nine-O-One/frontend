@@ -1,6 +1,7 @@
 package com.imeanttobe.app901.ui.theme
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -260,14 +261,25 @@ fun App901Theme(
         @Composable()
         () -> Unit,
 ) {
-    val dynamicColor = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val colorScheme =
-        when {
-            dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
-            dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)
-            darkTheme -> darkScheme
-            else -> lightScheme
-        }
+    val isDynamicColorEnabled = false
+    lateinit var colorScheme: ColorScheme
+
+    if (isDynamicColorEnabled) {
+        val dynamicColor = (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+        colorScheme =
+            when {
+                dynamicColor && darkTheme -> dynamicDarkColorScheme(LocalContext.current)
+                dynamicColor && !darkTheme -> dynamicLightColorScheme(LocalContext.current)
+                darkTheme -> darkScheme
+                else -> lightScheme
+            }
+    } else {
+        colorScheme =
+            when {
+                darkTheme -> darkScheme
+                else -> lightScheme
+            }
+    }
 
     MaterialTheme(
         colorScheme = colorScheme,

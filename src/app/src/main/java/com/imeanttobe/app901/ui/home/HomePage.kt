@@ -40,13 +40,11 @@ fun HomePage(
             Triple(
                 Icons.Rounded.Add,
                 context.getString(R.string.create_memo),
-                { viewModel.setDialogState(HomePageDialogState.CREATE_MEMO) },
-            ),
+            ) { viewModel.setDialogState(HomePageDialogState.CREATE_MEMO) },
             Triple(
                 Icons.Rounded.AutoGraph,
                 context.getString(R.string.import_from_recipe),
-                { viewModel.setDialogState(HomePageDialogState.IMPORT_FROM_RECIPE) },
-            ),
+            ) { viewModel.setDialogState(HomePageDialogState.IMPORT_FROM_RECIPE) },
         )
 
     Scaffold(
@@ -67,9 +65,12 @@ fun HomePage(
             when (viewModel.bottomNavItem.value) {
                 BottomNavItem.MemoBottomNavItem -> MemoSection()
                 BottomNavItem.HistoryBottomNavItem ->
-                    HistorySection(navigateToCart = { cartId ->
-                        navigate(NavItem.AnalysisNavItem.route + "/$cartId")
-                    })
+                    HistorySection(
+                        navigateToCart = { cartId ->
+                            navigate(NavItem.AnalysisNavItem.route + "/$cartId")
+                        },
+                        onChangeTab = { newValue -> viewModel.setBottomNavIndex(newValue) },
+                    )
                 BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigateAndClearBackStack = navigateAndClearBackStack)
                 BottomNavItem.DevBottomNavItem -> DevSection()
             }
