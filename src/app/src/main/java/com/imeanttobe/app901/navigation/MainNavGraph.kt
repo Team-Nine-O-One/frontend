@@ -51,12 +51,15 @@ fun MainNavGraph(
         }
 
         composable(route = NavItem.LoginNavItem.route) {
-            LoginPage(navigate = { route ->
-                navController.navigate(route) {
-                    popUpTo(0)
-                    launchSingleTop = true
-                }
-            })
+            LoginPage(
+                navigate = { route -> navController.navigate(route) },
+                navigateAndClearBackStack = { route ->
+                    navController.navigate(route) {
+                        popUpTo(0)
+                        launchSingleTop = true
+                    }
+                },
+            )
         }
 
         composable(route = NavItem.RegisterNavItem.route) {

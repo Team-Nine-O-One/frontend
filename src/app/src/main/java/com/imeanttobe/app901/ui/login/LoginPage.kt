@@ -47,6 +47,7 @@ import com.imeanttobe.app901.navigation.NavItem
 @Composable
 fun LoginPage(
     navigate: (String) -> Unit,
+    navigateAndClearBackStack: (String) -> Unit,
     viewModel: LoginPageViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -54,7 +55,7 @@ fun LoginPage(
     // If login is successful, navigate to home
     LaunchedEffect(key1 = viewModel.loginState.value) {
         if (viewModel.loginState.value is ConcurrencyState.Success) {
-            navigate(NavItem.HomeNavItem.route)
+            navigateAndClearBackStack(NavItem.HomeNavItem.route)
         } else if (viewModel.loginState.value is ConcurrencyState.Failure) {
             Toast
                 .makeText(
