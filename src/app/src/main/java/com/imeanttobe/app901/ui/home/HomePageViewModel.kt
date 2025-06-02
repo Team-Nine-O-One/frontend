@@ -18,7 +18,7 @@ class HomePageViewModel
         private val memoRepo: MemoRepo,
     ) : ViewModel() {
         // Variables
-        private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.MemoBottomNavItem)
+        private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.HistoryBottomNavItem)
         private val _fabMenuExpanded = mutableStateOf(false)
         private val _dialogState = mutableStateOf<HomePageDialogState>(HomePageDialogState.NONE)
 
