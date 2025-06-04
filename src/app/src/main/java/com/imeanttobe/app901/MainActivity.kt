@@ -22,7 +22,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             App901Theme {
                 val navController = rememberNavController()
-
                 MainNavGraph(navController = navController)
             }
         }
