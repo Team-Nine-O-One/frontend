@@ -42,13 +42,19 @@ android {
         val baseUrl = localProperties.getProperty("api.baseUrl") ?: ""
         val isMockEnabled = localProperties.getProperty("config.isMockEnabled").toBoolean()
         val isDevModeEnabled = localProperties.getProperty("config.isDevModeEnabled").toBoolean()
-        val naverMapNCPKey = localProperties.getProperty("naverMap.apiKey")
+        val naverMapNCPId = localProperties.getProperty("naverMap.api.clientId")
+        val naverMapNCPKey = localProperties.getProperty("naverMap.api.key")
+        val naverMapDirections5BaseUrl = localProperties.getProperty("naverMap.directions5.baseUrl")
 
         // Inject the local properties into the build config
         buildConfigField("String", "API_BASE_URL", "\"$baseUrl\"")
         buildConfigField("Boolean", "IS_MOCK_ENABLED", isMockEnabled.toString())
         buildConfigField("Boolean", "IS_DEV_MODE_ENABLED", isDevModeEnabled.toString())
-        manifestPlaceholders["NCP_KEY"] = naverMapNCPKey
+        buildConfigField("String", "NAVER_MAP_API_CLIENT_KEY", "\"$naverMapNCPKey\"")
+        buildConfigField("String", "NAVER_MAP_DIRECTIONS_5_BASE_URL", "\"$naverMapDirections5BaseUrl\"")
+
+        // Export the Naver map API client id to the manifest
+        manifestPlaceholders["NCP_CLIENT_ID"] = naverMapNCPId
     }
 
     buildTypes {
