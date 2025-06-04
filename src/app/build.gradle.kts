@@ -51,6 +51,7 @@ android {
         buildConfigField("Boolean", "IS_MOCK_ENABLED", isMockEnabled.toString())
         buildConfigField("Boolean", "IS_DEV_MODE_ENABLED", isDevModeEnabled.toString())
         buildConfigField("String", "NAVER_MAP_API_CLIENT_KEY", "\"$naverMapNCPKey\"")
+        buildConfigField("String", "NAVER_MAP_API_CLIENT_ID", "\"$naverMapNCPId\"")
         buildConfigField("String", "NAVER_MAP_DIRECTIONS_5_BASE_URL", "\"$naverMapDirections5BaseUrl\"")
 
         // Export the Naver map API client id to the manifest
