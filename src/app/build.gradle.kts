@@ -42,11 +42,13 @@ android {
         val baseUrl = localProperties.getProperty("api.baseUrl") ?: ""
         val isMockEnabled = localProperties.getProperty("config.isMockEnabled").toBoolean()
         val isDevModeEnabled = localProperties.getProperty("config.isDevModeEnabled").toBoolean()
+        val naverMapNCPKey = localProperties.getProperty("naverMap.apiKey")
 
         // Inject the local properties into the build config
         buildConfigField("String", "API_BASE_URL", "\"$baseUrl\"")
         buildConfigField("Boolean", "IS_MOCK_ENABLED", isMockEnabled.toString())
         buildConfigField("Boolean", "IS_DEV_MODE_ENABLED", isDevModeEnabled.toString())
+        manifestPlaceholders["NCP_KEY"] = naverMapNCPKey
     }
 
     buildTypes {
@@ -104,7 +106,7 @@ dependencies {
     implementation(libs.datastore.preferences)
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
-    implementation(libs.naver.maps.compose)
+    implementation(libs.naver.maps)
 
     // Default
     implementation(libs.androidx.core.ktx)

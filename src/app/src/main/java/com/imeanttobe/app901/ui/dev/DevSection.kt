@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.imeanttobe.app901.ui.component.NaverMap
 
 @Composable
 fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
@@ -20,6 +21,7 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            // Memo testing
             Text(
                 text = "id = ${viewModel.id.value}",
             )
@@ -51,6 +53,9 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
             ) {
                 Text(text = "export")
             }
+
+            // Naver map
+            NaverMap()
         }
     }
 }
