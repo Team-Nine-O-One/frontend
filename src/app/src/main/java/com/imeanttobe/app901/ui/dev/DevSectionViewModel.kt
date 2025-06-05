@@ -21,7 +21,7 @@ class DevSectionViewModel
         private val naverMapRepo: NaverMapRepo,
     ) : ViewModel() {
         private var _id = mutableLongStateOf(0)
-        private val _route = mutableStateOf<NaverMapRoute>(NaverMapRoute(emptyList(), 0, 0))
+        private val _route = mutableStateOf<NaverMapRoute>(NaverMapRoute(emptyList(), LatAndLng(), LatAndLng(), 0, 0))
 
         val id: State<Long> = _id
         val route: State<NaverMapRoute> = _route

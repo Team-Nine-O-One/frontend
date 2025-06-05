@@ -67,6 +67,12 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
 
             // Naver map
             NaverMap(
+                start =
+                    viewModel.route.value.start
+                        .toLatLng(),
+                goal =
+                    viewModel.route.value.goal
+                        .toLatLng(),
                 pathPoints =
                     viewModel.route.value.paths
                         .map { path -> path.toLatLng() },
