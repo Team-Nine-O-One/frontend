@@ -2,6 +2,8 @@ package com.imeanttobe.app901.data.model
 
 data class NaverMapRoute(
     val paths: List<LatAndLng>,
+    val start: LatAndLng,
+    val goal: LatAndLng,
     val distance: Int,
     val duration: Long,
 ) {
