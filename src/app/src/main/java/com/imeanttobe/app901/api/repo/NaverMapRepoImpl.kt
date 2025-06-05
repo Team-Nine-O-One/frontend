@@ -2,6 +2,7 @@ package com.imeanttobe.app901.api.repo
 
 import android.util.Log
 import com.imeanttobe.app901.api.service.NaverMapService
+import com.imeanttobe.app901.data.model.LatAndLng
 import com.imeanttobe.app901.data.model.NaverMapRoute
 import javax.inject.Inject
 
@@ -11,14 +12,15 @@ class NaverMapRepoImpl
         private val naverMapService: NaverMapService,
     ) : NaverMapRepo {
         override suspend fun getRoute(
-            start: Pair<Double, Double>,
-            goal: Pair<Double, Double>,
-            waypoints: List<Pair<Double, Double>>,
+            start: LatAndLng,
+            goal: LatAndLng,
+            waypoints: List<LatAndLng>,
         ): Result<NaverMapRoute> {
-            val flattenStart = "${start.first},${start.second}"
-            val flattenGoal = "${goal.first},${goal.second}"
+            // API uses longitude, latitude order
+            val flattenStart = "${start.lng},${start.lat}"
+            val flattenGoal = "${goal.lng},${goal.lat}"
             val flattenWaypoints =
-                waypoints.joinToString(separator = ":") { "${it.first},${it.second}" }
+                waypoints.joinToString(separator = ":") { "${it.lng},${it.lat}" }
 
             if (waypoints.size > 3) {
                 return Result.failure(Exception("Too many waypoints"))
@@ -35,26 +37,26 @@ class NaverMapRepoImpl
                 val body = response.body()
                 if (body != null && body.code == 0) {
                     val start =
-                        Pair(
-                            body.route
-                                .traoptimal
-                                .first()
-                                .summary.goal.location[0],
-                            body.route
-                                .traoptimal
-                                .first()
-                                .summary.goal.location[1],
+                        LatAndLng(
+                            lat =
+                                body.route.traoptimal
+                                    .first()
+                                    .summary.start.location[1],
+                            lng =
+                                body.route.traoptimal
+                                    .first()
+                                    .summary.start.location[0],
                         )
                     val goal =
-                        Pair(
-                            body.route
-                                .traoptimal
-                                .first()
-                                .summary.goal.location[0],
-                            body.route
-                                .traoptimal
-                                .first()
-                                .summary.goal.location[1],
+                        LatAndLng(
+                            lat =
+                                body.route.traoptimal
+                                    .first()
+                                    .summary.goal.location[1],
+                            lng =
+                                body.route.traoptimal
+                                    .first()
+                                    .summary.goal.location[0],
                         )
                     val paths =
                         body.route
@@ -62,12 +64,14 @@ class NaverMapRepoImpl
                             .first()
                             .path
                             .map { path ->
-                                Pair(path[0], path[1])
+                                LatAndLng(lat = path[1], lng = path[0])
                             }
 
                     val result =
                         NaverMapRoute(
-                            paths = listOf(start) + paths + listOf(goal),
+                            paths = paths,
+                            start = start,
+                            goal = goal,
                             distance =
                                 body.route
                                     .traoptimal

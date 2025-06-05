@@ -1,11 +1,12 @@
 package com.imeanttobe.app901.api.repo
 
+import com.imeanttobe.app901.data.model.LatAndLng
 import com.imeanttobe.app901.data.model.NaverMapRoute
 
 interface NaverMapRepo {
     suspend fun getRoute(
-        start: Pair<Double, Double>,
-        goal: Pair<Double, Double>,
-        waypoints: List<Pair<Double, Double>> = emptyList(),
+        start: LatAndLng,
+        goal: LatAndLng,
+        waypoints: List<LatAndLng> = emptyList(),
     ): Result<NaverMapRoute>
 }
