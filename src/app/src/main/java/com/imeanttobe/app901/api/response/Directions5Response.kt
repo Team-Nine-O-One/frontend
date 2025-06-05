@@ -8,21 +8,26 @@ data class Directions5Response(
 )
 
 data class Route(
-    val traOptimal: TraOptimal,
+    val traoptimal: List<Traoptimal>,
 )
 
-data class TraOptimal(
+data class Traoptimal(
     val summary: Summary,
     val path: List<List<Double>>,
 )
 
 data class Summary(
-    val start: LocationWrapper,
-    val goal: LocationWrapper,
+    val start: Point,
+    val goal: Goal,
     val distance: Int,
     val duration: Long,
 )
 
-data class LocationWrapper(
+data class Point(
     val location: List<Double>,
+)
+
+data class Goal(
+    val location: List<Double>,
+    val dir: Int,
 )

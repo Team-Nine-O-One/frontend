@@ -6,6 +6,6 @@ interface NaverMapRepo {
     suspend fun getRoute(
         start: Pair<Double, Double>,
         goal: Pair<Double, Double>,
-        waypoints: List<Pair<Double, Double>>,
+        waypoints: List<Pair<Double, Double>> = emptyList(),
     ): Result<NaverMapRoute>
 }

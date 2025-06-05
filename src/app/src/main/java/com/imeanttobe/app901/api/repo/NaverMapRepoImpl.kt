@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.api.repo
 
+import android.util.Log
 import com.imeanttobe.app901.api.service.NaverMapService
 import com.imeanttobe.app901.data.model.NaverMapRoute
 import javax.inject.Inject
@@ -32,34 +33,60 @@ class NaverMapRepoImpl
 
             if (response.isSuccessful) {
                 val body = response.body()
-                if (body != null) {
+                if (body != null && body.code == 0) {
                     val start =
                         Pair(
-                            body.route.traOptimal.summary.start.location[0],
-                            body.route.traOptimal.summary.start.location[1],
+                            body.route
+                                .traoptimal
+                                .first()
+                                .summary.goal.location[0],
+                            body.route
+                                .traoptimal
+                                .first()
+                                .summary.goal.location[1],
                         )
                     val goal =
                         Pair(
-                            body.route.traOptimal.summary.goal.location[0],
-                            body.route.traOptimal.summary.goal.location[1],
+                            body.route
+                                .traoptimal
+                                .first()
+                                .summary.goal.location[0],
+                            body.route
+                                .traoptimal
+                                .first()
+                                .summary.goal.location[1],
                         )
                     val paths =
-                        body.route.traOptimal.path.map {
-                            Pair(it[0], it[1])
-                        }
+                        body.route
+                            .traoptimal
+                            .first()
+                            .path
+                            .map { path ->
+                                Pair(path[0], path[1])
+                            }
 
                     val result =
                         NaverMapRoute(
                             paths = listOf(start) + paths + listOf(goal),
-                            distance = body.route.traOptimal.summary.distance,
-                            duration = body.route.traOptimal.summary.duration,
+                            distance =
+                                body.route
+                                    .traoptimal
+                                    .first()
+                                    .summary.distance,
+                            duration =
+                                body.route
+                                    .traoptimal
+                                    .first()
+                                    .summary.duration,
                         )
                     return Result.success(result)
                 } else {
+                    Log.e("NaverMapRepoImpl", "Response body is null")
                     return Result.failure(Exception("Response body is null"))
                 }
             } else {
-                return Result.failure(Exception("Failed to fetch route"))
+                Log.e("NaverMapRepoImpl", "Failed to fetch route")
+                return Result.failure(Exception("${response.code()}"))
             }
         }
     }
