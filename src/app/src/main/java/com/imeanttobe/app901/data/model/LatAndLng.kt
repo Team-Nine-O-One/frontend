@@ -6,5 +6,7 @@ data class LatAndLng(
     val lat: Double,
     val lng: Double,
 ) {
+    constructor() : this(0.0, 0.0)
+
     fun toLatLng(): LatLng = LatLng(lat, lng)
 }
