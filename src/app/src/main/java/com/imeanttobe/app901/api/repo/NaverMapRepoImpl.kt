@@ -36,32 +36,6 @@ class NaverMapRepoImpl
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null && body.code == 0) {
-                    val start =
-                        LatAndLng(
-                            lat =
-                                body.route
-                                    .traoptimal
-                                    .first()
-                                    .summary.goal.location[1],
-                            lng =
-                                body.route
-                                    .traoptimal
-                                    .first()
-                                    .summary.goal.location[0],
-                        )
-                    val goal =
-                        LatAndLng(
-                            lat =
-                                body.route
-                                    .traoptimal
-                                    .first()
-                                    .summary.goal.location[1],
-                            lng =
-                                body.route
-                                    .traoptimal
-                                    .first()
-                                    .summary.goal.location[0],
-                        )
                     val paths =
                         body.route
                             .traoptimal
@@ -73,7 +47,7 @@ class NaverMapRepoImpl
 
                     val result =
                         NaverMapRoute(
-                            paths = listOf(start) + paths + listOf(goal),
+                            paths = paths,
                             distance =
                                 body.route
                                     .traoptimal
