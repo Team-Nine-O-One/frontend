@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.NaverMapRepo
+import com.imeanttobe.app901.data.model.LatAndLng
 import com.imeanttobe.app901.data.model.NaverMapRoute
 import com.imeanttobe.app901.data.type.IdGenerator
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,8 +42,8 @@ class DevSectionViewModel
             viewModelScope.launch {
                 val result =
                     naverMapRepo.getRoute(
-                        start = Pair(127.735243, 37.854866),
-                        goal = Pair(126.958268, 37.506825),
+                        start = LatAndLng(lat = 37.854541, lng = 127.735130),
+                        goal = LatAndLng(lat = 37.506821, lng = 126.958082),
                     )
                 result.onSuccess {
                     val temp = result.getOrNull()
