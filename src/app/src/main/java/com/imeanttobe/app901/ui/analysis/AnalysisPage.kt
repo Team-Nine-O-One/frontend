@@ -3,7 +3,6 @@ package com.imeanttobe.app901.ui.analysis
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,9 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.Share
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -33,18 +29,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.type.ConcurrencyState
+import com.imeanttobe.app901.ui.analysis.component.AnalysisBottomButton
 import com.imeanttobe.app901.ui.analysis.component.AnalysisHeader
 import com.imeanttobe.app901.ui.analysis.component.AnalysisOptionButton
+import com.imeanttobe.app901.ui.analysis.component.OfflineAnalysisCard
 import com.imeanttobe.app901.ui.analysis.component.OnlineAnalysisCard
-import com.imeanttobe.app901.ui.analysis.component.ProductListItem
-import com.imeanttobe.app901.ui.analysis.component.StoreCard
-import com.imeanttobe.app901.ui.analysis.component.StoreCardDescription
 import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.util.Converter
 import com.imeanttobe.app901.util.NativeUtil
@@ -128,80 +122,30 @@ fun AnalysisPage(
                 // Online analysis
                 OnlineAnalysisCard(
                     store = viewModel.analysis.value!!.onlineStore,
-                    modifier = Modifier.padding(horizontal = 16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 
                 // Offline
-                Text(
-                    text =
-                        buildAnnotatedString {
-                            append(stringResource(R.string.offline))
-                            append(stringResource(R.string.tips_analysis_efficient))
-                        },
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 64.dp, start = 32.dp, end = 32.dp),
+                OfflineAnalysisCard(
+                    stores = listOf(viewModel.analysis.value!!.offlineStore),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
-                StoreCard(
-                    store = viewModel.analysis.value!!.offlineStore,
-                    modifier = Modifier.padding(horizontal = 32.dp),
-                ) {
-                    StoreCardDescription(
-                        store = viewModel.analysis.value!!.offlineStore,
-                        isOffline = true,
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(horizontal = 32.dp),
-                ) {
-                    viewModel.analysis.value!!.offlineStore.products.forEach { product ->
-                        ProductListItem(
-                            product = product,
-                        )
-                    }
-                }
 
                 // Buttons
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(32.dp).fillMaxWidth(),
-                ) {
-                    // Confirm
-                    Button(
-                        colors =
-                            ButtonDefaults.buttonColors().copy(
-                                containerColor = MaterialTheme.colorScheme.secondary,
-                                contentColor = MaterialTheme.colorScheme.onSecondary,
+                AnalysisBottomButton(
+                    onClickCloseButton = { navigateBack() },
+                    onClickCompleteButton = { onDone() },
+                    onClickShareButton = {
+                        NativeUtil.shareText(
+                            context,
+                            Converter.getShareTextFromProducts(
+                                viewModel.analysis.value!!
+                                    .offlineStore.products,
                             ),
-                        onClick = { navigateBack() },
-                        modifier = Modifier.weight(1f),
-                    ) { Text(text = stringResource(R.string.confirm)) }
-
-                    // Complete
-                    Button(
-                        onClick = { onDone() },
-                        modifier = Modifier.weight(1f),
-                    ) { Text(text = stringResource(R.string.complete_cart)) }
-
-                    // Share
-                    Button(
-                        colors =
-                            ButtonDefaults.buttonColors().copy(
-                                containerColor = MaterialTheme.colorScheme.secondary,
-                                contentColor = MaterialTheme.colorScheme.onSecondary,
-                            ),
-                        onClick = {
-                            NativeUtil.shareText(
-                                context,
-                                Converter.getShareTextFromProducts(
-                                    viewModel.analysis.value!!
-                                        .offlineStore.products,
-                                ),
-                            )
-                        },
-                    ) { Icon(imageVector = Icons.Rounded.Share, contentDescription = "Share") }
-                }
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                )
             }
         }
     }
