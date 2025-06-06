@@ -22,7 +22,6 @@ import kotlin.math.ceil
 @Composable
 fun ProductListItem(
     product: Product,
-    imageUrl: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -65,7 +64,6 @@ fun ProductListItem(
 @Composable
 fun ProductListItemPreview() {
     ProductListItem(
-        imageUrl = "",
         product = Product.getDefaultObject(),
     )
 }
