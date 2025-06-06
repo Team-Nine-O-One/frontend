@@ -26,7 +26,7 @@ class HistorySectionViewModel
         private val _searchBarTextValue = mutableStateOf("")
         private val _historyList = mutableStateOf<List<SimplifiedAnalysis>>(emptyList())
         private val _cartConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
-        private val _filterTab = mutableStateOf(HistorySectionFilterType.ALL)
+        private val _filterTab = mutableStateOf(HistorySectionFilterType.ON_GOING)
         private val _searchTypeMenuExtended = mutableStateOf(false)
         private val _searchType = mutableStateOf(HistorySectionSearchType.TITLE)
 
@@ -34,11 +34,32 @@ class HistorySectionViewModel
         val searchBarTextValue: State<String> = _searchBarTextValue
         val historyList: State<List<SimplifiedAnalysis>> =
             derivedStateOf {
-                when (_filterTab.value) {
-                    HistorySectionFilterType.ALL -> _historyList.value
-                    HistorySectionFilterType.COMPLETED -> _historyList.value.filter { it.isCompleted }
-                    HistorySectionFilterType.ON_GOING -> _historyList.value.filter { !it.isCompleted }
-                }
+                _historyList.value
+                    .filter { history ->
+                        when (_searchType.value) {
+                            HistorySectionSearchType.STORE -> {
+                                history.marts.any { it.martName.contains(_searchBarTextValue.value) }
+                            }
+
+                            HistorySectionSearchType.TITLE -> {
+                                history.title.contains(_searchBarTextValue.value)
+                            }
+                        }
+                    }.apply {
+                        when (_filterTab.value) {
+                            HistorySectionFilterType.ALL -> {
+                                this.sortedBy { it.isCompleted }
+                            }
+
+                            HistorySectionFilterType.COMPLETED -> {
+                                this.filter { it.isCompleted }
+                            }
+
+                            HistorySectionFilterType.ON_GOING -> {
+                                this.filter { !it.isCompleted }
+                            }
+                        }
+                    }
             }
         val cartConcurrencyState: State<ConcurrencyState> = _cartConcurrencyState
         val filterTab: State<HistorySectionFilterType> = _filterTab

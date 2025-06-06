@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Error
 import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.QuestionMark
 import androidx.compose.material3.Button
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -48,7 +49,7 @@ fun HistorySection(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = null) {
-        // viewModel.loadHistories()
+        viewModel.loadHistories()
     }
 
     Column {
@@ -139,37 +140,52 @@ fun HistorySection(
                         )
                     }
                 }
-            } else if (viewModel.historyList.value.isEmpty()) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize(),
-                ) {
-                    // Let user know there isn't any items yet
-                    IconAndText(
-                        icon = Icons.Rounded.ErrorOutline,
-                        text =
-                            buildAnnotatedString {
-                                append(stringResource(R.string.error_no_items_history))
-                                append("\n")
-                                append(stringResource(R.string.tips_add_new_memo))
-                            },
-                        contentDescription = "Empty history",
-                    )
-
-                    Button(
-                        onClick = { onChangeTab(BottomNavItem.MemoBottomNavItem) },
-                        modifier = Modifier.padding(top = 32.dp),
+            } else {
+                if (viewModel.searchBarTextValue.value.isNotEmpty()) {
+                    // Items are exist but no matching search keyword
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.fillMaxSize(),
                     ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Add,
-                            contentDescription = "Add new memo",
-                            modifier = Modifier.padding(end = 8.dp),
+                        IconAndText(
+                            icon = Icons.Rounded.QuestionMark,
+                            text = stringResource(R.string.error_no_search_result),
+                            contentDescription = "No search result",
+                        )
+                    }
+                } else {
+                    // No search keyword and no items
+                    Column(
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize(),
+                    ) {
+                        // Let user know there isn't any items yet
+                        IconAndText(
+                            icon = Icons.Rounded.ErrorOutline,
+                            text =
+                                buildAnnotatedString {
+                                    append(stringResource(R.string.error_no_items_history))
+                                    append("\n")
+                                    append(stringResource(R.string.tips_add_new_memo))
+                                },
+                            contentDescription = "Empty history",
                         )
 
-                        Text(
-                            text = stringResource(R.string.add_new_memo),
-                        )
+                        Button(
+                            onClick = { onChangeTab(BottomNavItem.MemoBottomNavItem) },
+                            modifier = Modifier.padding(top = 32.dp),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Add,
+                                contentDescription = "Add new memo",
+                                modifier = Modifier.padding(end = 8.dp),
+                            )
+
+                            Text(
+                                text = stringResource(R.string.add_new_memo),
+                            )
+                        }
                     }
                 }
             }

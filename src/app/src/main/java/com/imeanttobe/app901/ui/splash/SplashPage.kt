@@ -44,19 +44,14 @@ fun SplashPage(
                     .fillMaxSize()
                     .padding(innerPadding),
         ) {
-            if (isSystemInDarkTheme()) {
-                Image(
-                    painter = painterResource(id = R.drawable.logo_white_alpha),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(logoSize),
-                )
-            } else {
-                Image(
-                    painter = painterResource(id = R.drawable.logo_gradient_alpha),
-                    contentDescription = "Logo",
-                    modifier = Modifier.size(logoSize),
-                )
-            }
+            Image(
+                painter =
+                    painterResource(
+                        id = if (isSystemInDarkTheme()) R.drawable.logo_white_alpha else R.drawable.logo_gradient_alpha,
+                    ),
+                contentDescription = "Logo",
+                modifier = Modifier.size(logoSize),
+            )
         }
     }
 }

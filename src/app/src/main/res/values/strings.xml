@@ -65,6 +65,7 @@
     <string name="error_no_items_memo">장 볼 목록이 비어 있어요.</string>
     <string name="error_no_items_history">장바구니 히스토리가 비어 있어요.</string>
     <string name="error_failed_to_fetch_data">데이터를 가져오는 데 실패했어요…</string>
+    <string name="error_no_search_result">검색 결과가 없어요…</string>
 
     <string name="tips_failed_to_login">로그인에 실패했어요… 다시 시도해보세요.</string>
     <string name="tips_failed_to_register">회원 가입에 실패했어요… 다시 시도해보세요.</string>
