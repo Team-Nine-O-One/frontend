@@ -43,7 +43,6 @@ fun StoreCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
                 Modifier
-                    .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
                     .background(color = MaterialTheme.colorScheme.primaryContainer)
                     .padding(16.dp),
@@ -66,7 +65,7 @@ fun StoreCard(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 description()
             }
         }

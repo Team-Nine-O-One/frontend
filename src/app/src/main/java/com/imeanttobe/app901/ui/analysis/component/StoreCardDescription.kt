@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.util.NativeUtil
@@ -89,17 +88,18 @@ fun StoreCardDescription(
         false -> {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Icon(
                     imageVector = Icons.Rounded.Link,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
                     contentDescription = "Open web link",
+                    modifier = Modifier.size(16.dp),
                 )
                 // Weblink
                 Text(
                     text = store.link,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
                     textDecoration = TextDecoration.Underline,
                     maxLines = 1,
