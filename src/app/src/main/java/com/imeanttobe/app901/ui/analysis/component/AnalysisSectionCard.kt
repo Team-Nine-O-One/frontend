@@ -20,31 +20,31 @@ fun AnalysisSectionCard(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(32.dp),
-        modifier =
-            modifier
-                .clip(RoundedCornerShape(24.dp))
-                .background(color = MaterialTheme.colorScheme.surfaceContainerLowest)
-                .padding(16.dp),
-    ) {
-        // Title
-        Text(
-            text = title,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 16.dp),
-        )
-
-        content()
-    }
+    AnalysisSectionCardContent(
+        title = AnnotatedString(title),
+        modifier = modifier,
+        content = content,
+    )
 }
 
 @Composable
 fun AnalysisSectionCard(
     title: AnnotatedString,
-    content: @Composable () -> Unit,
     modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    AnalysisSectionCardContent(
+        title = title,
+        modifier = modifier,
+        content = content,
+    )
+}
+
+@Composable
+private fun AnalysisSectionCardContent(
+    title: AnnotatedString,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(32.dp),
@@ -52,14 +52,13 @@ fun AnalysisSectionCard(
             modifier
                 .clip(RoundedCornerShape(24.dp))
                 .background(color = MaterialTheme.colorScheme.surfaceContainerLowest)
-                .padding(16.dp),
+                .padding(24.dp),
     ) {
         // Title
         Text(
             text = title,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(top = 16.dp),
         )
 
         content()
