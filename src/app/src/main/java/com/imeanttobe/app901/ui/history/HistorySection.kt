@@ -48,7 +48,7 @@ fun HistorySection(
     val context = LocalContext.current
 
     LaunchedEffect(key1 = null) {
-        // viewModel.loadHistories()
+        viewModel.loadHistories()
     }
 
     Column {

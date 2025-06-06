@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Sell
-import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -150,17 +149,17 @@ fun HistoryListItem(
                 }
 
                 // Share button
-                IconButton(
-                    onClick = { onShare(history) },
-                    modifier = Modifier.size(24.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Share,
-                        contentDescription = "Share history",
-                        tint = contentColor,
-                        modifier = Modifier.padding(4.dp).weight(1f),
-                    )
-                }
+//                IconButton(
+//                    onClick = { onShare(history) },
+//                    modifier = Modifier.size(24.dp),
+//                ) {
+//                    Icon(
+//                        imageVector = Icons.Rounded.Share,
+//                        contentDescription = "Share history",
+//                        tint = contentColor,
+//                        modifier = Modifier.padding(4.dp).weight(1f),
+//                    )
+//                }
             }
         }
 
