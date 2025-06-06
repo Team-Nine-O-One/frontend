@@ -166,14 +166,12 @@ fun HistoryListItem(
         // Store info
         MartInfoItem(
             mart = history.marts[0],
-            imageUrl = "",
             contentColor = contentColor,
             priceColor = priceColor,
             modifier = Modifier.fillMaxWidth(),
         )
         MartInfoItem(
             mart = history.marts[1],
-            imageUrl = "",
             contentColor = contentColor,
             priceColor = priceColor,
             modifier = Modifier.fillMaxWidth(),
