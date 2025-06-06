@@ -33,6 +33,7 @@
     <string name="from">에서</string>
     <string name="online">온라인</string>
     <string name="offline">오프라인</string>
+    <string name="best">최적</string>
 
     <string name="create_memo">메모 추가</string>
     <string name="edit_memo">메모 수정</string>

@@ -27,24 +27,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.rememberSliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.analysis.component.AnalysisHeader
-import com.imeanttobe.app901.ui.analysis.component.DistancePriceSlider
+import com.imeanttobe.app901.ui.analysis.component.AnalysisOptionButton
 import com.imeanttobe.app901.ui.analysis.component.ProductListItem
 import com.imeanttobe.app901.ui.analysis.component.StoreCard
 import com.imeanttobe.app901.ui.analysis.component.StoreCardDescription
@@ -62,22 +58,10 @@ fun AnalysisPage(
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    val sliderState =
-        rememberSliderState(
-            steps = 7,
-            valueRange = -5f..5f,
-        )
 
     // Fetch the analysis data from the view model
     LaunchedEffect(key1 = null) {
         viewModel.fetchAnalysis(analysisId)
-    }
-
-    // Apply the slider value to the view model
-    LaunchedEffect(key1 = sliderState) {
-        snapshotFlow { sliderState.value }.collect { value ->
-            viewModel.setSliderValue(value)
-        }
     }
 
     // Composable
@@ -138,63 +122,24 @@ fun AnalysisPage(
                 ) {
                     AnalysisHeader(analysis = viewModel.analysis.value!!)
                 }
-                DistancePriceSlider(
-                    sliderState = sliderState,
-                    modifier = Modifier.padding(horizontal = 32.dp).fillMaxWidth(),
-                )
-
-                // Offline
-                Text(
-                    text =
-                        buildAnnotatedString {
-                            withStyle(style = SpanStyle(background = MaterialTheme.colorScheme.primaryContainer)) {
-                                append(stringResource(R.string.offline))
-                                append(stringResource(R.string.tips_analysis_efficient))
-                            }
-                        },
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 64.dp, start = 32.dp, end = 32.dp),
-                )
-                StoreCard(
-                    imageUrl = "",
-                    store = viewModel.analysis.value!!.offlineStore,
+                AnalysisOptionButton(
+                    selectedOption = viewModel.selectedAnalysisOption.value,
+                    onChangeOption = { viewModel.setAnalysisOption(it) },
                     modifier = Modifier.padding(horizontal = 32.dp),
-                ) {
-                    StoreCardDescription(
-                        store = viewModel.analysis.value!!.offlineStore,
-                        isOffline = true,
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(horizontal = 32.dp),
-                ) {
-                    viewModel.analysis.value!!.offlineStore.products.forEach { product ->
-                        ProductListItem(
-                            product = product,
-                            imageUrl = "",
-                        )
-                    }
-                }
+                )
 
                 // Online
                 Text(
                     text =
                         buildAnnotatedString {
-                            withStyle(style = SpanStyle(background = MaterialTheme.colorScheme.primaryContainer)) {
-                                append(stringResource(R.string.online))
-                                append(stringResource(R.string.tips_analysis_efficient))
-                            }
+                            append(stringResource(R.string.online))
+                            append(stringResource(R.string.tips_analysis_efficient))
                         },
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(top = 64.dp, start = 32.dp, end = 32.dp),
                 )
                 StoreCard(
-                    imageUrl = "",
                     store = viewModel.analysis.value!!.onlineStore,
                     modifier = Modifier.padding(horizontal = 32.dp),
                 ) {
@@ -208,6 +153,38 @@ fun AnalysisPage(
                     modifier = Modifier.padding(horizontal = 32.dp),
                 ) {
                     viewModel.analysis.value!!.onlineStore.products.forEach { product ->
+                        ProductListItem(
+                            product = product,
+                            imageUrl = "",
+                        )
+                    }
+                }
+
+                // Offline
+                Text(
+                    text =
+                        buildAnnotatedString {
+                            append(stringResource(R.string.offline))
+                            append(stringResource(R.string.tips_analysis_efficient))
+                        },
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(top = 64.dp, start = 32.dp, end = 32.dp),
+                )
+                StoreCard(
+                    store = viewModel.analysis.value!!.offlineStore,
+                    modifier = Modifier.padding(horizontal = 32.dp),
+                ) {
+                    StoreCardDescription(
+                        store = viewModel.analysis.value!!.offlineStore,
+                        isOffline = true,
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    modifier = Modifier.padding(horizontal = 32.dp),
+                ) {
+                    viewModel.analysis.value!!.offlineStore.products.forEach { product ->
                         ProductListItem(
                             product = product,
                             imageUrl = "",
