@@ -34,11 +34,32 @@ class HistorySectionViewModel
         val searchBarTextValue: State<String> = _searchBarTextValue
         val historyList: State<List<SimplifiedAnalysis>> =
             derivedStateOf {
-                when (_filterTab.value) {
-                    HistorySectionFilterType.ALL -> _historyList.value.sortedBy { it.isCompleted }
-                    HistorySectionFilterType.COMPLETED -> _historyList.value.filter { it.isCompleted }
-                    HistorySectionFilterType.ON_GOING -> _historyList.value.filter { !it.isCompleted }
-                }
+                _historyList.value
+                    .filter { history ->
+                        when (_searchType.value) {
+                            HistorySectionSearchType.STORE -> {
+                                history.marts.any { it.martName.contains(_searchBarTextValue.value) }
+                            }
+
+                            HistorySectionSearchType.TITLE -> {
+                                history.title.contains(_searchBarTextValue.value)
+                            }
+                        }
+                    }.apply {
+                        when (_filterTab.value) {
+                            HistorySectionFilterType.ALL -> {
+                                this.sortedBy { it.isCompleted }
+                            }
+
+                            HistorySectionFilterType.COMPLETED -> {
+                                this.filter { it.isCompleted }
+                            }
+
+                            HistorySectionFilterType.ON_GOING -> {
+                                this.filter { !it.isCompleted }
+                            }
+                        }
+                    }
             }
         val cartConcurrencyState: State<ConcurrencyState> = _cartConcurrencyState
         val filterTab: State<HistorySectionFilterType> = _filterTab
