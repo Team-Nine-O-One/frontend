@@ -26,7 +26,7 @@ class HistorySectionViewModel
         private val _searchBarTextValue = mutableStateOf("")
         private val _historyList = mutableStateOf<List<SimplifiedAnalysis>>(emptyList())
         private val _cartConcurrencyState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
-        private val _filterTab = mutableStateOf(HistorySectionFilterType.ALL)
+        private val _filterTab = mutableStateOf(HistorySectionFilterType.ON_GOING)
         private val _searchTypeMenuExtended = mutableStateOf(false)
         private val _searchType = mutableStateOf(HistorySectionSearchType.TITLE)
 
@@ -35,7 +35,7 @@ class HistorySectionViewModel
         val historyList: State<List<SimplifiedAnalysis>> =
             derivedStateOf {
                 when (_filterTab.value) {
-                    HistorySectionFilterType.ALL -> _historyList.value
+                    HistorySectionFilterType.ALL -> _historyList.value.sortedBy { it.isCompleted }
                     HistorySectionFilterType.COMPLETED -> _historyList.value.filter { it.isCompleted }
                     HistorySectionFilterType.ON_GOING -> _historyList.value.filter { !it.isCompleted }
                 }
