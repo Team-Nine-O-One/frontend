@@ -41,6 +41,7 @@ import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.analysis.component.AnalysisHeader
 import com.imeanttobe.app901.ui.analysis.component.AnalysisOptionButton
+import com.imeanttobe.app901.ui.analysis.component.OnlineAnalysisCard
 import com.imeanttobe.app901.ui.analysis.component.ProductListItem
 import com.imeanttobe.app901.ui.analysis.component.StoreCard
 import com.imeanttobe.app901.ui.analysis.component.StoreCardDescription
@@ -97,16 +98,12 @@ fun AnalysisPage(
                 }
             }
         } else if (viewModel.analysisConcurrencyState.value is ConcurrencyState.Failure || viewModel.analysis.value == null) {
-            Box(
-                contentAlignment = Alignment.Center,
+            IconAndText(
+                icon = Icons.Rounded.ErrorOutline,
+                text = stringResource(R.string.error_failed_to_fetch_data),
+                contentDescription = stringResource(R.string.error),
                 modifier = Modifier.padding(innerPadding).fillMaxSize(),
-            ) {
-                IconAndText(
-                    icon = Icons.Rounded.ErrorOutline,
-                    text = stringResource(R.string.error_failed_to_fetch_data),
-                    contentDescription = stringResource(R.string.error),
-                )
-            }
+            )
         } else {
             Column(
                 verticalArrangement = Arrangement.spacedBy(32.dp),
@@ -116,49 +113,23 @@ fun AnalysisPage(
                         .verticalScroll(scrollState),
             ) {
                 // Header
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    AnalysisHeader(analysis = viewModel.analysis.value!!)
-                }
+                AnalysisHeader(
+                    analysis = viewModel.analysis.value!!,
+                    modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
+                )
+
+                // Option button
                 AnalysisOptionButton(
                     selectedOption = viewModel.selectedAnalysisOption.value,
                     onChangeOption = { viewModel.setAnalysisOption(it) },
-                    modifier = Modifier.padding(horizontal = 32.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 
-                // Online
-                Text(
-                    text =
-                        buildAnnotatedString {
-                            append(stringResource(R.string.online))
-                            append(stringResource(R.string.tips_analysis_efficient))
-                        },
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(top = 64.dp, start = 32.dp, end = 32.dp),
-                )
-                StoreCard(
+                // Online analysis
+                OnlineAnalysisCard(
                     store = viewModel.analysis.value!!.onlineStore,
-                    modifier = Modifier.padding(horizontal = 32.dp),
-                ) {
-                    StoreCardDescription(
-                        store = viewModel.analysis.value!!.onlineStore,
-                        isOffline = false,
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.padding(horizontal = 32.dp),
-                ) {
-                    viewModel.analysis.value!!.onlineStore.products.forEach { product ->
-                        ProductListItem(
-                            product = product,
-                            imageUrl = "",
-                        )
-                    }
-                }
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
 
                 // Offline
                 Text(
@@ -187,7 +158,6 @@ fun AnalysisPage(
                     viewModel.analysis.value!!.offlineStore.products.forEach { product ->
                         ProductListItem(
                             product = product,
-                            imageUrl = "",
                         )
                     }
                 }
