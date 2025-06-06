@@ -86,6 +86,12 @@
     <string name="tips_loading_analysis">장바구니를 분석하고 있어요…</string>
     <string name="tips_analysis_efficient">에서는 이렇게 구매하면\n제일 효율적이에요!</string>
     <string name="tips_add_new_memo">버튼을 눌러 장바구니에 사야 할 물건들을 채워보세요!</string>
+    <string name="tips_analysis_button">원하는 옵션에 맞춰\n분석 결과를 조정할 수 있어요!</string>
+    <string name="tips_analysis_option_distance">최단 거리 마트 탐색</string>
+    <string name="tips_analysis_option_best">최적의 거리 및 가격</string>
+    <string name="tips_analysis_option_price">최저 가격 마트 탐색</string>
+    <string name="tips_analysis_button_description">버튼을 길게 눌러 상세 설명을 확인하세요.</string>
+
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
