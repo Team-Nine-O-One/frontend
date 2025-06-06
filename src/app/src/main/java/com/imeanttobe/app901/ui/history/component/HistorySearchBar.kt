@@ -14,11 +14,13 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Clear
 import androidx.compose.material.icons.rounded.FilterList
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -104,47 +106,66 @@ fun HistorySearchBar(
                     }
                 }
 
-                // Filter
-                Box(
-                    modifier =
-                        Modifier
-                            .clip(RoundedCornerShape(100.dp))
-                            .background(color = searchTypeColor)
-                            .clickable { onExpandedChange(true) }
-                            .padding(horizontal = 8.dp, vertical = 4.dp),
-                    contentAlignment = Alignment.Center,
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
-                    // Filter button contents
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.FilterList,
-                            contentDescription = "Filter Icon",
-                            tint = contentColor,
-                            modifier = Modifier.size(16.dp),
-                        )
-                        Text(
-                            text = searchTypeText,
-                            style = MaterialTheme.typography.labelMedium,
-                            color = contentColor,
-                        )
+                    // Clear button
+                    if (text.isNotEmpty()) {
+                        IconButton(
+                            onClick = { onValueChange("") },
+                            enabled = text.isNotEmpty(),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Clear,
+                                contentDescription = "Clear Icon",
+                                tint = contentColor,
+                            )
+                        }
                     }
 
-                    // Menu
-                    DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { onExpandedChange(false) },
+                    // Filter
+                    Box(
+                        modifier =
+                            Modifier
+                                .clip(RoundedCornerShape(100.dp))
+                                .background(color = searchTypeColor)
+                                .clickable { onExpandedChange(true) }
+                                .padding(horizontal = 8.dp, vertical = 4.dp),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        HistorySectionSearchType.entries.forEach { type ->
-                            DropdownMenuItem(
-                                text = { Text(text = stringResource(type.stringResId)) },
-                                onClick = {
-                                    onSearchTypeChange(type)
-                                    onExpandedChange(false)
-                                },
+                        // Filter button contents
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.FilterList,
+                                contentDescription = "Filter Icon",
+                                tint = contentColor,
+                                modifier = Modifier.size(16.dp),
                             )
+                            Text(
+                                text = searchTypeText,
+                                style = MaterialTheme.typography.labelMedium,
+                                color = contentColor,
+                            )
+                        }
+
+                        // Menu
+                        DropdownMenu(
+                            expanded = expanded,
+                            onDismissRequest = { onExpandedChange(false) },
+                        ) {
+                            HistorySectionSearchType.entries.forEach { type ->
+                                DropdownMenuItem(
+                                    text = { Text(text = stringResource(type.stringResId)) },
+                                    onClick = {
+                                        onSearchTypeChange(type)
+                                        onExpandedChange(false)
+                                    },
+                                )
+                            }
                         }
                     }
                 }
