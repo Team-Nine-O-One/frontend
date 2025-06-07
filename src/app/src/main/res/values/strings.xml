@@ -35,6 +35,9 @@
     <string name="offline">오프라인</string>
     <string name="best">최적</string>
     <string name="map">지도</string>
+    <string name="reduced">절감</string>
+    <string name="shorten">단축</string>
+    <string name="cost">비용</string>
 
     <string name="create_memo">메모 추가</string>
     <string name="edit_memo">메모 수정</string>
@@ -123,4 +126,5 @@
     <string name="format_price_per_100_gram">100g 당 %1$s원</string>
     <string name="format_time_minute">%1$d분</string>
     <string name="format_distance">%1$skm</string>
+    <string name="format_price">%1$s원</string>
 </resources>

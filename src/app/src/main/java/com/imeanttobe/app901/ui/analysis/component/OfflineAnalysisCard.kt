@@ -11,11 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -28,8 +30,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.AnalysisOption
@@ -43,6 +48,8 @@ import com.imeanttobe.app901.ui.component.NaverMap
 @Composable
 fun OfflineAnalysisCard(
     stores: List<Store>,
+    priceDiff: Int,
+    distanceDiff: Double,
     selectedOption: AnalysisOption,
     onChangeOption: (AnalysisOption) -> Unit,
     mapState: ConcurrencyState,
@@ -52,7 +59,9 @@ fun OfflineAnalysisCard(
     AnalysisSectionCard(
         title =
             buildAnnotatedString {
-                append(stringResource(R.string.offline))
+                withStyle(style = TextStyle(color = MaterialTheme.colorScheme.primary).toSpanStyle()) {
+                    append(stringResource(R.string.offline))
+                }
                 append(stringResource(R.string.tips_analysis_efficient))
             },
         modifier = modifier,
@@ -107,11 +116,51 @@ fun OfflineAnalysisCard(
                                         .align(Alignment.BottomCenter)
                                         .padding(8.dp),
                             ) {
-                                Text(
-                                    text = "- 거리 1.3km 단축\n- 비용 300원 절감",
-                                    style = MaterialTheme.typography.labelSmall,
-                                    modifier = Modifier.padding(8.dp),
-                                )
+                                Column(
+                                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.LocationOn,
+                                            contentDescription = "Distance diff",
+                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            modifier = Modifier.size(12.dp),
+                                        )
+                                        Text(
+                                            text =
+                                                buildAnnotatedString {
+                                                    append(stringResource(R.string.distance) + " ")
+                                                    append(stringResource(R.string.format_distance, distanceDiff) + " ")
+                                                    append(stringResource(R.string.shorten))
+                                                },
+                                            style = MaterialTheme.typography.labelSmall,
+                                            modifier = Modifier.padding(8.dp),
+                                        )
+                                    }
+
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Rounded.Sell,
+                                            contentDescription = "Price diff",
+                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            modifier = Modifier.size(12.dp),
+                                        )
+                                        Text(
+                                            text =
+                                                buildAnnotatedString {
+                                                    append(stringResource(R.string.cost) + " ")
+                                                    append(stringResource(R.string.format_price, priceDiff) + " ")
+                                                    append(stringResource(R.string.reduced))
+                                                },
+                                            style = MaterialTheme.typography.labelSmall,
+                                            modifier = Modifier.padding(8.dp),
+                                        )
+                                    }
+                                }
                             }
                         }
                     }
@@ -135,11 +184,15 @@ fun OfflineAnalysisCard(
                 text = stringResource(R.string.tips_best_route),
                 style = MaterialTheme.typography.labelMedium,
                 color = LocalContentColor.current.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
             )
             Text(
                 text = stringResource(R.string.tips_analysis_button_description),
                 style = MaterialTheme.typography.labelMedium,
                 color = LocalContentColor.current.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -166,9 +219,11 @@ fun OfflineAnalysisCard(
                 text = stringResource(R.string.tips_mart_order),
                 style = MaterialTheme.typography.labelMedium,
                 color = LocalContentColor.current.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
@@ -177,6 +232,7 @@ fun OfflineAnalysisCard(
                     tint = LocalContentColor.current.copy(alpha = 0.7f),
                     modifier = Modifier.size(16.dp),
                 )
+                Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = stringResource(R.string.tips_mart_order_products),
                     style = MaterialTheme.typography.labelMedium,

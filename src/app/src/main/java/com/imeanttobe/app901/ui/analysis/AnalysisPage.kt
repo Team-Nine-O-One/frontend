@@ -128,6 +128,8 @@ fun AnalysisPage(
                 OfflineAnalysisCard(
                     stores = viewModel.analysis.value!!.offlineStores,
                     route = viewModel.route.value,
+                    priceDiff = 300,
+                    distanceDiff = 2.4,
                     mapState = viewModel.routeConcurrencyState.value,
                     selectedOption = viewModel.selectedAnalysisOption.value,
                     onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
