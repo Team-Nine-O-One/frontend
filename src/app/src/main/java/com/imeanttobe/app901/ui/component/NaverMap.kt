@@ -43,8 +43,9 @@ fun NaverMap(
     val mapView = remember { MapView(context) }
     var naverMap by remember { mutableStateOf<NaverMap?>(null) }
     var pathOverlay = remember { PathOverlay() }
-    val routeColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
-    val markerColor = MaterialTheme.colorScheme.onPrimaryContainer.toArgb()
+    val routeColor = MaterialTheme.colorScheme.secondaryContainer.toArgb()
+    val significantMarkerColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
+    val waypointMarkerColor = MaterialTheme.colorScheme.tertiaryContainer.toArgb()
 
     // Set lifecycleObserver
     val lifecycleObserver =
@@ -79,7 +80,7 @@ fun NaverMap(
             // apply start marker
             start?.let { latLng ->
                 val startMarker = Marker()
-                startMarker.iconTintColor = markerColor
+                startMarker.iconTintColor = significantMarkerColor
                 startMarker.position = latLng
                 startMarker.map = naverMap
             }
@@ -87,9 +88,17 @@ fun NaverMap(
             // apply end marker
             goal?.let { latLng ->
                 val endMarker = Marker()
-                endMarker.iconTintColor = markerColor
+                endMarker.iconTintColor = significantMarkerColor
                 endMarker.position = latLng
                 endMarker.map = naverMap
+            }
+
+            // apply waypoint marker
+            pathPoints.drop(1).dropLast(1).forEach { latLng ->
+                val waypointMarker = Marker()
+                waypointMarker.iconTintColor = waypointMarkerColor
+                waypointMarker.position = latLng
+                waypointMarker.map = naverMap
             }
 
             // move camera
