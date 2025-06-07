@@ -91,8 +91,8 @@
     <string name="tips_analysis_option_distance">최단 거리 마트 탐색</string>
     <string name="tips_analysis_option_best">최적의 거리 및 가격</string>
     <string name="tips_analysis_option_price">최저 가격 마트 탐색</string>
-    <string name="tips_analysis_button_description">버튼을 길게 눌러 상세 설명을 확인하세요.</string>
-    <string name="tips_analysis_map">지도에서 최적 경로를 확인하세요!</string>
+    <string name="tips_analysis_button_description">선택하신 옵션에 따라 경로가 분석돼요.\n각 버튼을 길게 눌러 상세 설명을 확인하세요.</string>
+    <string name="tips_analysis_map">지도에서 옵션에 따른 최적 경로를 확인하세요.</string>
 
 
     <string name="example_email">abc@xyz.com</string>

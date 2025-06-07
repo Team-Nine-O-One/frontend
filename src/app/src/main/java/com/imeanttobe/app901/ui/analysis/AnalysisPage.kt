@@ -36,7 +36,6 @@ import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.analysis.component.AnalysisBottomButton
 import com.imeanttobe.app901.ui.analysis.component.AnalysisHeader
-import com.imeanttobe.app901.ui.analysis.component.AnalysisOptionButton
 import com.imeanttobe.app901.ui.analysis.component.OfflineAnalysisCard
 import com.imeanttobe.app901.ui.analysis.component.OnlineAnalysisCard
 import com.imeanttobe.app901.ui.component.IconAndText
@@ -119,13 +118,6 @@ fun AnalysisPage(
                     modifier = Modifier.fillMaxWidth().align(Alignment.CenterHorizontally),
                 )
 
-                // Option button
-                AnalysisOptionButton(
-                    selectedOption = viewModel.selectedAnalysisOption.value,
-                    onChangeOption = { viewModel.setAnalysisOption(it) },
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                )
-
                 // Online analysis
                 OnlineAnalysisCard(
                     store = viewModel.analysis.value!!.onlineStore,
@@ -137,6 +129,8 @@ fun AnalysisPage(
                     stores = viewModel.analysis.value!!.offlineStores,
                     route = viewModel.route.value,
                     mapState = viewModel.routeConcurrencyState.value,
+                    selectedOption = viewModel.selectedAnalysisOption.value,
+                    onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 
