@@ -1,23 +1,37 @@
 package com.imeanttobe.app901.ui.analysis.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.ErrorOutline
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material3.ContainedLoadingIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.model.NaverMapRoute
 import com.imeanttobe.app901.data.model.Store
+import com.imeanttobe.app901.data.type.ConcurrencyState
+import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.component.NaverMap
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun OfflineAnalysisCard(
     stores: List<Store>,
+    mapState: ConcurrencyState,
+    route: NaverMapRoute,
     modifier: Modifier = Modifier,
 ) {
     AnalysisSectionCard(
@@ -31,14 +45,47 @@ fun OfflineAnalysisCard(
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            NaverMap(
+            // Map that prints route
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier =
                     Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
-                        .clip(RoundedCornerShape(12.dp)),
-            )
+                        .clip(RoundedCornerShape(24.dp)),
+            ) {
+                when (mapState) {
+                    is ConcurrencyState.Loading -> {
+                        ContainedLoadingIndicator()
+                    }
+                    is ConcurrencyState.Failure -> {
+                        IconAndText(
+                            icon = Icons.Rounded.ErrorOutline,
+                            text = stringResource(R.string.error_failed_to_fetch_data),
+                            contentDescription = stringResource(R.string.error),
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                    is ConcurrencyState.Success -> {
+                        NaverMap(
+                            start = stores.first().pos.toLatLng(),
+                            goal = stores.last().pos.toLatLng(),
+                            pathPoints = route.paths.map { it.toLatLng() },
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                    is ConcurrencyState.Default -> {
+                        IconAndText(
+                            icon = Icons.Rounded.LocationOn,
+                            text = stringResource(R.string.tips_analysis_map),
+                            contentDescription = stringResource(R.string.map),
+                            modifier = Modifier.fillMaxSize(),
+                        )
+                    }
+                }
+            }
 
+            // Data about each offline store
             stores.forEach { store ->
                 OfflineMartCard(
                     store = store,

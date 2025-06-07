@@ -84,7 +84,9 @@ fun AnalysisHeader(
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.offlineStore.products
+                                    analysis.offlineStores
+                                        .first()
+                                        .products
                                         .first()
                                         .name,
                                     analysis.offlineCount,

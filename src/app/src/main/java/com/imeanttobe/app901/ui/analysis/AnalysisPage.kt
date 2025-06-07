@@ -59,6 +59,13 @@ fun AnalysisPage(
         viewModel.fetchAnalysis(analysisId)
     }
 
+    // Fetch the route between marts
+    LaunchedEffect(key1 = viewModel.analysis.value) {
+        if (viewModel.analysis.value != null) {
+            viewModel.getRoute()
+        }
+    }
+
     // Composable
     Scaffold(
         topBar = {
@@ -127,7 +134,9 @@ fun AnalysisPage(
 
                 // Offline
                 OfflineAnalysisCard(
-                    stores = listOf(viewModel.analysis.value!!.offlineStore),
+                    stores = viewModel.analysis.value!!.offlineStores,
+                    route = viewModel.route.value,
+                    mapState = viewModel.routeConcurrencyState.value,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 
@@ -140,7 +149,9 @@ fun AnalysisPage(
                             context,
                             Converter.getShareTextFromProducts(
                                 viewModel.analysis.value!!
-                                    .offlineStore.products,
+                                    .offlineStores
+                                    .first()
+                                    .products,
                             ),
                         )
                     },
