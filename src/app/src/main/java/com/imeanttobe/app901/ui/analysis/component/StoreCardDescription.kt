@@ -57,7 +57,7 @@ fun StoreCardDescription(
                                 R.string.format_time_minute,
                                 store.estimatedTime,
                             ),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
                     )
                 }
@@ -79,7 +79,7 @@ fun StoreCardDescription(
                                 R.string.format_distance,
                                 String.format("%.2f", store.distance),
                             ),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
                     )
                 }
@@ -94,7 +94,7 @@ fun StoreCardDescription(
                     imageVector = Icons.Rounded.Link,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
                     contentDescription = "Open web link",
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(iconSize),
                 )
                 // Weblink
                 Text(

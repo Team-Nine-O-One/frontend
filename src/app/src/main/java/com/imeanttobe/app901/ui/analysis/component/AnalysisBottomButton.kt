@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 
@@ -35,8 +36,8 @@ fun AnalysisBottomButton(
         Button(
             colors =
                 ButtonDefaults.buttonColors().copy(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
             onClick = { onClickCloseButton() },
             contentPadding = ButtonDefaults.contentPaddingFor(size),
@@ -50,6 +51,11 @@ fun AnalysisBottomButton(
 
         // Complete
         Button(
+            colors =
+                ButtonDefaults.buttonColors().copy(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                ),
             onClick = { onClickCompleteButton() },
             contentPadding = ButtonDefaults.contentPaddingFor(size),
             modifier = Modifier.weight(1f),
@@ -57,6 +63,7 @@ fun AnalysisBottomButton(
             Text(
                 text = stringResource(R.string.complete_cart),
                 style = ButtonDefaults.textStyleFor(size),
+                fontWeight = FontWeight.Bold,
             )
         }
 
@@ -64,8 +71,8 @@ fun AnalysisBottomButton(
         Button(
             colors =
                 ButtonDefaults.buttonColors().copy(
-                    containerColor = MaterialTheme.colorScheme.secondary,
-                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 ),
             contentPadding = ButtonDefaults.contentPaddingFor(size),
             onClick = {
