@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -35,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.data.model.Product
 import com.imeanttobe.app901.data.model.Store
@@ -43,6 +45,7 @@ import com.imeanttobe.app901.ui.component.MartLogo
 @Composable
 fun OfflineMartCard(
     store: Store,
+    order: Int,
     products: List<Product>,
     modifier: Modifier = Modifier,
     description: @Composable () -> Unit,
@@ -67,14 +70,36 @@ fun OfflineMartCard(
                     .padding(16.dp),
         ) {
             // Mart logo
-            MartLogo(
-                name = store.name,
-                modifier =
-                    Modifier
-                        .size(48.dp)
-                        .clip(CircleShape),
-            )
-            Spacer(modifier = Modifier.width(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier =
+                        Modifier
+                            .size(24.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primary),
+                ) {
+                    Text(
+                        text = order.toString(),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(4.dp),
+                    )
+                }
+
+                MartLogo(
+                    name = store.name,
+                    modifier =
+                        Modifier
+                            .size(48.dp)
+                            .clip(CircleShape),
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
 
             // Mart info
             Column(
@@ -87,6 +112,8 @@ fun OfflineMartCard(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 description()

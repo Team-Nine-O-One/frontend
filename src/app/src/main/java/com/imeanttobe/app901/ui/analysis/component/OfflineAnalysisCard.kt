@@ -150,9 +150,10 @@ fun OfflineAnalysisCard(
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
             )
-            stores.forEach { store ->
+            stores.forEachIndexed { index, store ->
                 OfflineMartCard(
                     store = store,
+                    order = index + 1,
                     products = store.products,
                 ) {
                     StoreCardDescription(
