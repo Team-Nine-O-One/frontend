@@ -61,7 +61,7 @@ fun HistorySection(
             onExpandedChange = viewModel::setSearchTypeMenuExtended,
             searchType = viewModel.searchType.value,
             onSearchTypeChange = viewModel::setSearchType,
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
         HistoryFilterTab(
             tab = viewModel.filterTab.value,
