@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.home
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -15,6 +16,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
+import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.navigation.NavItem
 import com.imeanttobe.app901.ui.component.BottomBar
@@ -37,6 +40,7 @@ import com.imeanttobe.app901.ui.memo.MemoSectionViewModel
 import com.imeanttobe.app901.ui.memo.component.MemoFloatingActionButtonMenu
 import com.imeanttobe.app901.ui.profile.ProfileSection
 import com.imeanttobe.app901.ui.profile.ProfileSectionViewModel
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -62,6 +66,16 @@ fun HomePage(
                 context.getString(R.string.import_from_recipe),
             ) { viewModel.setDialogState(HomePageDialogState.IMPORT_FROM_RECIPE) },
         )
+
+    LaunchedEffect(key1 = viewModel.importFromUrlConcurrencyState.value) {
+        if (viewModel.importFromUrlConcurrencyState.value is ConcurrencyState.Success) {
+            delay(300)
+            viewModel.resetImportFromUrlConcurrencyState()
+        } else if (viewModel.importFromUrlConcurrencyState.value is ConcurrencyState.Failure) {
+            delay(300)
+            viewModel.resetImportFromUrlConcurrencyState()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -150,7 +164,12 @@ fun HomePage(
                     urlFieldContent = viewModel.urlDialogText.value,
                     onUrlChange = { newValue -> viewModel.setUrlDialogText(newValue) },
                     onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
-                    onConfirm = { }, // TODO: Have to attach API here
+                    concurrencyState = viewModel.importFromUrlConcurrencyState.value,
+                    onConfirm = {
+                        viewModel.importMemosFromUrl(printToast = {
+                            Toast.makeText(context, context.getString(R.string.error_invalid_url), Toast.LENGTH_SHORT).show()
+                        })
+                    },
                 )
             HomePageDialogState.NONE -> null
         }
