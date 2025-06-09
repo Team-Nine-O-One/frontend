@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.api.repo
 
+import com.imeanttobe.app901.data.enum.GetAllCartsStatus
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.data.model.SimplifiedMart
@@ -31,7 +32,10 @@ class FakeAnalysisRepoImpl
                 isCompleted = false,
             )
 
-        override suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>> {
+        override suspend fun getAllAnalyses(
+            userId: String,
+            status: GetAllCartsStatus,
+        ): Result<List<SimplifiedAnalysis>> {
             val mockedResponse =
                 listOf(
                     sampleHistory.copy(isCompleted = true, title = "가나다라"),
@@ -74,27 +78,9 @@ class FakeAnalysisRepoImpl
             return Result.success(mockedResponse)
         }
 
-        override suspend fun createAnalysis(
-            userId: String,
-            memoContents: String,
-        ): Result<Analysis> {
-            val mockedResponse = Analysis.getDefaultInstance()
-            return Result.success(mockedResponse)
-        }
-
         override suspend fun confirmAnalysis(
             analysisId: Long,
             userId: String,
-        ): Result<Boolean> {
-            val mockedResponse = true
-            return Result.success(mockedResponse)
-        }
-
-        override suspend fun updateWeights(
-            analysisId: Long,
-            userId: String,
-            priceWeight: Double,
-            distanceWeight: Double,
         ): Result<Boolean> {
             val mockedResponse = true
             return Result.success(mockedResponse)
@@ -114,5 +100,13 @@ class FakeAnalysisRepoImpl
         ): Result<Boolean> {
             val mockedResponse = true
             return Result.success(mockedResponse)
+        }
+
+        override suspend fun createAnalysis(
+            userId: String,
+            memoContents: String,
+        ): Result<Long> {
+            val mockedResponse = Analysis.getDefaultInstance()
+            return Result.success(1)
         }
     }

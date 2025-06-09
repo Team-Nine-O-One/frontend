@@ -31,5 +31,7 @@ interface MemoRepo {
         itemToRemove: ProtoMemoItem,
     )
 
+    suspend fun removeAllMemos()
+
     suspend fun exportToString(): String
 }

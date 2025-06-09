@@ -9,7 +9,9 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
+import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.api.repo.UserRepo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +24,8 @@ class MemoSectionViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
+        private val userRepo: UserRepo,
+        private val analysisRepo: AnalysisRepo,
     ) : ViewModel() {
         // Variables
         val checkedState = mutableStateMapOf<Long, ToggleableState>()
@@ -198,6 +202,10 @@ class MemoSectionViewModel
             }
         }
 
+        fun deleteAllMemos() {
+            viewModelScope.launch { memoRepo.removeAllMemos() }
+        }
+
         fun editMemo(
             item: ProtoMemoItem,
             newContent: String,
@@ -221,6 +229,27 @@ class MemoSectionViewModel
                 leafIds.size -> ToggleableState.On
                 0 -> ToggleableState.Off
                 else -> ToggleableState.Indeterminate
+            }
+        }
+
+        fun createAnalysis(navigate: (Long) -> Unit) {
+            viewModelScope.launch {
+                val result =
+                    analysisRepo.createAnalysis(
+                        userId = userRepo.getUserId(),
+                        memoContents = memoRepo.exportToString(),
+                    )
+                if (result.isSuccess) {
+                    val analysisId = result.getOrNull()
+                    if (analysisId != null) {
+                        deleteAllMemos()
+                        navigate(analysisId)
+                    } else {
+                        throw Exception("Analysis ID is null")
+                    }
+                } else {
+                    throw Exception("Failed to create analysis")
+                }
             }
         }
     }

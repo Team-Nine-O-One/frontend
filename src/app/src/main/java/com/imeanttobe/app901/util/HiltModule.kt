@@ -3,12 +3,11 @@ package com.imeanttobe.app901.util
 import android.app.Application
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
-import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.RetrofitClient
 import com.imeanttobe.app901.api.repo.AnalysisRepo
+import com.imeanttobe.app901.api.repo.AnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepoImpl
-import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
 import com.imeanttobe.app901.api.repo.NaverMapRepo
@@ -32,12 +31,7 @@ object HiltModule {
     // Repositories here
     @Provides
     @Singleton
-    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo =
-        if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeAnalysisRepoImpl()
-        } else {
-            FakeAnalysisRepoImpl()
-        }
+    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo = AnalysisRepoImpl(analysisService)
 
     @Provides
     @Singleton

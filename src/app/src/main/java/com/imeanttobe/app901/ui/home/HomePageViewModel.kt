@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.data.enum.HomePageDialogState
@@ -19,6 +20,7 @@ class HomePageViewModel
     constructor(
         private val memoRepo: MemoRepo,
         private val crawlerRepo: CrawlerRepo,
+        private val analysisRepo: AnalysisRepo,
     ) : ViewModel() {
         // Variables
         private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.HistoryBottomNavItem)

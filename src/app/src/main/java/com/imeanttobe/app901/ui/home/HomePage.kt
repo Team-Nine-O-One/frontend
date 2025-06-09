@@ -1,8 +1,12 @@
 package com.imeanttobe.app901.ui.home
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
@@ -11,17 +15,22 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
@@ -115,6 +124,38 @@ fun HomePage(
                 onChangeIndex = { newValue -> viewModel.setBottomNavIndex(newValue) },
             )
         },
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalAlignment = Alignment.End,
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    MemoFloatingActionButtonMenu(
+                        fabMenuExpanded = viewModel.fabMenuExpanded.value,
+                        setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
+                        items = fabItems,
+                        modifier = Modifier.offset(x = 16.dp),
+                    )
+
+                    ExtendedFloatingActionButton(
+                        onClick = {
+                            memoSectionViewModel.createAnalysis(
+                                navigate = { analysisId -> navigate(NavItem.AnalysisNavItem.route + "/$analysisId") },
+                            )
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.AutoGraph,
+                            contentDescription = "Create analysis",
+                            modifier = Modifier.padding(end = ButtonDefaults.IconSpacing),
+                        )
+                        Text(text = stringResource(R.string.analyze))
+                    }
+                }
+            }
+        },
     ) { innerPadding ->
         Box(
             modifier =
@@ -138,14 +179,6 @@ fun HomePage(
                         navigateAndClearBackStack = navigateAndClearBackStack,
                     )
                 BottomNavItem.DevBottomNavItem -> DevSection()
-            }
-
-            if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
-                MemoFloatingActionButtonMenu(
-                    fabMenuExpanded = viewModel.fabMenuExpanded.value,
-                    setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
-                    items = fabItems,
-                )
             }
         }
     }
