@@ -45,18 +45,18 @@ class HistorySectionViewModel
                                 history.title.contains(_searchBarTextValue.value)
                             }
                         }
-                    }.apply {
+                    }.let { filteredBySearch ->
                         when (_filterTab.value) {
                             HistorySectionFilterType.ALL -> {
-                                this.sortedBy { it.isCompleted }
+                                filteredBySearch.sortedBy { it.isCompleted }
                             }
 
                             HistorySectionFilterType.COMPLETED -> {
-                                this.filter { it.isCompleted }
+                                filteredBySearch.filter { it.isCompleted }
                             }
 
                             HistorySectionFilterType.ON_GOING -> {
-                                this.filter { !it.isCompleted }
+                                filteredBySearch.filter { !it.isCompleted }
                             }
                         }
                     }
