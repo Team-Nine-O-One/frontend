@@ -1,6 +1,8 @@
 package com.imeanttobe.app901.ui.login
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -32,6 +35,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,6 +51,7 @@ import com.imeanttobe.app901.navigation.NavItem
 @Composable
 fun LoginPage(
     navigate: (String) -> Unit,
+    navigateAndClearBackStack: (String) -> Unit,
     viewModel: LoginPageViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -54,7 +59,7 @@ fun LoginPage(
     // If login is successful, navigate to home
     LaunchedEffect(key1 = viewModel.loginState.value) {
         if (viewModel.loginState.value is ConcurrencyState.Success) {
-            navigate(NavItem.HomeNavItem.route)
+            navigateAndClearBackStack(NavItem.HomeNavItem.route)
         } else if (viewModel.loginState.value is ConcurrencyState.Failure) {
             Toast
                 .makeText(
@@ -78,6 +83,13 @@ fun LoginPage(
                     .padding(innerPadding)
                     .imePadding(),
         ) {
+            // Logo
+            Image(
+                painter = painterResource(if (isSystemInDarkTheme()) R.drawable.logo_white_alpha else R.drawable.logo_gradient_alpha),
+                contentDescription = "Logo",
+                modifier = Modifier.padding(16.dp).size(120.dp),
+            )
+
             // Text fields
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),

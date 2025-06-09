@@ -34,8 +34,24 @@ class FakeAnalysisRepoImpl
         override suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>> {
             val mockedResponse =
                 listOf(
-                    sampleHistory.copy(isCompleted = true),
-                    sampleHistory.copy(isCompleted = true),
+                    sampleHistory.copy(isCompleted = true, title = "가나다라"),
+                    sampleHistory.copy(
+                        isCompleted = true,
+                        title = "고노도로",
+                        marts =
+                            listOf(
+                                SimplifiedMart(
+                                    martName = "하나로마트 흑석점",
+                                    displayName = "양파 외 3건",
+                                    totalPrice = 26500,
+                                ),
+                                SimplifiedMart(
+                                    martName = "COUPANG",
+                                    displayName = "백산수 외 2건",
+                                    totalPrice = 12400,
+                                ),
+                            ),
+                    ),
                     sampleHistory.copy(isCompleted = true),
                     sampleHistory.copy(isCompleted = true),
                     sampleHistory.copy(isCompleted = true),

@@ -143,15 +143,19 @@ class MemoSectionViewModel
 
         fun deleteCheckedMemos() {
             val memosToDelete =
-                memos.value.flatMap { item ->
-                    when {
-                        item.isLeaf && checkedState[item.id] == ToggleableState.On -> listOf(item)
-                        !item.isLeaf && getGroupToggleState(item) == ToggleableState.On -> listOf(item)
-                        !item.isLeaf ->
-                            item.itemsList.filter { subItem ->
-                                checkedState[subItem.id] == ToggleableState.On
-                            }
-                        else -> emptyList()
+                if (isAllUncheckedState.value) {
+                    memos.value
+                } else {
+                    memos.value.flatMap { item ->
+                        when {
+                            item.isLeaf && checkedState[item.id] == ToggleableState.On -> listOf(item)
+                            !item.isLeaf && getGroupToggleState(item) == ToggleableState.On -> listOf(item)
+                            !item.isLeaf ->
+                                item.itemsList.filter { subItem ->
+                                    checkedState[subItem.id] == ToggleableState.On
+                                }
+                            else -> emptyList()
+                        }
                     }
                 }
             Log.d("deleteCheckedMemos", "memosToDelete: $memosToDelete")

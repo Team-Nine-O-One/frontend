@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">app901</string>
+    <string name="app_name">똑장</string>
 
     <string name="memo">메모</string>
     <string name="distance">거리</string>
@@ -54,6 +54,7 @@
     <string name="number_of_products">사야 할 물건 수</string>
     <string name="total_price">총 가격</string>
     <string name="complete_cart">장 다 봤어요!</string>
+    <string name="add_new_memo">새 메모 추가하기</string>
 
     <string name="error_empty_email">전자 메일 주소가 올바르지 않아요. 다시 작성해주세요.</string>
     <string name="error_empty_password">비밀번호가 올바르지 않아요. 최소 6자 이상 작성해주세요.</string>
@@ -64,6 +65,7 @@
     <string name="error_no_items_memo">장 볼 목록이 비어 있어요.</string>
     <string name="error_no_items_history">장바구니 히스토리가 비어 있어요.</string>
     <string name="error_failed_to_fetch_data">데이터를 가져오는 데 실패했어요…</string>
+    <string name="error_no_search_result">검색 결과가 없어요…</string>
 
     <string name="tips_failed_to_login">로그인에 실패했어요… 다시 시도해보세요.</string>
     <string name="tips_failed_to_register">회원 가입에 실패했어요… 다시 시도해보세요.</string>
@@ -81,6 +83,7 @@
     <string name="tips_change_nickname">새로운 별명을 입력해주세요.</string>
     <string name="tips_loading_analysis">장바구니를 분석하고 있어요…</string>
     <string name="tips_analysis_efficient">에서는 이렇게 구매하면\n제일 효율적이에요!</string>
+    <string name="tips_add_new_memo">버튼을 눌러 장바구니에 사야 할 물건들을 채워보세요!</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
@@ -88,6 +91,14 @@
     <string name="example_memo">바나나 한 송이</string>
     <string name="example_import_from_recipe">https://youtu.be/**********</string>
     <string name="example_search">검색…</string>
+
+    <string name="mart_emart">이마트</string>
+    <string name="mart_homeplus">홈플러스</string>
+    <string name="mart_lotte">롯데마트</string>
+    <string name="mart_gs">GS더프레시</string>
+    <string name="mart_hanaro">하나로마트</string>
+    <string name="mart_naver">네이버 쇼핑</string>
+    <string name="mart_coupang">COUPANG</string>
 
     <string name="format_modified_date">%1$d월 %2$d일 수정</string>
     <string name="format_nickname">%1$s 님,</string>

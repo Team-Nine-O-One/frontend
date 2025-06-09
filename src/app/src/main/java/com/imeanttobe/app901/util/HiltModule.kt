@@ -10,11 +10,14 @@ import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.FakeUtilRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
+import com.imeanttobe.app901.api.repo.NaverMapRepo
+import com.imeanttobe.app901.api.repo.NaverMapRepoImpl
 import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.api.repo.UserRepoImpl
 import com.imeanttobe.app901.api.repo.UtilRepo
 import com.imeanttobe.app901.api.service.AnalysisService
 import com.imeanttobe.app901.api.service.UtilService
+import com.imeanttobe.app901.api.service.NaverMapService
 import com.imeanttobe.app901.data.type.IdGenerator
 import dagger.Module
 import dagger.Provides
@@ -49,22 +52,23 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideUtilRepo(utilService: UtilService): UtilRepo =
-        if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeUtilRepoImpl()
-        } else {
-            FakeUtilRepoImpl()
-        }
+    fun provideNaverMapRepo(naverMapService: NaverMapService): NaverMapRepo = NaverMapRepoImpl(naverMapService)
 
+    // Services here
+    @Provides
+    @Singleton
+    fun provideCartService(): AnalysisService = RetrofitClient.analysisService
+
+    @Provides
+    @Singleton
+    fun provideNaverMapService(): NaverMapService = RetrofitClient.naverMapService
+
+    // Other stuff here
     @Provides
     @Singleton
     fun provideIdGenerator(
         @ApplicationContext context: Context,
     ): IdGenerator = IdGenerator(context)
-
-    @Provides
-    @Singleton
-    fun provideCartService(): AnalysisService = RetrofitClient.analysisService
 
     @Provides
     @Singleton

@@ -1,15 +1,11 @@
 package com.imeanttobe.app901.ui.history.component
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Error
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -18,14 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.model.SimplifiedMart
 import com.imeanttobe.app901.ui.component.EmphasizedText
+import com.imeanttobe.app901.ui.component.MartLogo
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -33,7 +28,6 @@ fun MartInfoItem(
     contentColor: Color,
     priceColor: Color,
     mart: SimplifiedMart,
-    imageUrl: String,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -47,17 +41,21 @@ fun MartInfoItem(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             // Image
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Mart image",
-                placeholder = rememberVectorPainter(image = Icons.Rounded.Image),
-                error = rememberVectorPainter(image = Icons.Rounded.Error),
-                modifier =
-                    Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(color = MaterialTheme.colorScheme.surfaceVariant)
-                        .padding(4.dp),
+//            AsyncImage(
+//                model = imageUrl,
+//                contentDescription = "Mart image",
+//                placeholder = rememberVectorPainter(image = Icons.Rounded.Image),
+//                error = rememberVectorPainter(image = Icons.Rounded.Error),
+//                modifier =
+//                    Modifier
+//                        .size(48.dp)
+//                        .clip(CircleShape)
+//                        .background(color = MaterialTheme.colorScheme.surfaceVariant)
+//                        .padding(4.dp),
+//            )
+            MartLogo(
+                name = mart.martName,
+                modifier = Modifier.size(48.dp).clip(CircleShape),
             )
 
             // Title
@@ -94,7 +92,21 @@ fun MartInfoItemPreview() {
                 displayName = "Display Name",
                 totalPrice = 10000,
             ),
-        imageUrl = "https://picsum.photos/200",
+        contentColor = Color.White,
+        priceColor = Color.Black,
+    )
+}
+
+@Preview
+@Composable
+fun EMartInfoItemPreview() {
+    MartInfoItem(
+        mart =
+            SimplifiedMart(
+                martName = "이마트",
+                displayName = "Display Name",
+                totalPrice = 10000,
+            ),
         contentColor = Color.White,
         priceColor = Color.Black,
     )
