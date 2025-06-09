@@ -84,6 +84,9 @@
     <string name="tips_loading_analysis">장바구니를 분석하고 있어요…</string>
     <string name="tips_analysis_efficient">에서는 이렇게 구매하면\n제일 효율적이에요!</string>
     <string name="tips_add_new_memo">버튼을 눌러 장바구니에 사야 할 물건들을 채워보세요!</string>
+    <string name="tips_home_memo">사야 할 물건들을 메모해보세요.</string>
+    <string name="tips_home_history">진행 중이거나 완료된 장바구니를 확인해보세요.</string>
+    <string name="tips_home_profile">내 정보를 확인하세요.</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
