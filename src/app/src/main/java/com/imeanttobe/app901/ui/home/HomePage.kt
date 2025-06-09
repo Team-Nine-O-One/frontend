@@ -51,10 +51,14 @@ fun HomePage(
 
     Scaffold(
         topBar = {
-            Header(
-                title = stringResource(viewModel.bottomNavItem.value.stringResId),
-                subtitle = stringResource(viewModel.bottomNavItem.value.descriptionResId),
-            )
+            if (viewModel.bottomNavItem.value == BottomNavItem.HistoryBottomNavItem) {
+                null
+            } else {
+                Header(
+                    title = stringResource(viewModel.bottomNavItem.value.stringResId),
+                    subtitle = stringResource(viewModel.bottomNavItem.value.descriptionResId),
+                )
+            }
         },
         bottomBar = {
             BottomBar(
