@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.api
 
+import android.util.Log
 import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.service.AnalysisService
 import com.imeanttobe.app901.api.service.CrawlerService
@@ -7,7 +8,6 @@ import com.imeanttobe.app901.api.service.NaverMapService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 
 object RetrofitClient {
     // Base URLs
@@ -29,12 +29,21 @@ object RetrofitClient {
                 chain.proceed(newRequest)
             }.build()
     }
+    private val loggingOkHttpClient: OkHttpClient by lazy {
+        OkHttpClient
+            .Builder()
+            .addInterceptor { chain ->
+                Log.d("RetrofitClient", chain.request().url.toString())
+                chain.proceed(chain.request())
+            }.build()
+    }
 
     // Services
     val analysisService: AnalysisService by lazy {
         Retrofit
             .Builder()
             .baseUrl(API_BASE_URL)
+            .client(loggingOkHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AnalysisService::class.java)
@@ -44,9 +53,10 @@ object RetrofitClient {
         Retrofit
             .Builder()
             .baseUrl(API_BASE_URL)
+            .client(loggingOkHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(crawlerService::class.java)
+            .create(CrawlerService::class.java)
     }
 
     val naverMapService: NaverMapService by lazy {

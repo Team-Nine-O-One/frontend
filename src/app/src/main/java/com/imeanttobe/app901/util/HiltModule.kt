@@ -9,7 +9,6 @@ import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepoImpl
 import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
-import com.imeanttobe.app901.api.repo.FakeCrawlerRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
 import com.imeanttobe.app901.api.repo.NaverMapRepo
@@ -57,12 +56,7 @@ object HiltModule {
 
     @Provides
     @Singleton
-    fun provideCrawlerRepo(crawlerService: CrawlerService): CrawlerRepo =
-        if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeCrawlerRepoImpl()
-        } else {
-            CrawlerRepoImpl(crawlerService = crawlerService)
-        }
+    fun provideCrawlerRepo(crawlerService: CrawlerService): CrawlerRepo = CrawlerRepoImpl(crawlerService)
 
     // Services here
     @Provides
@@ -73,16 +67,16 @@ object HiltModule {
     @Singleton
     fun provideNaverMapService(): NaverMapService = RetrofitClient.naverMapService
 
+    @Provides
+    @Singleton
+    fun provideCrawlerService(): CrawlerService = RetrofitClient.crawlerService
+
     // Other stuff here
     @Provides
     @Singleton
     fun provideIdGenerator(
         @ApplicationContext context: Context,
     ): IdGenerator = IdGenerator(context)
-
-    @Provides
-    @Singleton
-    fun provideCrawlerService(): CrawlerService = RetrofitClient.crawlerService
 
     @Provides
     @Singleton
