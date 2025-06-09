@@ -6,8 +6,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AutoGraph
+import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -25,9 +31,12 @@ import com.imeanttobe.app901.ui.component.Header
 import com.imeanttobe.app901.ui.component.ImportFromRecipeDialog
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
+import com.imeanttobe.app901.ui.history.HistorySectionViewModel
 import com.imeanttobe.app901.ui.memo.MemoSection
+import com.imeanttobe.app901.ui.memo.MemoSectionViewModel
 import com.imeanttobe.app901.ui.memo.component.MemoFloatingActionButtonMenu
 import com.imeanttobe.app901.ui.profile.ProfileSection
+import com.imeanttobe.app901.ui.profile.ProfileSectionViewModel
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -36,6 +45,11 @@ fun HomePage(
     navigateAndClearBackStack: (String) -> Unit,
     viewModel: HomePageViewModel = hiltViewModel(),
 ) {
+    // ViewModels here
+    val historySectionViewModel: HistorySectionViewModel = hiltViewModel()
+    val memoSectionViewModel: MemoSectionViewModel = hiltViewModel()
+    val profileSectionViewModel: ProfileSectionViewModel = hiltViewModel()
+
     val context = LocalContext.current
     val fabItems: List<Triple<ImageVector, String, () -> Unit>> =
         listOf(
@@ -57,6 +71,27 @@ fun HomePage(
                 Header(
                     title = stringResource(viewModel.bottomNavItem.value.stringResId),
                     subtitle = stringResource(viewModel.bottomNavItem.value.descriptionResId),
+                    actions = {
+                        if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
+                            TriStateCheckbox(
+                                state = memoSectionViewModel.overallToggleState.value,
+                                onClick = memoSectionViewModel::onToggleOverall,
+                                colors =
+                                    CheckboxDefaults.colors(
+                                        uncheckedColor = ButtonDefaults.textButtonColors().contentColor,
+                                    ),
+                            )
+
+                            IconButton(
+                                onClick = { memoSectionViewModel.setDeleteAllMemosDialogState(true) },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Delete,
+                                    contentDescription = "Delete all",
+                                )
+                            }
+                        }
+                    },
                 )
             }
         },
@@ -74,15 +109,20 @@ fun HomePage(
                     .padding(innerPadding),
         ) {
             when (viewModel.bottomNavItem.value) {
-                BottomNavItem.MemoBottomNavItem -> MemoSection()
+                BottomNavItem.MemoBottomNavItem -> MemoSection(viewModel = memoSectionViewModel)
                 BottomNavItem.HistoryBottomNavItem ->
                     HistorySection(
+                        viewModel = historySectionViewModel,
                         navigateToCart = { cartId ->
                             navigate(NavItem.AnalysisNavItem.route + "/$cartId")
                         },
                         onChangeTab = { newValue -> viewModel.setBottomNavIndex(newValue) },
                     )
-                BottomNavItem.ProfileBottomNavItem -> ProfileSection(navigateAndClearBackStack = navigateAndClearBackStack)
+                BottomNavItem.ProfileBottomNavItem ->
+                    ProfileSection(
+                        viewModel = profileSectionViewModel,
+                        navigateAndClearBackStack = navigateAndClearBackStack,
+                    )
                 BottomNavItem.DevBottomNavItem -> DevSection()
             }
 

@@ -1,6 +1,7 @@
 package com.imeanttobe.app901.ui.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 
@@ -20,6 +20,7 @@ import com.imeanttobe.app901.R
 fun Header(
     title: String,
     subtitle: String,
+    actions: @Composable (RowScope.() -> Unit) = {},
 ) {
     TopAppBar(
         title = {
@@ -33,17 +34,12 @@ fun Header(
             Image(
                 painter = painterResource(R.drawable.logo_gradient_alpha),
                 contentDescription = "Logo",
-                modifier = Modifier.size(48.dp).padding(8.dp),
+                modifier =
+                    Modifier
+                        .size(48.dp)
+                        .padding(8.dp),
             )
         },
-    )
-}
-
-@Preview
-@Composable
-private fun HeaderPreview() {
-    Header(
-        title = "Title",
-        subtitle = "Subtitle",
+        actions = actions,
     )
 }

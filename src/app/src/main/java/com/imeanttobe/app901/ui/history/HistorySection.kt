@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.type.ConcurrencyState
@@ -44,7 +43,7 @@ import com.imeanttobe.app901.util.NativeUtil
 fun HistorySection(
     navigateToCart: (Long) -> Unit,
     onChangeTab: (BottomNavItem) -> Unit,
-    viewModel: HistorySectionViewModel = hiltViewModel(),
+    viewModel: HistorySectionViewModel,
 ) {
     val context = LocalContext.current
 

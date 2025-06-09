@@ -59,15 +59,17 @@ class MemoSectionViewModel
             }
 
         private val _deleteAllMemosDialogState = mutableStateOf(false)
+        private val _overallToggleState = mutableStateOf(ToggleableState.Off)
 
         val deleteAllMemosDialogState: State<Boolean> = _deleteAllMemosDialogState
+        val overallToggleState: State<ToggleableState> = _overallToggleState
 
         // Functions
         fun setDeleteAllMemosDialogState(value: Boolean) {
             _deleteAllMemosDialogState.value = value
         }
 
-        fun getOverallToggleState(): ToggleableState {
+        fun updateOverallToggleState() {
             val leafIds =
                 memos.value.flatMap { item ->
                     if (item.isLeaf) {
@@ -78,10 +80,10 @@ class MemoSectionViewModel
                 }
             val checkedCount = leafIds.count { id -> checkedState[id] == ToggleableState.On }
 
-            return when (checkedCount) {
-                leafIds.size -> ToggleableState.On
-                0 -> ToggleableState.Off
-                else -> ToggleableState.Indeterminate
+            when (checkedCount) {
+                leafIds.size -> _overallToggleState.value = ToggleableState.On
+                0 -> _overallToggleState.value = ToggleableState.Off
+                else -> _overallToggleState.value = ToggleableState.Indeterminate
             }
         }
 
@@ -114,10 +116,11 @@ class MemoSectionViewModel
                     checkedState[subItem.id] = if (value) ToggleableState.On else ToggleableState.Off
                 }
             }
+            updateOverallToggleState()
         }
 
         fun onToggleOverall() {
-            val newValue = getOverallToggleState() == ToggleableState.Off
+            val newValue = _overallToggleState.value == ToggleableState.Off
             memos.value.forEach { item ->
                 setChecked(item, newValue)
             }
@@ -128,17 +131,22 @@ class MemoSectionViewModel
             newValue: Boolean,
         ) {
             setChecked(item, newValue)
+            updateOverallToggleState()
         }
 
         fun deleteMemo(item: ProtoMemoItem) {
             viewModelScope.launch { memoRepo.removeMemo(item) }
+            updateOverallToggleState()
         }
 
         fun deleteMemoLeafInGroup(
             parent: ProtoMemoItem,
             itemToRemove: ProtoMemoItem,
         ) {
-            viewModelScope.launch { memoRepo.removeMemoLeafInGroup(parent, itemToRemove) }
+            viewModelScope.launch {
+                memoRepo.removeMemoLeafInGroup(parent, itemToRemove)
+                updateOverallToggleState()
+            }
         }
 
         fun deleteCheckedMemos() {
@@ -185,6 +193,8 @@ class MemoSectionViewModel
                         memoRepo.removeMemo(item)
                     }
                 }
+
+                updateOverallToggleState()
             }
         }
 
