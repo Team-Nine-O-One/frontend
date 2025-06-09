@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
@@ -20,6 +21,7 @@ import com.imeanttobe.app901.navigation.BottomNavItem
 import com.imeanttobe.app901.navigation.NavItem
 import com.imeanttobe.app901.ui.component.BottomBar
 import com.imeanttobe.app901.ui.component.CreateMemoDialog
+import com.imeanttobe.app901.ui.component.Header
 import com.imeanttobe.app901.ui.component.ImportFromRecipeDialog
 import com.imeanttobe.app901.ui.dev.DevSection
 import com.imeanttobe.app901.ui.history.HistorySection
@@ -48,7 +50,12 @@ fun HomePage(
         )
 
     Scaffold(
-        topBar = {},
+        topBar = {
+            Header(
+                title = stringResource(viewModel.bottomNavItem.value.stringResId),
+                subtitle = stringResource(viewModel.bottomNavItem.value.descriptionResId),
+            )
+        },
         bottomBar = {
             BottomBar(
                 selectedIndex = viewModel.bottomNavItem.value.id,
