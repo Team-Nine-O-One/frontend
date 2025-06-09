@@ -1,65 +1,45 @@
 package com.imeanttobe.app901.ui.component
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.DeveloperMode
-import androidx.compose.material.icons.rounded.History
-import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.ShoppingCart
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.imeanttobe.app901.BuildConfig
-import com.imeanttobe.app901.data.enum.HomePageIndex
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import com.imeanttobe.app901.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun Header(
     title: String,
-    index: HomePageIndex,
-    onNavButtonClick: () -> Unit,
-    onProfileClick: () -> Unit,
-    onDevClick: () -> Unit = {},
+    subtitle: String,
+    actions: @Composable (RowScope.() -> Unit) = {},
 ) {
     TopAppBar(
-        title = { Text(text = title) },
-        actions = {
-            // Dev mode button
-            if (BuildConfig.IS_DEV_MODE_ENABLED) {
-                IconButton(onClick = onDevClick) {
-                    Icon(imageVector = Icons.Rounded.DeveloperMode, contentDescription = null)
-                }
-            }
-
-            // History & memo button
-            if (index == HomePageIndex.HISTORY_PAGE) {
-                IconButton(onClick = onNavButtonClick) {
-                    Icon(imageVector = Icons.Rounded.ShoppingCart, contentDescription = null)
-                }
-            } else {
-                IconButton(onClick = onNavButtonClick) {
-                    Icon(imageVector = Icons.Rounded.History, contentDescription = null)
-                }
-            }
-
-            // Profile button
-            IconButton(onClick = onProfileClick) {
-                Icon(imageVector = Icons.Rounded.Person, contentDescription = null)
-            }
+        title = {
+            Text(
+                text = title,
+                fontWeight = FontWeight.Bold,
+            )
         },
-    )
-}
-
-@Preview
-@Composable
-private fun HeaderPreview() {
-    Header(
-        title = "Title",
-        index = HomePageIndex.MEMO_PAGE,
-        onNavButtonClick = {},
-        onProfileClick = {},
+        subtitle = { Text(text = subtitle) },
+        navigationIcon = {
+            Image(
+                painter = painterResource(R.drawable.logo_gradient_alpha),
+                contentDescription = "Logo",
+                modifier =
+                    Modifier
+                        .size(48.dp)
+                        .padding(8.dp),
+            )
+        },
+        actions = actions,
     )
 }
