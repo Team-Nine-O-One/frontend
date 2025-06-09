@@ -75,11 +75,18 @@ class HomePageViewModel
             _importFromUrlConcurrencyState.value = ConcurrencyState.Default
         }
 
-        fun importMemosFromUrl(url: String) {
+        fun importMemosFromUrl(printToast: () -> Unit) {
             _importFromUrlConcurrencyState.value = ConcurrencyState.Loading
 
             viewModelScope.launch {
-                val result = crawlerRepo.importMemoFromYouTube()
+                val result =
+                    if (isYouTubeLink(urlDialogText.value)) {
+                        crawlerRepo.importMemoFromYouTube(urlDialogText.value)
+                    } else if (isNaverBlogLink(urlDialogText.value)) {
+                        crawlerRepo.importMemoFromNaverBlog(urlDialogText.value)
+                    } else {
+                        Result.failure(Exception("Invalid URL"))
+                    }
 
                 if (result.isSuccess) {
                     val importedMemos = result.getOrNull()
@@ -94,4 +101,24 @@ class HomePageViewModel
                 }
             }
         }
+
+        fun isYouTubeLink(url: String): Boolean =
+            if (url.startsWith("https://www.youtube.com/")) {
+                true
+            } else if (url.startsWith("https://youtu.be/")) {
+                true
+            } else if (url.startsWith("https://youtube.com/")) {
+                true
+            } else {
+                false
+            }
+
+        fun isNaverBlogLink(url: String): Boolean =
+            if (url.startsWith("https://blog.naver.com/")) {
+                true
+            } else if (url.startsWith("https://m.blog.naver.com/")) {
+                true
+            } else {
+                false
+            }
     }

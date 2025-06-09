@@ -25,6 +25,22 @@ fun DevSection(viewModel: DevSectionViewModel = hiltViewModel()) {
             modifier = Modifier.padding(innerPadding),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            // YouTube testing
+            Text(text = viewModel.result.value.first)
+            Text(
+                text =
+                    viewModel.result.value.second.let {
+                        if (it.isEmpty()) {
+                            "empty"
+                        } else {
+                            it.first()
+                        }
+                    },
+            )
+            Button(onClick = { viewModel.getMemoFromYouTube() }) {
+                Text(text = "youtube")
+            }
+
             // Memo testing
             Text(
                 text = "id = ${viewModel.id.value}",
