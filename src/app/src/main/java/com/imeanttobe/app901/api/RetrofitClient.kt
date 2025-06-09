@@ -2,7 +2,7 @@ package com.imeanttobe.app901.api
 
 import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.service.AnalysisService
-import com.imeanttobe.app901.api.service.UtilService
+import com.imeanttobe.app901.api.service.CrawlerService
 import com.imeanttobe.app901.api.service.NaverMapService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -10,27 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object RetrofitClient {
+    // Base URLs
     private const val API_BASE_URL = BuildConfig.API_BASE_URL
     private const val NAVER_MAP_DIRECTIONS_5_BASE_URL = BuildConfig.NAVER_MAP_DIRECTIONS_5_BASE_URL
 
-    val analysisService: AnalysisService by lazy {
-        Retrofit
-            .Builder()
-            .baseUrl(API_BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(AnalysisService::class.java)
-    }
-
-    val utilService: UtilService by lazy {
-        Retrofit
-            .Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(UtilService::class.java)
-    }
-
+    // HTTP client, if needed
     private val naverMapOkHttpClient: OkHttpClient by lazy {
         OkHttpClient
             .Builder()
@@ -44,6 +28,25 @@ object RetrofitClient {
                         .build()
                 chain.proceed(newRequest)
             }.build()
+    }
+
+    // Services
+    val analysisService: AnalysisService by lazy {
+        Retrofit
+            .Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AnalysisService::class.java)
+    }
+
+    val crawlerService: CrawlerService by lazy {
+        Retrofit
+            .Builder()
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(crawlerService::class.java)
     }
 
     val naverMapService: NaverMapService by lazy {

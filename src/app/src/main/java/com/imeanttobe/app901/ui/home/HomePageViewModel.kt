@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.MemoRepo
-import com.imeanttobe.app901.api.repo.UtilRepo
 import com.imeanttobe.app901.data.enum.HomePageDialogState
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.navigation.BottomNavItem
@@ -18,7 +18,7 @@ class HomePageViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
-        private val utilRepo: UtilRepo,
+        private val crawlerRepo: CrawlerRepo,
     ) : ViewModel() {
         // Variables
         private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.HistoryBottomNavItem)
@@ -79,7 +79,7 @@ class HomePageViewModel
             _importFromUrlConcurrencyState.value = ConcurrencyState.Loading
 
             viewModelScope.launch {
-                val result = utilRepo.importStringsFromUrl()
+                val result = crawlerRepo.importMemoFromYouTube()
 
                 if (result.isSuccess) {
                     val importedMemos = result.getOrNull()
