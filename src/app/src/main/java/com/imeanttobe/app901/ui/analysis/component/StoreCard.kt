@@ -12,34 +12,29 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Error
-import androidx.compose.material.icons.rounded.Image
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.ui.component.EmphasizedText
+import com.imeanttobe.app901.ui.component.MartLogo
 
 @Composable
 fun StoreCard(
-    imageUrl: String,
     store: Store,
     modifier: Modifier = Modifier,
     description: @Composable () -> Unit,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier,
     ) {
         // Store info
@@ -48,24 +43,17 @@ fun StoreCard(
             verticalAlignment = Alignment.CenterVertically,
             modifier =
                 Modifier
-                    .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
                     .background(color = MaterialTheme.colorScheme.primaryContainer)
                     .padding(16.dp),
         ) {
             // Image
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = "Mart image",
-                placeholder = rememberVectorPainter(image = Icons.Rounded.Image),
-                error = rememberVectorPainter(image = Icons.Rounded.Error),
-                modifier =
-                    Modifier
-                        .size(48.dp)
-                        .clip(CircleShape)
-                        .background(color = MaterialTheme.colorScheme.surface)
-                        .padding(4.dp),
+            MartLogo(
+                name = store.name,
+                modifier = Modifier.size(48.dp).clip(CircleShape),
             )
+
+            // Mart info
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.Start,
@@ -77,7 +65,7 @@ fun StoreCard(
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 description()
             }
         }
@@ -108,7 +96,7 @@ fun StoreCard(
                     style = MaterialTheme.typography.labelSmall,
                 )
             }
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Column(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Center,
@@ -137,7 +125,6 @@ fun StoreCard(
 @Composable
 fun StoreCardPreview() {
     StoreCard(
-        imageUrl = "",
         store = Store.getDefaultInstance(),
         description = {
             Text(

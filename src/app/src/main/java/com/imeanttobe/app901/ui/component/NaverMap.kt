@@ -2,7 +2,6 @@ package com.imeanttobe.app901.ui.component
 
 import android.os.Bundle
 import android.util.Log
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -12,7 +11,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
@@ -26,6 +24,7 @@ import com.naver.maps.map.MapView
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
+import com.naver.maps.map.util.MarkerIcons
 import kotlinx.coroutines.launch
 
 @Composable
@@ -33,6 +32,7 @@ fun NaverMap(
     modifier: Modifier = Modifier,
     start: LatLng? = null,
     goal: LatLng? = null,
+    waypoints: List<LatLng>? = null,
     pathPoints: List<LatLng> = emptyList(),
 ) {
     val context = LocalContext.current
@@ -43,8 +43,10 @@ fun NaverMap(
     val mapView = remember { MapView(context) }
     var naverMap by remember { mutableStateOf<NaverMap?>(null) }
     var pathOverlay = remember { PathOverlay() }
-    val routeColor = MaterialTheme.colorScheme.primaryContainer.toArgb()
-    val markerColor = MaterialTheme.colorScheme.onPrimaryContainer.toArgb()
+    val routeColor = 0xBB979797.toInt()
+    val startMarkerColor = 0xFF1E88E5.toInt()
+    val goalMarkerColor = 0xFFE53935.toInt()
+    val waypointMarkerColor = 0xFF8E24AA.toInt()
 
     // Set lifecycleObserver
     val lifecycleObserver =
@@ -72,14 +74,15 @@ fun NaverMap(
             // apply path
             pathOverlay.map = null
             pathOverlay.coords = pathPoints
-            pathOverlay.width = 10
+            pathOverlay.width = 20
             pathOverlay.color = routeColor
             pathOverlay.map = naverMap
 
             // apply start marker
             start?.let { latLng ->
                 val startMarker = Marker()
-                startMarker.iconTintColor = markerColor
+                startMarker.icon = MarkerIcons.BLACK
+                startMarker.iconTintColor = startMarkerColor
                 startMarker.position = latLng
                 startMarker.map = naverMap
             }
@@ -87,9 +90,21 @@ fun NaverMap(
             // apply end marker
             goal?.let { latLng ->
                 val endMarker = Marker()
-                endMarker.iconTintColor = markerColor
+                endMarker.icon = MarkerIcons.BLACK
+                endMarker.iconTintColor = goalMarkerColor
                 endMarker.position = latLng
                 endMarker.map = naverMap
+            }
+
+            // apply waypoint marker
+            waypoints?.let { list ->
+                list.forEach { latLng ->
+                    val waypointMarker = Marker()
+                    waypointMarker.icon = MarkerIcons.BLACK
+                    waypointMarker.iconTintColor = waypointMarkerColor
+                    waypointMarker.position = latLng
+                    waypointMarker.map = naverMap
+                }
             }
 
             // move camera

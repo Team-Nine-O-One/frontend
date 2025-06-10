@@ -45,14 +45,14 @@ class FakeAnalysisRepoImpl
                         marts =
                             listOf(
                                 SimplifiedMart(
-                                    martName = "하나로마트 흑석점",
-                                    displayName = "양파 외 3건",
-                                    totalPrice = 26500,
-                                ),
-                                SimplifiedMart(
                                     martName = "COUPANG",
                                     displayName = "백산수 외 2건",
                                     totalPrice = 12400,
+                                ),
+                                SimplifiedMart(
+                                    martName = "이마트 흑석점",
+                                    displayName = "양파 외 3건",
+                                    totalPrice = 26500,
                                 ),
                             ),
                     ),
