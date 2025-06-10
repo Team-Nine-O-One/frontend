@@ -11,12 +11,14 @@ import com.imeanttobe.app901.R
 sealed class BottomNavItem(
     val id: Int,
     val stringResId: Int,
+    val descriptionResId: Int,
     val label: String,
     val icon: ImageVector,
 ) {
     object MemoBottomNavItem : BottomNavItem(
         id = 0,
         stringResId = R.string.memo,
+        descriptionResId = R.string.tips_home_memo,
         label = "memo",
         icon = Icons.Rounded.ShoppingCart,
     )
@@ -24,6 +26,7 @@ sealed class BottomNavItem(
     object HistoryBottomNavItem : BottomNavItem(
         id = 1,
         stringResId = R.string.cart,
+        descriptionResId = R.string.tips_home_history,
         label = "history",
         icon = Icons.Rounded.History,
     )
@@ -31,6 +34,7 @@ sealed class BottomNavItem(
     object ProfileBottomNavItem : BottomNavItem(
         id = 2,
         stringResId = R.string.profile,
+        descriptionResId = R.string.tips_home_profile,
         label = "profile",
         icon = Icons.Rounded.Person,
     )
@@ -38,6 +42,7 @@ sealed class BottomNavItem(
     object DevBottomNavItem : BottomNavItem(
         id = 3,
         stringResId = R.string.dev,
+        descriptionResId = R.string.dev,
         label = "dev",
         icon = Icons.Rounded.DeveloperMode,
     )

@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.ProfileSectionSheetState
 import com.imeanttobe.app901.data.type.ConcurrencyState
@@ -36,7 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileSection(
     navigateAndClearBackStack: (String) -> Unit,
-    viewModel: ProfileSectionViewModel = hiltViewModel(),
+    viewModel: ProfileSectionViewModel,
 ) {
     val scope = rememberCoroutineScope()
     val changeNicknameSheetState = rememberModalBottomSheetState()

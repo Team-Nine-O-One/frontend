@@ -6,6 +6,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.RetrofitClient
 import com.imeanttobe.app901.api.repo.AnalysisRepo
+import com.imeanttobe.app901.api.repo.CrawlerRepo
+import com.imeanttobe.app901.api.repo.CrawlerRepoImpl
 import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
@@ -14,6 +16,7 @@ import com.imeanttobe.app901.api.repo.NaverMapRepoImpl
 import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.api.repo.UserRepoImpl
 import com.imeanttobe.app901.api.service.AnalysisService
+import com.imeanttobe.app901.api.service.CrawlerService
 import com.imeanttobe.app901.api.service.NaverMapService
 import com.imeanttobe.app901.data.type.IdGenerator
 import dagger.Module
@@ -51,6 +54,10 @@ object HiltModule {
     @Singleton
     fun provideNaverMapRepo(naverMapService: NaverMapService): NaverMapRepo = NaverMapRepoImpl(naverMapService)
 
+    @Provides
+    @Singleton
+    fun provideCrawlerRepo(crawlerService: CrawlerService): CrawlerRepo = CrawlerRepoImpl(crawlerService)
+
     // Services here
     @Provides
     @Singleton
@@ -59,6 +66,10 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideNaverMapService(): NaverMapService = RetrofitClient.naverMapService
+
+    @Provides
+    @Singleton
+    fun provideCrawlerService(): CrawlerService = RetrofitClient.crawlerService
 
     // Other stuff here
     @Provides

@@ -74,6 +74,7 @@
     <string name="error_no_items_history">장바구니 히스토리가 비어 있어요.</string>
     <string name="error_failed_to_fetch_data">데이터를 가져오는 데 실패했어요…</string>
     <string name="error_no_search_result">검색 결과가 없어요…</string>
+    <string name="error_invalid_url">URL이 올바르지 않아요…</string>
 
     <string name="tips_failed_to_login">로그인에 실패했어요… 다시 시도해보세요.</string>
     <string name="tips_failed_to_register">회원 가입에 실패했어요… 다시 시도해보세요.</string>
@@ -101,7 +102,9 @@
     <string name="tips_best_route">모든 마트를 방문할 수 있는, 실시간 교통 정보가 반영된 가장 빠른 추천 경로예요.</string>
     <string name="tips_mart_order">최적 경로에 표시된, 방문해야 하는 마트 순서예요.</string>
     <string name="tips_mart_order_products">버튼을 눌러 각 마트에서 사야 할 물건 목록을 확인해보세요.</string>
-
+    <string name="tips_home_memo">사야 할 물건들을 메모해보세요.</string>
+    <string name="tips_home_history">진행 중이거나 완료된 장바구니를 확인해보세요.</string>
+    <string name="tips_home_profile">내 정보를 확인하세요.</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>

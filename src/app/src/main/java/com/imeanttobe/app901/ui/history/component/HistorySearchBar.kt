@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.history.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -45,6 +47,7 @@ fun HistorySearchBar(
     onSearchTypeChange: (HistorySectionSearchType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val contentHeight = 48.dp
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
     val searchTypeColor = MaterialTheme.colorScheme.surfaceContainerLowest
@@ -55,122 +58,135 @@ fun HistorySearchBar(
             stringResource(id = R.string.store)
         }
 
-    BasicTextField(
-        textStyle = MaterialTheme.typography.bodyLarge.copy(color = contentColor),
-        value = text,
-        onValueChange = onValueChange,
-        singleLine = true,
-        maxLines = 1,
-        cursorBrush = SolidColor(contentColor),
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch() }),
-        decorationBox = @Composable { innerTextField ->
-            Row(
-                modifier =
-                    Modifier
-                        .height(40.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(100.dp))
-                        .background(color = backgroundColor)
-                        .padding(vertical = 8.dp, horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                // Search icon
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier,
+    ) {
+        // Logo
+        Image(
+            painter = painterResource(R.drawable.logo_gradient_alpha),
+            contentDescription = "Logo",
+            modifier = Modifier.size(contentHeight).padding(8.dp),
+        )
+
+        // Search bar
+        BasicTextField(
+            textStyle = MaterialTheme.typography.bodyLarge.copy(color = contentColor),
+            value = text,
+            onValueChange = onValueChange,
+            singleLine = true,
+            maxLines = 1,
+            cursorBrush = SolidColor(contentColor),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = { onSearch() }),
+            decorationBox = @Composable { innerTextField ->
                 Row(
+                    modifier =
+                        Modifier
+                            .height(40.dp)
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(100.dp))
+                            .background(color = backgroundColor)
+                            .padding(vertical = 8.dp, horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.weight(1f),
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Search,
-                        contentDescription = "Search Icon",
-                        tint = contentColor,
-                    )
-
-                    Box(
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 4.dp),
-                        contentAlignment = Alignment.CenterStart,
+                    // Search icon
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.weight(1f),
                     ) {
-                        innerTextField()
-                        if (text.isEmpty()) {
-                            Text(
-                                text = stringResource(id = R.string.example_search),
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = contentColor.copy(alpha = 0.5f),
-                            )
-                        }
-                    }
-                }
+                        Icon(
+                            imageVector = Icons.Rounded.Search,
+                            contentDescription = "Search Icon",
+                            tint = contentColor,
+                        )
 
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                ) {
-                    // Clear button
-                    if (text.isNotEmpty()) {
-                        IconButton(
-                            onClick = { onValueChange("") },
-                            enabled = text.isNotEmpty(),
+                        Box(
+                            modifier =
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 4.dp),
+                            contentAlignment = Alignment.CenterStart,
                         ) {
-                            Icon(
-                                imageVector = Icons.Rounded.Clear,
-                                contentDescription = "Clear Icon",
-                                tint = contentColor,
-                            )
-                        }
-                    }
-
-                    // Filter
-                    Box(
-                        modifier =
-                            Modifier
-                                .clip(RoundedCornerShape(100.dp))
-                                .background(color = searchTypeColor)
-                                .clickable { onExpandedChange(true) }
-                                .padding(horizontal = 8.dp, vertical = 4.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        // Filter button contents
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(4.dp),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.FilterList,
-                                contentDescription = "Filter Icon",
-                                tint = contentColor,
-                                modifier = Modifier.size(16.dp),
-                            )
-                            Text(
-                                text = searchTypeText,
-                                style = MaterialTheme.typography.labelMedium,
-                                color = contentColor,
-                            )
-                        }
-
-                        // Menu
-                        DropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { onExpandedChange(false) },
-                        ) {
-                            HistorySectionSearchType.entries.forEach { type ->
-                                DropdownMenuItem(
-                                    text = { Text(text = stringResource(type.stringResId)) },
-                                    onClick = {
-                                        onSearchTypeChange(type)
-                                        onExpandedChange(false)
-                                    },
+                            innerTextField()
+                            if (text.isEmpty()) {
+                                Text(
+                                    text = stringResource(id = R.string.example_search),
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = contentColor.copy(alpha = 0.5f),
                                 )
                             }
                         }
                     }
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        // Clear button
+                        if (text.isNotEmpty()) {
+                            IconButton(
+                                onClick = { onValueChange("") },
+                                enabled = text.isNotEmpty(),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Clear,
+                                    contentDescription = "Clear Icon",
+                                    tint = contentColor,
+                                )
+                            }
+                        }
+
+                        // Filter
+                        Box(
+                            modifier =
+                                Modifier
+                                    .clip(RoundedCornerShape(100.dp))
+                                    .background(color = searchTypeColor)
+                                    .clickable { onExpandedChange(true) }
+                                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            // Filter button contents
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.FilterList,
+                                    contentDescription = "Filter Icon",
+                                    tint = contentColor,
+                                    modifier = Modifier.size(16.dp),
+                                )
+                                Text(
+                                    text = searchTypeText,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    color = contentColor,
+                                )
+                            }
+
+                            // Menu
+                            DropdownMenu(
+                                expanded = expanded,
+                                onDismissRequest = { onExpandedChange(false) },
+                            ) {
+                                HistorySectionSearchType.entries.forEach { type ->
+                                    DropdownMenuItem(
+                                        text = { Text(text = stringResource(type.stringResId)) },
+                                        onClick = {
+                                            onSearchTypeChange(type)
+                                            onExpandedChange(false)
+                                        },
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
-            }
-        },
-        modifier = modifier,
-    )
+            },
+            modifier = Modifier.weight(1f),
+        )
+    }
 }
