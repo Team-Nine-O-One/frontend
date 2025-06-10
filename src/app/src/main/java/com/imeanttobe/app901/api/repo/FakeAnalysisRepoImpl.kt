@@ -38,19 +38,19 @@ class FakeAnalysisRepoImpl
         ): Result<List<SimplifiedAnalysis>> {
             val mockedResponse =
                 listOf(
-                    sampleHistory.copy(isCompleted = true, title = "가나다라"),
+                    sampleHistory.copy(isCompleted = true, title = "홈 파티 준비"),
                     sampleHistory.copy(
                         isCompleted = true,
-                        title = "고노도로",
+                        title = "내일 장 볼 것들",
                         marts =
                             listOf(
                                 SimplifiedMart(
-                                    martName = "COUPANG",
+                                    martName = "네이버 쇼핑",
                                     displayName = "백산수 외 2건",
                                     totalPrice = 12400,
                                 ),
                                 SimplifiedMart(
-                                    martName = "이마트 흑석점",
+                                    martName = "홈플러스 용산점",
                                     displayName = "양파 외 3건",
                                     totalPrice = 26500,
                                 ),

@@ -5,9 +5,9 @@ import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.imeanttobe.app901.api.RetrofitClient
 import com.imeanttobe.app901.api.repo.AnalysisRepo
-import com.imeanttobe.app901.api.repo.AnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepoImpl
+import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
 import com.imeanttobe.app901.api.repo.NaverMapRepo
@@ -29,9 +29,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object HiltModule {
     // Repositories here
+    // fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo = AnalysisRepoImpl(analysisService)
     @Provides
     @Singleton
-    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo = AnalysisRepoImpl(analysisService)
+    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo = FakeAnalysisRepoImpl()
 
     @Provides
     @Singleton

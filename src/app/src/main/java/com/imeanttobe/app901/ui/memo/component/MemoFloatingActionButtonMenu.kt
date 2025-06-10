@@ -36,7 +36,6 @@ fun MemoFloatingActionButtonMenu(
     setFabMenuExpanded: (Boolean) -> Unit,
     items: List<Triple<ImageVector, String, () -> Unit>>,
     modifier: Modifier = Modifier,
-    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier,
