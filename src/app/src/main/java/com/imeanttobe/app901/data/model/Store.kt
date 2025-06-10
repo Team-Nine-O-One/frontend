@@ -7,6 +7,7 @@ data class Store(
     val totalItems: Int,
     val totalPrice: Int,
     val link: String,
+    val pos: LatAndLng,
     val products: List<Product>,
 ) {
     companion object {
@@ -18,6 +19,7 @@ data class Store(
                 totalItems = 4,
                 totalPrice = 86500,
                 link = "https://www.naver.com",
+                pos = LatAndLng(lat = 37.506791, lng = 126.958051),
                 products =
                     listOf(
                         Product.getDefaultObject(),

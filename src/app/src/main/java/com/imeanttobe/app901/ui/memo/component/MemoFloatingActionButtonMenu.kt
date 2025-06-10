@@ -2,7 +2,6 @@ package com.imeanttobe.app901.ui.memo.component
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
@@ -36,8 +35,9 @@ fun MemoFloatingActionButtonMenu(
     fabMenuExpanded: Boolean,
     setFabMenuExpanded: (Boolean) -> Unit,
     items: List<Triple<ImageVector, String, () -> Unit>>,
+    modifier: Modifier = Modifier,
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier) {
         BackHandler(enabled = fabMenuExpanded) { setFabMenuExpanded(false) }
         FloatingActionButtonMenu(
             modifier = Modifier.align(Alignment.BottomEnd),

@@ -2,8 +2,13 @@ package com.imeanttobe.app901.ui.home
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AutoGraph
@@ -11,9 +16,14 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.MediumExtendedFloatingActionButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +32,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.HomePageDialogState
@@ -78,37 +89,34 @@ fun HomePage(
     }
 
     Scaffold(
-        topBar = {
-            if (viewModel.bottomNavItem.value == BottomNavItem.HistoryBottomNavItem) {
-                null
-            } else {
-                Header(
-                    title = stringResource(viewModel.bottomNavItem.value.stringResId),
-                    subtitle = stringResource(viewModel.bottomNavItem.value.descriptionResId),
-                    actions = {
-                        if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
-                            TriStateCheckbox(
-                                state = memoSectionViewModel.overallToggleState.value,
-                                onClick = memoSectionViewModel::onToggleOverall,
-                                colors =
-                                    CheckboxDefaults.colors(
-                                        uncheckedColor = ButtonDefaults.textButtonColors().contentColor,
-                                    ),
-                            )
+        topBar = {},
+        floatingActionButton = {
+            if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End,
+                ) {
+                    MemoFloatingActionButtonMenu(
+                        fabMenuExpanded = viewModel.fabMenuExpanded.value,
+                        setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
+                        items = fabItems,
+                        modifier = Modifier.offset(x = 16.dp),
+                    )
 
-                            IconButton(
-                                onClick = { memoSectionViewModel.setDeleteAllMemosDialogState(true) },
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Delete,
-                                    contentDescription = "Delete all",
-                                )
-                            }
-                        }
-                    },
-                )
+                    MediumExtendedFloatingActionButton(
+                        onClick = {},
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.AutoGraph,
+                            contentDescription = "Analyze",
+                        )
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(text = stringResource(R.string.analyze))
+                    }
+                }
             }
         },
+        floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
             BottomBar(
                 selectedIndex = viewModel.bottomNavItem.value.id,
@@ -138,14 +146,6 @@ fun HomePage(
                         navigateAndClearBackStack = navigateAndClearBackStack,
                     )
                 BottomNavItem.DevBottomNavItem -> DevSection()
-            }
-
-            if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
-                MemoFloatingActionButtonMenu(
-                    fabMenuExpanded = viewModel.fabMenuExpanded.value,
-                    setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
-                    items = fabItems,
-                )
             }
         }
     }

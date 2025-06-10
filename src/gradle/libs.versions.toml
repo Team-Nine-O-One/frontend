@@ -6,9 +6,9 @@ coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.9.0"
+lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-composeBom = "2025.05.01"
+composeBom = "2025.06.00"
 material3 = "1.4.0-alpha15"
 # Additional
 ksp = "2.1.10-1.0.31"
@@ -17,7 +17,7 @@ hilt = "2.52"
 androidxHilt = "1.2.0"
 icon = "1.7.8"
 gms = "4.4.2"
-firebaseBom = "33.14.0"
+firebaseBom = "33.15.0"
 firebaseAuth = "23.2.1"
 retrofit2 = "2.11.0"
 gson = "2.11.0"
@@ -26,6 +26,7 @@ protobuf = "0.9.4"
 datastore = "1.1.7"
 coil = "3.2.0"
 naverMaps = "3.21.0"
+location = "21.3.0"
 
 [libraries]
 # Default
@@ -61,6 +62,7 @@ datastore-preferences = { group = "androidx.datastore", name = "datastore-prefer
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 naver-maps = { group = 'com.naver.maps', name = 'map-sdk', version.ref = "naverMaps" }
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "location" }
 
 [plugins]
 # Default

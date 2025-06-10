@@ -114,6 +114,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network)
     implementation(libs.naver.maps)
+    implementation(libs.play.services.location)
 
     // Default
     implementation(libs.androidx.core.ktx)

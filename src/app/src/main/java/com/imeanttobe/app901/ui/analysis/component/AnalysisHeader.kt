@@ -29,10 +29,14 @@ import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.model.Analysis
 
 @Composable
-fun AnalysisHeader(analysis: Analysis) {
+fun AnalysisHeader(
+    analysis: Analysis,
+    modifier: Modifier = Modifier,
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
+        modifier = modifier,
     ) {
         // Header graphics
         Box(
@@ -80,7 +84,9 @@ fun AnalysisHeader(analysis: Analysis) {
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.offlineStore.products
+                                    analysis.offlineStores
+                                        .first()
+                                        .products
                                         .first()
                                         .name,
                                     analysis.offlineCount,

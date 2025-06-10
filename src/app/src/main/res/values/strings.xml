@@ -33,6 +33,11 @@
     <string name="from">에서</string>
     <string name="online">온라인</string>
     <string name="offline">오프라인</string>
+    <string name="best">최적</string>
+    <string name="map">지도</string>
+    <string name="reduced">절감</string>
+    <string name="shorten">단축</string>
+    <string name="cost">비용</string>
 
     <string name="create_memo">메모 추가</string>
     <string name="edit_memo">메모 수정</string>
@@ -55,6 +60,9 @@
     <string name="total_price">총 가격</string>
     <string name="complete_cart">장 다 봤어요!</string>
     <string name="add_new_memo">새 메모 추가하기</string>
+    <string name="analyze">분석하기</string>
+    <string name="best_route">최적 경로</string>
+    <string name="mart_order">방문 순서</string>
 
     <string name="error_empty_email">전자 메일 주소가 올바르지 않아요. 다시 작성해주세요.</string>
     <string name="error_empty_password">비밀번호가 올바르지 않아요. 최소 6자 이상 작성해주세요.</string>
@@ -85,6 +93,15 @@
     <string name="tips_loading_analysis">장바구니를 분석하고 있어요…</string>
     <string name="tips_analysis_efficient">에서는 이렇게 구매하면\n제일 효율적이에요!</string>
     <string name="tips_add_new_memo">버튼을 눌러 장바구니에 사야 할 물건들을 채워보세요!</string>
+    <string name="tips_analysis_button">원하는 옵션에 맞춰\n분석 결과를 조정할 수 있어요!</string>
+    <string name="tips_analysis_option_distance">최단 거리 마트 탐색</string>
+    <string name="tips_analysis_option_best">최적의 거리 및 가격</string>
+    <string name="tips_analysis_option_price">최저 가격 마트 탐색</string>
+    <string name="tips_analysis_button_description">선택하신 옵션에 따라 경로가 분석돼요.\n각 버튼을 길게 눌러 상세 설명을 확인하세요.</string>
+    <string name="tips_analysis_map">지도에서 옵션에 따른 최적 경로를 확인하세요.</string>
+    <string name="tips_best_route">모든 마트를 방문할 수 있는, 실시간 교통 정보가 반영된 가장 빠른 추천 경로예요.</string>
+    <string name="tips_mart_order">최적 경로에 표시된, 방문해야 하는 마트 순서예요.</string>
+    <string name="tips_mart_order_products">버튼을 눌러 각 마트에서 사야 할 물건 목록을 확인해보세요.</string>
     <string name="tips_home_memo">사야 할 물건들을 메모해보세요.</string>
     <string name="tips_home_history">진행 중이거나 완료된 장바구니를 확인해보세요.</string>
     <string name="tips_home_profile">내 정보를 확인하세요.</string>
@@ -112,4 +129,5 @@
     <string name="format_price_per_100_gram">100g 당 %1$s원</string>
     <string name="format_time_minute">%1$d분</string>
     <string name="format_distance">%1$skm</string>
+    <string name="format_price">%1$s원</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.imeanttobe.app901.ui.history.component
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,19 +39,7 @@ fun MartInfoItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            // Image
-//            AsyncImage(
-//                model = imageUrl,
-//                contentDescription = "Mart image",
-//                placeholder = rememberVectorPainter(image = Icons.Rounded.Image),
-//                error = rememberVectorPainter(image = Icons.Rounded.Error),
-//                modifier =
-//                    Modifier
-//                        .size(48.dp)
-//                        .clip(CircleShape)
-//                        .background(color = MaterialTheme.colorScheme.surfaceVariant)
-//                        .padding(4.dp),
-//            )
+            // Mart logo
             MartLogo(
                 name = mart.martName,
                 modifier = Modifier.size(48.dp).clip(CircleShape),
