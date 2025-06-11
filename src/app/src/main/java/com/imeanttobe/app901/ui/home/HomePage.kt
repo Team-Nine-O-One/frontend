@@ -12,8 +12,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AutoGraph
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -138,6 +140,7 @@ fun HomePage(
                             memoSectionViewModel.createAnalysis(
                                 navigate = { analysisId -> navigate(NavItem.AnalysisNavItem.route + "/$analysisId") },
                                 showToast = { message -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show() },
+                                context = context,
                             )
                         },
                     ) {
@@ -207,6 +210,23 @@ fun HomePage(
                 )
             HomePageDialogState.NONE -> null
         }
+    }
+
+    if (memoSectionViewModel.postAnalysisState.value == ConcurrencyState.Loading) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = { },
+            text = {
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(24.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    ContainedLoadingIndicator()
+                }
+            },
+            confirmButton = { },
+            dismissButton = { },
+        )
     }
 }
 

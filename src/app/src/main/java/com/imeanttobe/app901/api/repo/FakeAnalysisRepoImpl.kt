@@ -104,7 +104,7 @@ class FakeAnalysisRepoImpl
 
         override suspend fun createAnalysis(
             userId: String,
-            memoContents: String,
+            memoId: Long,
         ): Result<Long> {
             val mockedResponse = Analysis.getDefaultInstance()
             return Result.success(1)

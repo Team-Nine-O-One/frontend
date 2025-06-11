@@ -5,7 +5,9 @@ import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.service.AnalysisService
 import com.imeanttobe.app901.api.service.CrawlerService
 import com.imeanttobe.app901.api.service.NaverMapService
+import com.imeanttobe.app901.api.service.RemoteMemoService
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -33,8 +35,16 @@ object RetrofitClient {
         OkHttpClient
             .Builder()
             .addInterceptor { chain ->
-                Log.d("RetrofitClient", chain.request().url.toString())
-                chain.proceed(chain.request())
+                val request = chain.request()
+                Log.d("RetrofitClient", "Request URL: ${request.url}")
+                val response = chain.proceed(request)
+                val responseBody = response.body?.string()
+                Log.d("RetrofitClient", "Response JSON: $responseBody")
+                // Re-create the response body because it can be consumed only once
+                response
+                    .newBuilder()
+                    .body(responseBody?.toResponseBody(response.body?.contentType()))
+                    .build()
             }.build()
     }
 
@@ -67,5 +77,15 @@ object RetrofitClient {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NaverMapService::class.java)
+    }
+
+    val remoteMemoService: RemoteMemoService by lazy {
+        Retrofit
+            .Builder()
+            .baseUrl(API_BASE_URL)
+            .client(loggingOkHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RemoteMemoService::class.java)
     }
 }

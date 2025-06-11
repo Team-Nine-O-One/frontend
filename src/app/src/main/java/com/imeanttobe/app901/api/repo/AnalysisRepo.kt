@@ -32,6 +32,6 @@ interface AnalysisRepo {
 
     suspend fun createAnalysis(
         userId: String,
-        memoContents: String,
+        memoId: Long,
     ): Result<Long>
 }

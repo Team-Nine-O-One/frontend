@@ -113,14 +113,14 @@ class AnalysisRepoImpl
 
         override suspend fun createAnalysis(
             userId: String,
-            memoContents: String,
+            memoId: Long,
         ): Result<Long> {
             val postResponse =
                 analysisService.createCart(
                     request =
                         CreateCartRequest(
                             userId = userId,
-                            memo = memoContents,
+                            memoId = memoId,
                         ),
                 )
             return if (postResponse.isSuccessful) {
