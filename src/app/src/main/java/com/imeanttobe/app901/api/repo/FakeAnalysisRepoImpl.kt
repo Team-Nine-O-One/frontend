@@ -29,7 +29,7 @@ class FakeAnalysisRepoImpl
                     ),
                 totalItems = 7,
                 totalPrice = 26500 + 12400,
-                isCompleted = false,
+                completed = false,
             )
 
         override suspend fun getAllAnalyses(
@@ -38,9 +38,9 @@ class FakeAnalysisRepoImpl
         ): Result<List<SimplifiedAnalysis>> {
             val mockedResponse =
                 listOf(
-                    sampleHistory.copy(isCompleted = true, title = "홈 파티 준비"),
+                    sampleHistory.copy(completed = true, title = "홈 파티 준비"),
                     sampleHistory.copy(
-                        isCompleted = true,
+                        completed = true,
                         title = "내일 장 볼 것들",
                         martSummaries =
                             listOf(
@@ -56,14 +56,14 @@ class FakeAnalysisRepoImpl
                                 ),
                             ),
                     ),
-                    sampleHistory.copy(isCompleted = true),
-                    sampleHistory.copy(isCompleted = true),
-                    sampleHistory.copy(isCompleted = true),
-                    sampleHistory.copy(isCompleted = false),
-                    sampleHistory.copy(isCompleted = false),
-                    sampleHistory.copy(isCompleted = false),
-                    sampleHistory.copy(isCompleted = false),
-                    sampleHistory.copy(isCompleted = false),
+                    sampleHistory.copy(completed = true),
+                    sampleHistory.copy(completed = true),
+                    sampleHistory.copy(completed = true),
+                    sampleHistory.copy(completed = false),
+                    sampleHistory.copy(completed = false),
+                    sampleHistory.copy(completed = false),
+                    sampleHistory.copy(completed = false),
+                    sampleHistory.copy(completed = false),
                 )
             delay(300) // IO delay
             return Result.success(mockedResponse)

@@ -27,7 +27,7 @@ interface AnalysisService {
         @Path("cartId") cartId: Long,
     ): Response<GetAnalysisByIdResponse>
 
-    @POST("/api/carts/{cartId}")
+    @POST("/api/carts/{cartId}/confirm")
     suspend fun confirmCart(
         @Path("cartId") cartId: Long,
     ): Response<ConfirmAnalysisResponse>

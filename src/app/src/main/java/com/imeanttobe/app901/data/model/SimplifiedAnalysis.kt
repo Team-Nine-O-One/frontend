@@ -8,7 +8,7 @@ data class SimplifiedAnalysis(
     val martSummaries: List<SimplifiedMart>,
     val totalItems: Int,
     val totalPrice: Int,
-    val isCompleted: Boolean,
+    val completed: Boolean,
 ) {
     companion object {
         fun getDefaultInstance() =
@@ -18,7 +18,7 @@ data class SimplifiedAnalysis(
                 martSummaries = emptyList(),
                 totalItems = 0,
                 totalPrice = 0,
-                isCompleted = Random.nextBoolean(),
+                completed = Random.nextBoolean(),
             )
     }
 }

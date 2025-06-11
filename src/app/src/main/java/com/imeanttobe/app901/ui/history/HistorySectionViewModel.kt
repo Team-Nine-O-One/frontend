@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.UserRepo
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.enum.HistorySectionFilterType
 import com.imeanttobe.app901.data.enum.HistorySectionSearchType
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,15 +50,15 @@ class HistorySectionViewModel
                     }.let { filteredBySearch ->
                         when (_filterTab.value) {
                             HistorySectionFilterType.ALL -> {
-                                filteredBySearch.sortedBy { it.isCompleted }
+                                filteredBySearch.sortedBy { it.completed }
                             }
 
                             HistorySectionFilterType.COMPLETED -> {
-                                filteredBySearch.filter { it.isCompleted }
+                                filteredBySearch.filter { it.completed }
                             }
 
                             HistorySectionFilterType.ON_GOING -> {
-                                filteredBySearch.filter { !it.isCompleted }
+                                filteredBySearch.filter { !it.completed }
                             }
                         }
                     }
@@ -73,6 +75,7 @@ class HistorySectionViewModel
 
         fun setFilterTab(value: HistorySectionFilterType) {
             _filterTab.value = value
+            loadHistories()
         }
 
         fun setSearchTypeMenuExtended(value: Boolean) {
@@ -92,7 +95,23 @@ class HistorySectionViewModel
 
             viewModelScope.launch {
                 val userId = userRepo.getUserId()
-                val result = analysisRepo.getAllAnalyses(userId = userId)
+                val status =
+                    when (_filterTab.value) {
+                        HistorySectionFilterType.COMPLETED -> {
+                            AnalysisStatus.COMPLETED
+                        }
+                        HistorySectionFilterType.ON_GOING -> {
+                            AnalysisStatus.IN_PROGRESS
+                        }
+                        HistorySectionFilterType.ALL -> {
+                            null
+                        }
+                    }
+                val result =
+                    analysisRepo.getAllAnalyses(
+                        userId = userId,
+                        status = status,
+                    )
 
                 if (result.isSuccess) {
                     _historyList.value = result.getOrThrow()
@@ -109,9 +128,9 @@ class HistorySectionViewModel
                 analysisRepo.deleteAnalysis(
                     analysisId = history.cartId,
                 )
+                delay(100)
+                loadHistories()
             }
-
-            loadHistories()
         }
 
         fun search() {}

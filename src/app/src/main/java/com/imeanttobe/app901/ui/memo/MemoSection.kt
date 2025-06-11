@@ -29,7 +29,7 @@ fun MemoSection(viewModel: MemoSectionViewModel) {
     if (memos.isNotEmpty()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
             // Items
             MemoCardList(

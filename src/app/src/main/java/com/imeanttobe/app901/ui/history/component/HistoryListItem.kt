@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.ui.component.EmphasizedText
 
@@ -41,13 +42,13 @@ fun HistoryListItem(
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     val priceColor = MaterialTheme.colorScheme.primary
     val labelContentColor =
-        if (history.isCompleted) {
+        if (history.completed) {
             MaterialTheme.colorScheme.onSecondaryContainer
         } else {
             MaterialTheme.colorScheme.onPrimaryContainer
         }
     val labelBackgroundColor =
-        if (history.isCompleted) {
+        if (history.completed) {
             MaterialTheme.colorScheme.secondaryContainer
         } else {
             MaterialTheme.colorScheme.primaryContainer
@@ -89,7 +90,7 @@ fun HistoryListItem(
                     Text(
                         text =
                             stringResource(
-                                if (history.isCompleted) {
+                                if (history.completed) {
                                     R.string.completed
                                 } else {
                                     R.string.on_going
@@ -113,16 +114,18 @@ fun HistoryListItem(
             }
 
             // Delete button
-            IconButton(
-                onClick = { onDelete(history) },
-                modifier = Modifier.size(24.dp),
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Delete,
-                    contentDescription = "Delete history",
-                    tint = contentColor,
-                    modifier = Modifier.padding(4.dp).weight(1f),
-                )
+            if (history.completed) {
+                IconButton(
+                    onClick = { onDelete(history) },
+                    modifier = Modifier.size(24.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Delete,
+                        contentDescription = "Delete history",
+                        tint = contentColor,
+                        modifier = Modifier.padding(4.dp).weight(1f),
+                    )
+                }
             }
         }
 

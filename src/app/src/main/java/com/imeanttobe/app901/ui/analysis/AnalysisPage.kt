@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.analysis
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -63,6 +64,17 @@ fun AnalysisPage(
     LaunchedEffect(key1 = viewModel.analysis.value) {
         if (viewModel.analysis.value != null) {
             viewModel.getRoute()
+        }
+    }
+
+    LaunchedEffect(key1 = viewModel.analysisConcurrencyState) {
+        if (viewModel.analysisConcurrencyState.value is ConcurrencyState.Failure) {
+            Toast
+                .makeText(
+                    context,
+                    (viewModel.analysisConcurrencyState.value as ConcurrencyState.Failure).message,
+                    Toast.LENGTH_SHORT,
+                ).show()
         }
     }
 

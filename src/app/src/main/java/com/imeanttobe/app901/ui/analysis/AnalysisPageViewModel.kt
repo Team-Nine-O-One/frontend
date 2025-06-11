@@ -104,6 +104,11 @@ class AnalysisPageViewModel
             viewModelScope.launch {
                 if (_analysis.value != null) {
                     val result = analysisRepo.confirmAnalysis(analysisId = analysisId)
+                    if (result.isSuccess) {
+                        _analysis.value = _analysis.value!!.copy(status = com.imeanttobe.app901.data.enum.AnalysisStatus.CONFIRMED)
+                    } else {
+                        _analysisConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
+                    }
                 }
             }
         }
@@ -112,6 +117,11 @@ class AnalysisPageViewModel
             viewModelScope.launch {
                 if (_analysis.value != null) {
                     val result = analysisRepo.completeAnalysis(analysisId = analysisId)
+                    if (result.isSuccess) {
+                        _analysis.value = _analysis.value!!.copy(status = com.imeanttobe.app901.data.enum.AnalysisStatus.COMPLETED)
+                    } else {
+                        _analysisConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
+                    }
                 }
             }
         }
