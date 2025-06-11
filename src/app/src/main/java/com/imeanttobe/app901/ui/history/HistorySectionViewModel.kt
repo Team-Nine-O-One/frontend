@@ -108,7 +108,6 @@ class HistorySectionViewModel
             viewModelScope.launch {
                 analysisRepo.deleteAnalysis(
                     analysisId = history.cartId,
-                    userId = userRepo.getUserId(),
                 )
             }
 

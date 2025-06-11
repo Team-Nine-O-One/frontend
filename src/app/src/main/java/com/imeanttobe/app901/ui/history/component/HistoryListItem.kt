@@ -35,7 +35,6 @@ fun HistoryListItem(
     history: SimplifiedAnalysis,
     onClick: () -> Unit,
     onDelete: (SimplifiedAnalysis) -> Unit,
-    onShare: (SimplifiedAnalysis) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
@@ -75,6 +74,7 @@ fun HistoryListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f),
             ) {
                 // Status here
                 Box(
@@ -107,42 +107,34 @@ fun HistoryListItem(
                     style = MaterialTheme.typography.titleMedium,
                     color = contentColor,
                     overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier.weight(1f),
                 )
             }
 
-            // Buttons
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            // Delete button
+            IconButton(
+                onClick = { onDelete(history) },
+                modifier = Modifier.size(24.dp),
             ) {
-                // Delete button
-                IconButton(
-                    onClick = { onDelete(history) },
-                    modifier = Modifier.size(24.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Delete,
-                        contentDescription = "Delete history",
-                        tint = contentColor,
-                        modifier = Modifier.padding(4.dp).weight(1f),
-                    )
-                }
+                Icon(
+                    imageVector = Icons.Rounded.Delete,
+                    contentDescription = "Delete history",
+                    tint = contentColor,
+                    modifier = Modifier.padding(4.dp).weight(1f),
+                )
             }
         }
 
         // Store info
-        MartInfoItem(
-            mart = history.martSummaries[0],
-            contentColor = contentColor,
-            priceColor = priceColor,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        MartInfoItem(
-            mart = history.martSummaries[1],
-            contentColor = contentColor,
-            priceColor = priceColor,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        history.martSummaries.forEach { mart ->
+            MartInfoItem(
+                mart = mart,
+                contentColor = contentColor,
+                priceColor = priceColor,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
 
         // Total price
         // HorizontalDivider(modifier = Modifier, color = contentColor)
@@ -187,6 +179,5 @@ fun HistoryListItemPreview() {
         history = SimplifiedAnalysis.getDefaultInstance(),
         onClick = {},
         onDelete = {},
-        onShare = {},
     )
 }

@@ -36,7 +36,6 @@ import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
 import com.imeanttobe.app901.ui.history.component.HistoryListItem
 import com.imeanttobe.app901.ui.history.component.HistorySearchBar
-import com.imeanttobe.app901.util.NativeUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -129,12 +128,6 @@ fun HistorySection(
                             history = viewModel.historyList.value[index],
                             onClick = { navigateToCart(viewModel.historyList.value[index].cartId) },
                             onDelete = { history -> viewModel.deleteHistory(history) },
-                            onShare = { history ->
-                                NativeUtil.shareText(
-                                    context = context,
-                                    textToShare = history.toString(),
-                                )
-                            },
                             modifier =
                                 Modifier
                                     .padding(

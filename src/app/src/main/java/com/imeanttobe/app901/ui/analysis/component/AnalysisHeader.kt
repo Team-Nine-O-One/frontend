@@ -84,11 +84,11 @@ fun AnalysisHeader(
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.offlineStores
-                                        .first()
-                                        .products
-                                        .first()
-                                        .name,
+                                    if (analysis.offlineStores.isNotEmpty()) {
+                                        analysis.offlineStores.first().name
+                                    } else {
+                                        "Unknown"
+                                    },
                                     analysis.offlineCount,
                                 ) + " ",
                             )
@@ -107,9 +107,10 @@ fun AnalysisHeader(
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.onlineStore.products
-                                        .first()
-                                        .name,
+                                    analysis.onlineStore
+                                        ?.products
+                                        ?.first()
+                                        ?.name ?: "Unknown",
                                     analysis.onlineCount,
                                 ) + " ",
                             )

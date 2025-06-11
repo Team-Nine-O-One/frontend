@@ -53,25 +53,29 @@ class AnalysisPageViewModel
                 _routeConcurrencyState.value = ConcurrencyState.Loading
 
                 viewModelScope.launch {
-                    val start = _analysis.value!!.offlineStores.first()
-                    val goal = _analysis.value!!.offlineStores.last()
-                    val waypoints = _analysis.value!!.offlineStores.subList(1, _analysis.value!!.offlineStores.size - 1)
+                    if (_analysis.value!!.offlineStores.isNotEmpty()) {
+                        val start = _analysis.value!!.offlineStores.first()
+                        val goal = _analysis.value!!.offlineStores.last()
+                        val waypoints = _analysis.value!!.offlineStores.subList(1, _analysis.value!!.offlineStores.size - 1)
 
-                    val result =
-                        naverMapRepo.getRoute(
-                            start = start.pos,
-                            goal = goal.pos,
-                            waypoints = waypoints.map { it.pos },
-                        )
+                        val result =
+                            naverMapRepo.getRoute(
+                                start = start.pos,
+                                goal = goal.pos,
+                                waypoints = waypoints.map { it.pos },
+                            )
 
-                    if (result.isSuccess) {
-                        val temp = result.getOrNull()
-                        if (temp != null) {
-                            _route.value = temp
+                        if (result.isSuccess) {
+                            val temp = result.getOrNull()
+                            if (temp != null) {
+                                _route.value = temp
+                            }
+                            _routeConcurrencyState.value = ConcurrencyState.Success()
+                        } else {
+                            _routeConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
                         }
-                        _routeConcurrencyState.value = ConcurrencyState.Success()
                     } else {
-                        _routeConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
+                        _routeConcurrencyState.value = ConcurrencyState.Failure("No offline stores")
                     }
                 }
             }
@@ -83,10 +87,7 @@ class AnalysisPageViewModel
             viewModelScope.launch {
                 try {
                     val result =
-                        analysisRepo.getAnalysisById(
-                            analysisId = analysisId,
-                            userId = userRepo.getUserId(),
-                        )
+                        analysisRepo.getAnalysisById(analysisId = analysisId)
                     if (result.isSuccess) {
                         _analysis.value = result.getOrNull()
                         _analysisConcurrencyState.value = ConcurrencyState.Success()
@@ -95,6 +96,22 @@ class AnalysisPageViewModel
                     }
                 } catch (e: Exception) {
                     _analysisConcurrencyState.value = ConcurrencyState.Failure(e.message ?: "Unknown Error")
+                }
+            }
+        }
+
+        fun confirmAnalysis(analysisId: Long) {
+            viewModelScope.launch {
+                if (_analysis.value != null) {
+                    val result = analysisRepo.confirmAnalysis(analysisId = analysisId)
+                }
+            }
+        }
+
+        fun completeAnalysis(analysisId: Long) {
+            viewModelScope.launch {
+                if (_analysis.value != null) {
+                    val result = analysisRepo.completeAnalysis(analysisId = analysisId)
                 }
             }
         }

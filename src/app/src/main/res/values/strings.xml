@@ -61,6 +61,7 @@
     <string name="number_of_products">사야 할 물건 수</string>
     <string name="total_price">총 가격</string>
     <string name="complete_cart">장 다 봤어요!</string>
+    <string name="confirm_cart">장바구니 확정</string>
     <string name="add_new_memo">새 메모 추가하기</string>
     <string name="analyze">분석하기</string>
     <string name="best_route">최적 경로</string>

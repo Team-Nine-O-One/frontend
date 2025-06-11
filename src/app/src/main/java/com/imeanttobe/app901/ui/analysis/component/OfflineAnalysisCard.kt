@@ -38,6 +38,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.AnalysisOption
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.NaverMapRoute
 import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.data.type.ConcurrencyState
@@ -48,6 +49,7 @@ import com.imeanttobe.app901.ui.component.NaverMap
 @Composable
 fun OfflineAnalysisCard(
     stores: List<Store>,
+    status: AnalysisStatus,
     priceDiff: Int,
     distanceDiff: Double,
     selectedOption: AnalysisOption,
@@ -175,11 +177,13 @@ fun OfflineAnalysisCard(
                 }
             }
             // Buttons
-            AnalysisOptionButton(
-                selectedOption = selectedOption,
-                onChangeOption = { newOption -> onChangeOption(newOption) },
-                modifier = Modifier.fillMaxWidth(),
-            )
+            if (status == AnalysisStatus.IN_PROGRESS) {
+                AnalysisOptionButton(
+                    selectedOption = selectedOption,
+                    onChangeOption = { newOption -> onChangeOption(newOption) },
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
             Text(
                 text = stringResource(R.string.tips_best_route),
                 style = MaterialTheme.typography.labelMedium,

@@ -1,10 +1,13 @@
 package com.imeanttobe.app901.data.model
 
+import com.imeanttobe.app901.data.enum.AnalysisStatus
+
 data class Analysis(
     val onlineCount: Int,
     val offlineCount: Int,
-    val onlineStore: Store,
+    val onlineStore: Store?,
     val offlineStores: List<Store>,
+    val status: AnalysisStatus,
 ) {
     companion object {
         fun getDefaultInstance(): Analysis =
@@ -24,6 +27,7 @@ data class Analysis(
                         ),
                         Store.getDefaultInstance(),
                     ),
+                status = AnalysisStatus.CONFIRMED,
             )
     }
 }

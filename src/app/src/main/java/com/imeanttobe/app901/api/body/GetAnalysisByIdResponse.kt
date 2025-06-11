@@ -1,9 +1,11 @@
 package com.imeanttobe.app901.api.body
 
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.Store
 
 data class GetAnalysisByIdResponse(
     val onlineCount: Int,
     val offlineCount: Int,
-    val stores: List<Store>,
+    val stores: List<Store>?,
+    val status: AnalysisStatus,
 )

@@ -17,7 +17,7 @@ class RemoteMemoRepoImpl
         ): Result<Long> {
             val response = service.createMemo(CreateRemoteMemoRequest(userId, rawText, userLat, userLng))
             return if (response.isSuccessful) {
-                Result.success(response.body()!!)
+                Result.success(response.body()!!.memo_id)
             } else {
                 Result.failure(Exception(response.message()))
             }

@@ -1,34 +1,22 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.data.enum.GetAllCartsStatus
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 
 interface AnalysisRepo {
     suspend fun getAllAnalyses(
         userId: String,
-        status: GetAllCartsStatus = GetAllCartsStatus.ALL,
+        status: AnalysisStatus? = null,
     ): Result<List<SimplifiedAnalysis>>
 
-    suspend fun getAnalysisById(
-        analysisId: Long,
-        userId: String,
-    ): Result<Analysis>
+    suspend fun getAnalysisById(analysisId: Long): Result<Analysis>
 
-    suspend fun confirmAnalysis(
-        analysisId: Long,
-        userId: String,
-    ): Result<Boolean>
+    suspend fun confirmAnalysis(analysisId: Long): Result<Boolean>
 
-    suspend fun completeAnalysis(
-        analysisId: Long,
-        userId: String,
-    ): Result<Boolean>
+    suspend fun completeAnalysis(analysisId: Long): Result<Boolean>
 
-    suspend fun deleteAnalysis(
-        analysisId: Long,
-        userId: String,
-    ): Result<Boolean>
+    suspend fun deleteAnalysis(analysisId: Long)
 
     suspend fun createAnalysis(
         userId: String,

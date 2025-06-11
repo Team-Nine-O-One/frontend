@@ -77,7 +77,7 @@ fun MainNavGraph(
             arguments =
                 listOf(
                     navArgument("analysisId") {
-                        type = NavType.StringType
+                        type = NavType.LongType
                     },
                 ),
         ) {
@@ -86,7 +86,6 @@ fun MainNavGraph(
             AnalysisPage(
                 analysisId = analysisId,
                 navigateBack = { navController.popBackStack() },
-                onDone = {},
             )
         }
 

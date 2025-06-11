@@ -1,6 +1,6 @@
 package com.imeanttobe.app901.api.repo
 
-import com.imeanttobe.app901.data.enum.GetAllCartsStatus
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.data.model.SimplifiedMart
@@ -34,7 +34,7 @@ class FakeAnalysisRepoImpl
 
         override suspend fun getAllAnalyses(
             userId: String,
-            status: GetAllCartsStatus,
+            status: AnalysisStatus?,
         ): Result<List<SimplifiedAnalysis>> {
             val mockedResponse =
                 listOf(
@@ -69,37 +69,23 @@ class FakeAnalysisRepoImpl
             return Result.success(mockedResponse)
         }
 
-        override suspend fun getAnalysisById(
-            analysisId: Long,
-            userId: String,
-        ): Result<Analysis> {
+        override suspend fun getAnalysisById(analysisId: Long): Result<Analysis> {
             val mockedResponse = Analysis.getDefaultInstance()
             delay(1000) // IO delay
             return Result.success(mockedResponse)
         }
 
-        override suspend fun confirmAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
+        override suspend fun confirmAnalysis(analysisId: Long): Result<Boolean> {
             val mockedResponse = true
             return Result.success(mockedResponse)
         }
 
-        override suspend fun completeAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
+        override suspend fun completeAnalysis(analysisId: Long): Result<Boolean> {
             val mockedResponse = true
             return Result.success(mockedResponse)
         }
 
-        override suspend fun deleteAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val mockedResponse = true
-            return Result.success(mockedResponse)
+        override suspend fun deleteAnalysis(analysisId: Long) {
         }
 
         override suspend fun createAnalysis(

@@ -268,6 +268,7 @@ class MemoSectionViewModel
                         userLat = userPos.lat,
                         userLng = userPos.lng,
                     )
+
                 if (memoResult.isSuccess) {
                     val memoId = memoResult.getOrNull()
                     if (memoId != null) {
@@ -287,7 +288,12 @@ class MemoSectionViewModel
                                 _postAnalysisState.value = ConcurrencyState.Failure("Failed to post analysis")
                                 showToast("분석 데이터를 불러오는 데 실패했어요.")
                             }
+                        } else {
+                            _postAnalysisState.value = ConcurrencyState.Failure("Failed to post analysis")
+                            showToast("분석 데이터를 불러오는 데 실패했어요.")
                         }
+                        _postAnalysisState.value = ConcurrencyState.Failure("Failed to post analysis")
+                        showToast("분석 데이터를 불러오는 데 실패했어요.")
                     } else {
                         _postAnalysisState.value = ConcurrencyState.Failure("Failed to post memo")
                         showToast("메모를 불러오는 데 실패했어요.")

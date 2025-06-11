@@ -2,7 +2,7 @@ package com.imeanttobe.app901.api.repo
 
 import com.imeanttobe.app901.api.body.CreateCartRequest
 import com.imeanttobe.app901.api.service.AnalysisService
-import com.imeanttobe.app901.data.enum.GetAllCartsStatus
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import javax.inject.Inject
@@ -14,7 +14,7 @@ class AnalysisRepoImpl
     ) : AnalysisRepo {
         override suspend fun getAllAnalyses(
             userId: String,
-            status: GetAllCartsStatus,
+            status: AnalysisStatus?,
         ): Result<List<SimplifiedAnalysis>> {
             val response =
                 analysisService.getAllCarts(
@@ -38,17 +38,21 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun getAnalysisById(
-            analysisId: Long,
-            userId: String,
-        ): Result<Analysis> {
+        override suspend fun getAnalysisById(analysisId: Long): Result<Analysis> {
             val response = analysisService.getCartById(cartId = analysisId)
 
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
+                    val content = response.body()!!
                     Result.success(
-                        Analysis.getDefaultInstance(),
+                        Analysis(
+                            onlineCount = content.onlineCount,
+                            offlineCount = content.offlineCount,
+                            onlineStore = content.stores?.first(),
+                            offlineStores = content.stores?.subList(1, content.stores.size) ?: emptyList(),
+                            status = content.status,
+                        ),
                     )
                 } else {
                     Result.failure(Exception("Response body is null"))
@@ -58,11 +62,8 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun confirmAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val response = analysisService.confirmCart(cartId = analysisId, userId = userId)
+        override suspend fun confirmAnalysis(analysisId: Long): Result<Boolean> {
+            val response = analysisService.confirmCart(cartId = analysisId)
 
             return if (response.isSuccessful) {
                 val body = response.body()
@@ -76,11 +77,8 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun completeAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val response = analysisService.completeCart(cartId = analysisId, userId = userId)
+        override suspend fun completeAnalysis(analysisId: Long): Result<Boolean> {
+            val response = analysisService.completeCart(cartId = analysisId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -93,22 +91,8 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun deleteAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val response = analysisService.deleteCart(cartId = analysisId, userId = userId)
-
-            return if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    Result.success(true)
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
-            } else {
-                Result.failure(Exception("Failed to delete cart"))
-            }
+        override suspend fun deleteAnalysis(analysisId: Long) {
+            analysisService.deleteCart(cartId = analysisId)
         }
 
         override suspend fun createAnalysis(
