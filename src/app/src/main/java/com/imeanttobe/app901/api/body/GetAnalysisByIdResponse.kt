@@ -1,4 +1,4 @@
-package com.imeanttobe.app901.api.response
+package com.imeanttobe.app901.api.body
 
 import com.imeanttobe.app901.data.model.Store
 

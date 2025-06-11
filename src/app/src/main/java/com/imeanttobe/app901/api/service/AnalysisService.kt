@@ -1,13 +1,15 @@
 package com.imeanttobe.app901.api.service
 
-import com.imeanttobe.app901.api.response.CompleteAnalysisResponse
-import com.imeanttobe.app901.api.response.ConfirmAnalysisResponse
-import com.imeanttobe.app901.api.response.CreateAnalysisResponse
-import com.imeanttobe.app901.api.response.DeleteAnalysisResponse
-import com.imeanttobe.app901.api.response.GetAnalysisByIdResponse
+import com.imeanttobe.app901.api.body.CompleteAnalysisResponse
+import com.imeanttobe.app901.api.body.ConfirmAnalysisResponse
+import com.imeanttobe.app901.api.body.CreateAnalysisResponse
+import com.imeanttobe.app901.api.body.CreateCartRequest
+import com.imeanttobe.app901.api.body.DeleteAnalysisResponse
+import com.imeanttobe.app901.api.body.GetAnalysisByIdResponse
 import com.imeanttobe.app901.data.enum.GetAllCartsStatus
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -47,7 +49,6 @@ interface AnalysisService {
 
     @POST("/api/carts")
     suspend fun createCart(
-        userId: String,
-        memo: String,
+        @Body request: CreateCartRequest,
     ): Response<CreateAnalysisResponse>
 }

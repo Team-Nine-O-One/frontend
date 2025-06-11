@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.api.repo
 
+import com.imeanttobe.app901.api.body.CreateCartRequest
 import com.imeanttobe.app901.api.service.AnalysisService
 import com.imeanttobe.app901.data.enum.GetAllCartsStatus
 import com.imeanttobe.app901.data.model.Analysis
@@ -29,7 +30,11 @@ class AnalysisRepoImpl
                     Result.failure(Exception("Response body is null"))
                 }
             } else {
-                Result.failure(Exception("Failed to fetch carts"))
+                if (response.code() == 400) {
+                    Result.success(emptyList())
+                } else {
+                    Result.failure(Exception("Failed to fetch carts"))
+                }
             }
         }
 
@@ -110,7 +115,14 @@ class AnalysisRepoImpl
             userId: String,
             memoContents: String,
         ): Result<Long> {
-            val postResponse = analysisService.createCart(userId = userId, memo = memoContents)
+            val postResponse =
+                analysisService.createCart(
+                    request =
+                        CreateCartRequest(
+                            userId = userId,
+                            memo = memoContents,
+                        ),
+                )
             return if (postResponse.isSuccessful) {
                 val body = postResponse.body()
                 if (body != null) {
