@@ -38,26 +38,6 @@ fun HistoryListItem(
     onShare: (SimplifiedAnalysis) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    /*
-    val backgroundColor =
-        if (isCompleted) {
-            MaterialTheme.colorScheme.secondaryContainer
-        } else {
-            MaterialTheme.colorScheme.primaryContainer
-        }
-    val contentColor =
-        if (isCompleted) {
-            MaterialTheme.colorScheme.onSecondaryContainer
-        } else {
-            MaterialTheme.colorScheme.onPrimaryContainer
-        }
-    val priceColor =
-        if (isCompleted) {
-            MaterialTheme.colorScheme.secondary
-        } else {
-            MaterialTheme.colorScheme.primary
-        }
-     */
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     val priceColor = MaterialTheme.colorScheme.primary
@@ -147,31 +127,18 @@ fun HistoryListItem(
                         modifier = Modifier.padding(4.dp).weight(1f),
                     )
                 }
-
-                // Share button
-//                IconButton(
-//                    onClick = { onShare(history) },
-//                    modifier = Modifier.size(24.dp),
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Rounded.Share,
-//                        contentDescription = "Share history",
-//                        tint = contentColor,
-//                        modifier = Modifier.padding(4.dp).weight(1f),
-//                    )
-//                }
             }
         }
 
         // Store info
         MartInfoItem(
-            mart = history.marts[0],
+            mart = history.martSummaries[0],
             contentColor = contentColor,
             priceColor = priceColor,
             modifier = Modifier.fillMaxWidth(),
         )
         MartInfoItem(
-            mart = history.marts[1],
+            mart = history.martSummaries[1],
             contentColor = contentColor,
             priceColor = priceColor,
             modifier = Modifier.fillMaxWidth(),

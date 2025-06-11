@@ -38,7 +38,7 @@ class HistorySectionViewModel
                     .filter { history ->
                         when (_searchType.value) {
                             HistorySectionSearchType.STORE -> {
-                                history.marts.any { it.martName.contains(_searchBarTextValue.value) }
+                                history.martSummaries.any { it.martName.contains(_searchBarTextValue.value) }
                             }
 
                             HistorySectionSearchType.TITLE -> {

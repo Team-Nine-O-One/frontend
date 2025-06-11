@@ -140,4 +140,5 @@
     <string name="format_time_minute">%1$d분</string>
     <string name="format_distance">%1$skm</string>
     <string name="format_price">%1$s원</string>
+    <string name="format_mart_items">%1$s 등 %2$d건</string>
 </resources>

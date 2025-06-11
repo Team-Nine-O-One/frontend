@@ -14,16 +14,16 @@ class FakeAnalysisRepoImpl
             SimplifiedAnalysis(
                 cartId = 4,
                 title = "8월 17일 수요일 12시 30분",
-                marts =
+                martSummaries =
                     listOf(
                         SimplifiedMart(
                             martName = "이마트 흑석점",
-                            displayName = "양파 외 3건",
+                            productNames = listOf("양파", "당근", "샐러드"),
                             totalPrice = 26500,
                         ),
                         SimplifiedMart(
                             martName = "COUPANG",
-                            displayName = "백산수 외 2건",
+                            productNames = listOf("양파", "당근", "샐러드"),
                             totalPrice = 12400,
                         ),
                     ),
@@ -42,16 +42,16 @@ class FakeAnalysisRepoImpl
                     sampleHistory.copy(
                         isCompleted = true,
                         title = "내일 장 볼 것들",
-                        marts =
+                        martSummaries =
                             listOf(
                                 SimplifiedMart(
                                     martName = "네이버 쇼핑",
-                                    displayName = "백산수 외 2건",
+                                    productNames = listOf("양파, 당근, 샐러드"),
                                     totalPrice = 12400,
                                 ),
                                 SimplifiedMart(
                                     martName = "홈플러스 용산점",
-                                    displayName = "양파 외 3건",
+                                    productNames = listOf("양파, 당근, 샐러드"),
                                     totalPrice = 26500,
                                 ),
                             ),
