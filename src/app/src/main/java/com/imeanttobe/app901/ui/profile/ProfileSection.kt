@@ -40,7 +40,6 @@ fun ProfileSection(
     val scope = rememberCoroutineScope()
     val changeNicknameSheetState = rememberModalBottomSheetState()
     val changePasswordSheetState = rememberModalBottomSheetState()
-    val nickname by viewModel.nickname.collectAsState()
     val changeNicknameState by viewModel.changeNicknameState.collectAsState()
     val changePasswordState by viewModel.changePasswordState.collectAsState()
     val context = LocalContext.current
@@ -138,7 +137,7 @@ fun ProfileSection(
         modifier = Modifier.fillMaxSize(),
     ) {
         WelcomeCard(
-            nickname = nickname,
+            nickname = viewModel.nickname.value,
             modifier = Modifier.padding(16.dp),
         )
 

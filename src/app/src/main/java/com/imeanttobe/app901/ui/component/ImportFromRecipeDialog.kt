@@ -16,6 +16,7 @@ import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -74,7 +75,12 @@ fun ImportFromRecipeDialog(
                         onValueChange = { newValue -> onUrlChange(newValue.replace("\n", "")) },
                         maxLines = 1,
                         singleLine = true,
-                        placeholder = { Text(text = stringResource(id = R.string.example_import_from_recipe)) },
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = R.string.example_import_from_recipe),
+                                color = LocalContentColor.current.copy(alpha = 0.7f),
+                            )
+                        },
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Uri),
                         trailingIcon = {
                             IconButton(
