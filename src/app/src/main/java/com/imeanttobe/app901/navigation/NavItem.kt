@@ -33,4 +33,9 @@ sealed class NavItem(
         label = "Analysis",
         route = "/analysis",
     )
+
+    object PermissionNavItem : NavItem(
+        label = "Permission",
+        route = "/permission",
+    )
 }
