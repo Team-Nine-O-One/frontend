@@ -232,7 +232,10 @@ class MemoSectionViewModel
             }
         }
 
-        fun createAnalysis(navigate: (Long) -> Unit) {
+        fun createAnalysis(
+            navigate: (Long) -> Unit,
+            showToast: (String) -> Unit,
+        ) {
             viewModelScope.launch {
                 val result =
                     analysisRepo.createAnalysis(
@@ -245,10 +248,10 @@ class MemoSectionViewModel
                         deleteAllMemos()
                         navigate(analysisId)
                     } else {
-                        throw Exception("Analysis ID is null")
+                        showToast("분석 데이터를 불러오는 데 실패했어요.")
                     }
                 } else {
-                    throw Exception("Failed to create analysis")
+                    showToast("분석 요청에 실패했어요.")
                 }
             }
         }

@@ -130,13 +130,14 @@ fun HomePage(
                         fabMenuExpanded = viewModel.fabMenuExpanded.value,
                         setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
                         items = fabItems,
-                        modifier = Modifier.offset(x = 16.dp),
+                        modifier = Modifier.offset(x = 16.dp, y = 8.dp),
                     )
 
                     ExtendedFloatingActionButton(
                         onClick = {
                             memoSectionViewModel.createAnalysis(
                                 navigate = { analysisId -> navigate(NavItem.AnalysisNavItem.route + "/$analysisId") },
+                                showToast = { message -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show() },
                             )
                         },
                     ) {
