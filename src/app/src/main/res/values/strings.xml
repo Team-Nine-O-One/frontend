@@ -114,7 +114,7 @@
     <string name="tips_permission_page">서비스 사용을 위해\n접근 권한을 허용해주세요!</string>
     <string name="tips_necessary_permission">필수 권한의 경우, 허용하지 않으면 서비스를 사용할 수 없어요.</string>
     <string name="tips_location_permission">인근 마트 탐색에 활용</string>
-    <string name="tips_acquire_permission_on_setting">인근 마트 탐색에 활용</string>
+    <string name="tips_acquire_permission_on_setting">서비스를 사용하기 위해, 시스템 설정으로 이동해서 권한을 직접 허용해주세요.</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
