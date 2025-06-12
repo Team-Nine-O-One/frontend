@@ -1,7 +1,9 @@
 package com.imeanttobe.app901.data.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Product(
-    val name: String,
+    @SerializedName("product") val name: String,
     val price: Int,
     val pricePer100g: Double,
 ) {

@@ -47,10 +47,11 @@ class AnalysisRepoImpl
                     val content = response.body()!!
                     Result.success(
                         Analysis(
-                            onlineCount = content.onlineCount,
-                            offlineCount = content.offlineCount,
-                            onlineStore = content.stores?.first(),
-                            offlineStores = content.stores?.subList(1, content.stores.size) ?: emptyList(),
+                            onlineMart = content.onlineMart.toStore(),
+                            offlineMarts =
+                                content.offlineMarts.map {
+                                    it.toStore()
+                                },
                             status = content.status,
                         ),
                     )

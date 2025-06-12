@@ -132,30 +132,23 @@ fun AnalysisPage(
                 )
 
                 // Online analysis
-                if (viewModel.analysis.value!!.onlineStore != null) {
-                    OnlineAnalysisCard(
-                        store = viewModel.analysis.value!!.onlineStore!!,
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
+                OnlineAnalysisCard(
+                    store = viewModel.analysis.value!!.onlineMart,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                )
 
                 // Offline
-                if (viewModel.analysis.value!!
-                        .offlineStores
-                        .isNotEmpty()
-                ) {
-                    OfflineAnalysisCard(
-                        stores = viewModel.analysis.value!!.offlineStores,
-                        route = viewModel.route.value,
-                        status = viewModel.analysis.value!!.status,
-                        priceDiff = 300,
-                        distanceDiff = 2.4,
-                        mapState = viewModel.routeConcurrencyState.value,
-                        selectedOption = viewModel.selectedAnalysisOption.value,
-                        onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                    )
-                }
+                OfflineAnalysisCard(
+                    stores = viewModel.analysis.value!!.offlineMarts,
+                    route = viewModel.route.value,
+                    status = viewModel.analysis.value!!.status,
+                    priceDiff = 300,
+                    distanceDiff = 2.4,
+                    mapState = viewModel.routeConcurrencyState.value,
+                    selectedOption = viewModel.selectedAnalysisOption.value,
+                    onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                )
 
                 // Buttons
                 AnalysisBottomButton(
@@ -167,7 +160,7 @@ fun AnalysisPage(
                             context,
                             Converter.getShareTextFromProducts(
                                 viewModel.analysis.value!!
-                                    .offlineStores
+                                    .offlineMarts
                                     .first()
                                     .products,
                             ),

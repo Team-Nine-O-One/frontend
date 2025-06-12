@@ -53,16 +53,16 @@ class AnalysisPageViewModel
                 _routeConcurrencyState.value = ConcurrencyState.Loading
 
                 viewModelScope.launch {
-                    if (_analysis.value!!.offlineStores.isNotEmpty()) {
-                        val start = _analysis.value!!.offlineStores.first()
-                        val goal = _analysis.value!!.offlineStores.last()
-                        val waypoints = _analysis.value!!.offlineStores.subList(1, _analysis.value!!.offlineStores.size - 1)
+                    if (_analysis.value!!.offlineMarts.isNotEmpty()) {
+                        val start = _analysis.value!!.offlineMarts.first()
+                        val goal = _analysis.value!!.offlineMarts.last()
+                        val waypoints = _analysis.value!!.offlineMarts.subList(1, _analysis.value!!.offlineMarts.size - 1)
 
                         val result =
                             naverMapRepo.getRoute(
-                                start = start.pos,
-                                goal = goal.pos,
-                                waypoints = waypoints.map { it.pos },
+                                start = start.pos!!,
+                                goal = goal.pos!!,
+                                waypoints = waypoints.map { it.pos!! },
                             )
 
                         if (result.isSuccess) {

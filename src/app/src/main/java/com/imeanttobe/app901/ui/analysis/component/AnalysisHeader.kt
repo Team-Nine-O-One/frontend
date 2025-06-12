@@ -33,6 +33,9 @@ fun AnalysisHeader(
     analysis: Analysis,
     modifier: Modifier = Modifier,
 ) {
+    val onlineItemCount = analysis.onlineMart.totalItems
+    val offlineItemCount = analysis.offlineMarts.sumOf { it.totalItems }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -65,7 +68,7 @@ fun AnalysisHeader(
 
         // Description
         Text(
-            text = stringResource(R.string.format_analysis_items_count, analysis.offlineCount + analysis.onlineCount),
+            text = stringResource(R.string.format_analysis_items_count, offlineItemCount + onlineItemCount),
             style = MaterialTheme.typography.bodyMedium,
         )
         Column(
@@ -84,12 +87,16 @@ fun AnalysisHeader(
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    if (analysis.offlineStores.isNotEmpty()) {
-                                        analysis.offlineStores.first().name
+                                    if (analysis.offlineMarts.isNotEmpty()) {
+                                        analysis.offlineMarts
+                                            .first()
+                                            .products
+                                            .firstOrNull()
+                                            ?.name ?: "오류"
                                     } else {
                                         "Unknown"
                                     },
-                                    analysis.offlineCount,
+                                    offlineItemCount,
                                 ) + " ",
                             )
                         }
@@ -107,11 +114,11 @@ fun AnalysisHeader(
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    analysis.onlineStore
-                                        ?.products
-                                        ?.first()
-                                        ?.name ?: "Unknown",
-                                    analysis.onlineCount,
+                                    analysis.onlineMart
+                                        .products
+                                        .firstOrNull()
+                                        ?.name ?: "오류",
+                                    onlineItemCount,
                                 ) + " ",
                             )
                         }

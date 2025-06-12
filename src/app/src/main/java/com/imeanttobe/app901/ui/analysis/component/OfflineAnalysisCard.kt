@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,9 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.LocationOn
-import androidx.compose.material.icons.rounded.Sell
 import androidx.compose.material3.ContainedLoadingIndicator
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -104,66 +101,66 @@ fun OfflineAnalysisCard(
                             // Map
                             // NaverMap(modifier = Modifier.fillMaxSize())
                             NaverMap(
-                                start = stores.first().pos.toLatLng(),
-                                goal = stores.last().pos.toLatLng(),
-                                waypoints = stores.drop(1).dropLast(1).map { it.pos.toLatLng() },
+                                start = stores.first().pos!!.toLatLng(),
+                                goal = stores.last().pos!!.toLatLng(),
+                                waypoints = stores.drop(1).dropLast(1).map { it.pos!!.toLatLng() },
                                 pathPoints = route.paths.map { it.toLatLng() },
                                 modifier = Modifier.fillMaxSize(),
                             )
 
                             // Description
-                            ElevatedCard(
-                                modifier =
-                                    Modifier
-                                        .align(Alignment.BottomCenter)
-                                        .padding(8.dp),
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
-                                ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.LocationOn,
-                                            contentDescription = "Distance diff",
-                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                            modifier = Modifier.size(12.dp),
-                                        )
-                                        Text(
-                                            text =
-                                                buildAnnotatedString {
-                                                    append(stringResource(R.string.distance) + " ")
-                                                    append(stringResource(R.string.format_distance, distanceDiff) + " ")
-                                                    append(stringResource(R.string.shorten))
-                                                },
-                                            style = MaterialTheme.typography.labelSmall,
-                                            modifier = Modifier.padding(8.dp),
-                                        )
-                                    }
-
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Rounded.Sell,
-                                            contentDescription = "Price diff",
-                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                                            modifier = Modifier.size(12.dp),
-                                        )
-                                        Text(
-                                            text =
-                                                buildAnnotatedString {
-                                                    append(stringResource(R.string.cost) + " ")
-                                                    append(stringResource(R.string.format_price, priceDiff) + " ")
-                                                    append(stringResource(R.string.reduced))
-                                                },
-                                            style = MaterialTheme.typography.labelSmall,
-                                            modifier = Modifier.padding(8.dp),
-                                        )
-                                    }
-                                }
-                            }
+//                            ElevatedCard(
+//                                modifier =
+//                                    Modifier
+//                                        .align(Alignment.BottomCenter)
+//                                        .padding(8.dp),
+//                            ) {
+//                                Column(
+//                                    modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+//                                ) {
+//                                    Row(
+//                                        verticalAlignment = Alignment.CenterVertically,
+//                                    ) {
+//                                        Icon(
+//                                            imageVector = Icons.Rounded.LocationOn,
+//                                            contentDescription = "Distance diff",
+//                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+//                                            modifier = Modifier.size(12.dp),
+//                                        )
+//                                        Text(
+//                                            text =
+//                                                buildAnnotatedString {
+//                                                    append(stringResource(R.string.distance) + " ")
+//                                                    append(stringResource(R.string.format_distance, distanceDiff) + " ")
+//                                                    append(stringResource(R.string.shorten))
+//                                                },
+//                                            style = MaterialTheme.typography.labelSmall,
+//                                            modifier = Modifier.padding(8.dp),
+//                                        )
+//                                    }
+//
+//                                    Row(
+//                                        verticalAlignment = Alignment.CenterVertically,
+//                                    ) {
+//                                        Icon(
+//                                            imageVector = Icons.Rounded.Sell,
+//                                            contentDescription = "Price diff",
+//                                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+//                                            modifier = Modifier.size(12.dp),
+//                                        )
+//                                        Text(
+//                                            text =
+//                                                buildAnnotatedString {
+//                                                    append(stringResource(R.string.cost) + " ")
+//                                                    append(stringResource(R.string.format_price, priceDiff) + " ")
+//                                                    append(stringResource(R.string.reduced))
+//                                                },
+//                                            style = MaterialTheme.typography.labelSmall,
+//                                            modifier = Modifier.padding(8.dp),
+//                                        )
+//                                    }
+//                                }
+//                            }
                         }
                     }
                     is ConcurrencyState.Default -> {
@@ -215,7 +212,6 @@ fun OfflineAnalysisCard(
                 ) {
                     StoreCardDescription(
                         store = store,
-                        isOffline = true,
                     )
                 }
             }
@@ -229,6 +225,7 @@ fun OfflineAnalysisCard(
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f),
             ) {
                 Icon(
                     imageVector = Icons.Rounded.ExpandMore,
