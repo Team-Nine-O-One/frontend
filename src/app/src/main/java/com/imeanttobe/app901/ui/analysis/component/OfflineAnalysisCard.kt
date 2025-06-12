@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
 import com.imeanttobe.app901.data.enum.AnalysisOption
 import com.imeanttobe.app901.data.enum.AnalysisStatus
+import com.imeanttobe.app901.data.model.LatAndLng
 import com.imeanttobe.app901.data.model.NaverMapRoute
 import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.data.type.ConcurrencyState
@@ -47,6 +48,7 @@ import com.imeanttobe.app901.ui.component.NaverMap
 fun OfflineAnalysisCard(
     stores: List<Store>,
     status: AnalysisStatus,
+    posList: List<LatAndLng>,
     priceDiff: Int,
     distanceDiff: Double,
     selectedOption: AnalysisOption,
@@ -101,8 +103,8 @@ fun OfflineAnalysisCard(
                             // Map
                             // NaverMap(modifier = Modifier.fillMaxSize())
                             NaverMap(
-                                start = stores.first().pos!!.toLatLng(),
-                                goal = stores.last().pos!!.toLatLng(),
+                                start = posList.first().toLatLng(),
+                                goal = posList.last().toLatLng(),
                                 waypoints = stores.drop(1).dropLast(1).map { it.pos!!.toLatLng() },
                                 pathPoints = route.paths.map { it.toLatLng() },
                                 modifier = Modifier.fillMaxSize(),

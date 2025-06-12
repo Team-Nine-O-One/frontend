@@ -53,6 +53,9 @@ class AnalysisRepoImpl
                                     it.toStore()
                                 },
                             status = content.status,
+                            optimalMartRoute = content.optimalMartRoute,
+                            distancePriorityMartRoute = content.distancePriorityMartRoute,
+                            pricePriorityMartRoute = content.pricePriorityMartRoute,
                         ),
                     )
                 } else {

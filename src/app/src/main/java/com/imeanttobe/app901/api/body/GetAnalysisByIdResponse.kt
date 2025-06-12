@@ -9,6 +9,9 @@ data class GetAnalysisByIdResponse(
     val onlineMart: OnlineMart,
     val offlineMarts: List<OfflineMart>,
     val status: AnalysisStatus,
+    val optimalMartRoute: List<String>,
+    val distancePriorityMartRoute: List<String>,
+    val pricePriorityMartRoute: List<String>,
 )
 
 data class OnlineMart(

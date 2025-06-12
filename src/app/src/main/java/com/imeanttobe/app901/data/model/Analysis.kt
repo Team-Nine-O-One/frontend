@@ -6,6 +6,9 @@ data class Analysis(
     val onlineMart: Store,
     val offlineMarts: List<Store>,
     val status: AnalysisStatus,
+    val optimalMartRoute: List<String> = emptyList(),
+    val distancePriorityMartRoute: List<String> = emptyList(),
+    val pricePriorityMartRoute: List<String> = emptyList(),
 ) {
     companion object {
         fun getDefaultInstance(): Analysis =

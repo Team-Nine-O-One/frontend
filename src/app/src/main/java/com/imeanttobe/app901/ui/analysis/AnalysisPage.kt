@@ -147,6 +147,7 @@ fun AnalysisPage(
                     mapState = viewModel.routeConcurrencyState.value,
                     selectedOption = viewModel.selectedAnalysisOption.value,
                     onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
+                    posList = viewModel.posList.value,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 

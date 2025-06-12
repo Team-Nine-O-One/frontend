@@ -30,6 +30,7 @@ class AnalysisPageViewModel
         private val _analysis = mutableStateOf<Analysis?>(null)
         private val _selectedAnalysisOption = mutableStateOf<AnalysisOption>(AnalysisOption.BEST)
         private val _route = mutableStateOf<NaverMapRoute>(NaverMapRoute(emptyList(), LatAndLng(), LatAndLng(), 0, 0))
+        private val _posList = mutableStateOf<List<LatAndLng>>(emptyList())
 
         // States
         val analysisConcurrencyState: State<ConcurrencyState> = _analysisConcurrencyState
@@ -37,6 +38,7 @@ class AnalysisPageViewModel
         val analysis: State<Analysis?> = _analysis
         val selectedAnalysisOption: State<AnalysisOption> = _selectedAnalysisOption
         val route: State<NaverMapRoute> = _route
+        val posList: State<List<LatAndLng>> = _posList
 
         // Functions
         fun resetConcurrencyState() {
@@ -46,6 +48,36 @@ class AnalysisPageViewModel
 
         fun setAnalysisOption(option: AnalysisOption) {
             _selectedAnalysisOption.value = option
+            getRoute()
+        }
+
+        fun updatePosList() {
+            val target =
+                when (_selectedAnalysisOption.value) {
+                    AnalysisOption.BEST -> {
+                        _analysis.value!!.optimalMartRoute
+                    }
+                    AnalysisOption.DISTANCE -> {
+                        _analysis.value!!.distancePriorityMartRoute
+                    }
+                    AnalysisOption.PRICE -> {
+                        _analysis.value!!.pricePriorityMartRoute
+                    }
+                }
+            _posList.value =
+                target.map { mart ->
+                    if (mart.contains("이마트")) {
+                        LatAndLng(37.507409, 126.961924)
+                    } else if (mart.contains("홈플러스")) {
+                        LatAndLng(37.507299, 126.948354)
+                    } else if (mart.contains("GS")) {
+                        LatAndLng(37.495181, 126.952311)
+                    } else if (mart.contains("하나로")) {
+                        LatAndLng(37.506875, 126.961683)
+                    } else {
+                        LatAndLng(37.528551, 126.965588)
+                    }
+                }
         }
 
         fun getRoute() {
@@ -53,16 +85,17 @@ class AnalysisPageViewModel
                 _routeConcurrencyState.value = ConcurrencyState.Loading
 
                 viewModelScope.launch {
+                    updatePosList()
                     if (_analysis.value!!.offlineMarts.isNotEmpty()) {
-                        val start = _analysis.value!!.offlineMarts.first()
-                        val goal = _analysis.value!!.offlineMarts.last()
-                        val waypoints = _analysis.value!!.offlineMarts.subList(1, _analysis.value!!.offlineMarts.size - 1)
+                        val start = _posList.value.first()
+                        val goal = _posList.value.last()
+                        val waypoints = _posList.value.subList(1, _posList.value.size - 1)
 
                         val result =
                             naverMapRepo.getRoute(
-                                start = start.pos!!,
-                                goal = goal.pos!!,
-                                waypoints = waypoints.map { it.pos!! },
+                                start = start,
+                                goal = goal,
+                                waypoints = waypoints,
                             )
 
                         if (result.isSuccess) {
