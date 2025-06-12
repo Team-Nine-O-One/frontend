@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.NaverMapRepo
-import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.data.enum.AnalysisOption
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.LatAndLng
 import com.imeanttobe.app901.data.model.NaverMapRoute
+import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +21,6 @@ class AnalysisPageViewModel
     @Inject
     constructor(
         private val analysisRepo: AnalysisRepo,
-        private val userRepo: UserRepo,
         private val naverMapRepo: NaverMapRepo,
     ) : ViewModel() {
         // Variables
@@ -30,7 +29,7 @@ class AnalysisPageViewModel
         private val _analysis = mutableStateOf<Analysis?>(null)
         private val _selectedAnalysisOption = mutableStateOf<AnalysisOption>(AnalysisOption.BEST)
         private val _route = mutableStateOf<NaverMapRoute>(NaverMapRoute(emptyList(), LatAndLng(), LatAndLng(), 0, 0))
-        private val _posList = mutableStateOf<List<LatAndLng>>(emptyList())
+        private val _currentMarts = mutableStateOf<List<Store>>(emptyList())
 
         // States
         val analysisConcurrencyState: State<ConcurrencyState> = _analysisConcurrencyState
@@ -38,7 +37,7 @@ class AnalysisPageViewModel
         val analysis: State<Analysis?> = _analysis
         val selectedAnalysisOption: State<AnalysisOption> = _selectedAnalysisOption
         val route: State<NaverMapRoute> = _route
-        val posList: State<List<LatAndLng>> = _posList
+        val currentMarts: State<List<Store>> = _currentMarts
 
         // Functions
         fun resetConcurrencyState() {
@@ -48,36 +47,19 @@ class AnalysisPageViewModel
 
         fun setAnalysisOption(option: AnalysisOption) {
             _selectedAnalysisOption.value = option
-            getRoute()
-        }
-
-        fun updatePosList() {
-            val target =
-                when (_selectedAnalysisOption.value) {
+            _currentMarts.value =
+                when (option) {
                     AnalysisOption.BEST -> {
-                        _analysis.value!!.optimalMartRoute
+                        _analysis.value!!.optimalMarts
                     }
                     AnalysisOption.DISTANCE -> {
-                        _analysis.value!!.distancePriorityMartRoute
+                        _analysis.value!!.distancePriorityMarts
                     }
                     AnalysisOption.PRICE -> {
-                        _analysis.value!!.pricePriorityMartRoute
+                        _analysis.value!!.pricePriorityMarts
                     }
                 }
-            _posList.value =
-                target.map { mart ->
-                    if (mart.contains("이마트")) {
-                        LatAndLng(37.507409, 126.961924)
-                    } else if (mart.contains("홈플러스")) {
-                        LatAndLng(37.507299, 126.948354)
-                    } else if (mart.contains("GS")) {
-                        LatAndLng(37.495181, 126.952311)
-                    } else if (mart.contains("하나로")) {
-                        LatAndLng(37.506875, 126.961683)
-                    } else {
-                        LatAndLng(37.528551, 126.965588)
-                    }
-                }
+            getRoute()
         }
 
         fun getRoute() {
@@ -85,17 +67,16 @@ class AnalysisPageViewModel
                 _routeConcurrencyState.value = ConcurrencyState.Loading
 
                 viewModelScope.launch {
-                    updatePosList()
-                    if (_analysis.value!!.offlineMarts.isNotEmpty()) {
-                        val start = _posList.value.first()
-                        val goal = _posList.value.last()
-                        val waypoints = _posList.value.subList(1, _posList.value.size - 1)
+                    if (_currentMarts.value.isNotEmpty()) {
+                        val start = _currentMarts.value.first().pos!!
+                        val goal = _currentMarts.value.last().pos!!
+                        val waypoints = _currentMarts.value.subList(1, _currentMarts.value.size - 1)
 
                         val result =
                             naverMapRepo.getRoute(
                                 start = start,
                                 goal = goal,
-                                waypoints = waypoints,
+                                waypoints = waypoints.map { it.pos!! },
                             )
 
                         if (result.isSuccess) {
@@ -123,6 +104,7 @@ class AnalysisPageViewModel
                         analysisRepo.getAnalysisById(analysisId = analysisId)
                     if (result.isSuccess) {
                         _analysis.value = result.getOrNull()
+                        _currentMarts.value = _analysis.value!!.optimalMarts
                         _analysisConcurrencyState.value = ConcurrencyState.Success()
                     } else {
                         _analysisConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")

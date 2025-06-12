@@ -139,15 +139,12 @@ fun AnalysisPage(
 
                 // Offline
                 OfflineAnalysisCard(
-                    stores = viewModel.analysis.value!!.offlineMarts,
+                    stores = viewModel.currentMarts.value,
                     route = viewModel.route.value,
                     status = viewModel.analysis.value!!.status,
-                    priceDiff = 300,
-                    distanceDiff = 2.4,
                     mapState = viewModel.routeConcurrencyState.value,
                     selectedOption = viewModel.selectedAnalysisOption.value,
                     onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
-                    posList = viewModel.posList.value,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 
@@ -157,15 +154,16 @@ fun AnalysisPage(
                     onClickConfirmButton = { viewModel.confirmAnalysis(analysisId) },
                     onClickCompleteButton = { viewModel.completeAnalysis(analysisId) },
                     onClickShareButton = {
-                        NativeUtil.shareText(
-                            context,
-                            Converter.getShareTextFromProducts(
-                                viewModel.analysis.value!!
-                                    .offlineMarts
-                                    .first()
-                                    .products,
-                            ),
-                        )
+                        if (viewModel.currentMarts.value.isNotEmpty()) {
+                            NativeUtil.shareText(
+                                context,
+                                Converter.getShareTextFromProducts(
+                                    viewModel.currentMarts.value
+                                        .first()
+                                        .products,
+                                ),
+                            )
+                        }
                     },
                     state = if (viewModel.analysis.value != null) viewModel.analysis.value!!.status else AnalysisStatus.IN_PROGRESS,
                     modifier = Modifier.fillMaxWidth().padding(16.dp),

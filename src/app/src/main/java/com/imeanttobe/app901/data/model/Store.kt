@@ -1,7 +1,7 @@
 package com.imeanttobe.app901.data.model
 
 data class Store(
-    val name: String,
+    val martName: String,
     val distance: Double? = null,
     val estimatedTime: Int? = null,
     val totalItems: Int,
@@ -14,7 +14,7 @@ data class Store(
     companion object {
         fun getDefaultInstance(): Store =
             Store(
-                name = "이마트 흑석점",
+                martName = "이마트 흑석점",
                 distance = 1.4,
                 estimatedTime = 11,
                 totalItems = 4,

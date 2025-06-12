@@ -34,7 +34,7 @@ fun AnalysisHeader(
     modifier: Modifier = Modifier,
 ) {
     val onlineItemCount = analysis.onlineMart.totalItems
-    val offlineItemCount = analysis.offlineMarts.sumOf { it.totalItems }
+    val offlineItemCount = analysis.optimalMarts.sumOf { it.totalItems }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -87,8 +87,8 @@ fun AnalysisHeader(
                             append(
                                 stringResource(
                                     R.string.format_analysis,
-                                    if (analysis.offlineMarts.isNotEmpty()) {
-                                        analysis.offlineMarts
+                                    if (analysis.optimalMarts.isNotEmpty()) {
+                                        analysis.optimalMarts
                                             .first()
                                             .products
                                             .firstOrNull()

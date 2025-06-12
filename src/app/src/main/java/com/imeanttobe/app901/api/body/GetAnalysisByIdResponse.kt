@@ -7,7 +7,9 @@ import com.imeanttobe.app901.data.model.Store
 
 data class GetAnalysisByIdResponse(
     val onlineMart: OnlineMart,
-    val offlineMarts: List<OfflineMart>,
+    val optimal: OfflineMart,
+    val distance: OfflineMart,
+    val price: OfflineMart,
     val status: AnalysisStatus,
     val optimalMartRoute: List<String>,
     val distancePriorityMartRoute: List<String>,
@@ -22,16 +24,16 @@ data class OnlineMart(
 ) {
     fun toStore(): Store {
         val link =
-            if (martName.contains("네이버")) {
+            if (this@OnlineMart.martName.contains("네이버")) {
                 "https://shopping.naver.com/"
-            } else if (martName.contains("쿠팡")) {
+            } else if (this@OnlineMart.martName.contains("쿠팡")) {
                 "https://www.coupang.com/"
             } else {
                 "링크 확인 불가"
             }
 
         return Store(
-            name = martName,
+            martName = this@OnlineMart.martName,
             totalItems = totalItems,
             totalPrice = totalPrice.toInt(),
             link = link,
@@ -42,6 +44,11 @@ data class OnlineMart(
 }
 
 data class OfflineMart(
+    val routeName: String,
+    val marts: List<Mart>,
+)
+
+data class Mart(
     val martName: String,
     val distance: Double,
     val estimatedTime: String,
@@ -53,13 +60,13 @@ data class OfflineMart(
 ) {
     fun toStore(): Store =
         Store(
-            name = martName,
-            distance = distance,
-            estimatedTime = estimatedTime.replace("분", "").toInt(),
-            totalItems = totalItems,
-            totalPrice = totalPrice.toInt(),
-            products = products,
+            martName = this@Mart.martName,
+            distance = this@Mart.distance,
+            estimatedTime = this@Mart.estimatedTime.replace("분", "").toInt(),
+            totalItems = this@Mart.totalItems,
+            totalPrice = this@Mart.totalPrice.toInt(),
+            products = this@Mart.products,
             isOnline = false,
-            pos = LatAndLng(lat = latitude, lng = longitude),
+            pos = LatAndLng(lat = this@Mart.latitude, lng = this@Mart.longitude),
         )
 }

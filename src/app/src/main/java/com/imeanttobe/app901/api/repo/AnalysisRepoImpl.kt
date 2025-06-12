@@ -48,14 +48,10 @@ class AnalysisRepoImpl
                     Result.success(
                         Analysis(
                             onlineMart = content.onlineMart.toStore(),
-                            offlineMarts =
-                                content.offlineMarts.map {
-                                    it.toStore()
-                                },
+                            optimalMarts = content.optimal.marts.map { it.toStore() },
+                            distancePriorityMarts = content.distance.marts.map { it.toStore() },
+                            pricePriorityMarts = content.price.marts.map { it.toStore() },
                             status = content.status,
-                            optimalMartRoute = content.optimalMartRoute,
-                            distancePriorityMartRoute = content.distancePriorityMartRoute,
-                            pricePriorityMartRoute = content.pricePriorityMartRoute,
                         ),
                     )
                 } else {
