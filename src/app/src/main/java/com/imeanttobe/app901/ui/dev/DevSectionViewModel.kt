@@ -49,6 +49,11 @@ class DevSectionViewModel
                     naverMapRepo.getRoute(
                         start = LatAndLng(lat = 37.854541, lng = 127.735130),
                         goal = LatAndLng(lat = 37.506821, lng = 126.958082),
+                        waypoints =
+                            listOf(
+                                LatAndLng(37.507494, 126.962000), // 이마트 흑석
+                                LatAndLng(37.507393, 126.948409), // 홈플러스 상도
+                            ),
                     )
                 result.onSuccess {
                     val temp = result.getOrNull()
