@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.NaverMapRepo
-import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.data.enum.AnalysisOption
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.LatAndLng
 import com.imeanttobe.app901.data.model.NaverMapRoute
+import com.imeanttobe.app901.data.model.Store
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +21,6 @@ class AnalysisPageViewModel
     @Inject
     constructor(
         private val analysisRepo: AnalysisRepo,
-        private val userRepo: UserRepo,
         private val naverMapRepo: NaverMapRepo,
     ) : ViewModel() {
         // Variables
@@ -30,6 +29,7 @@ class AnalysisPageViewModel
         private val _analysis = mutableStateOf<Analysis?>(null)
         private val _selectedAnalysisOption = mutableStateOf<AnalysisOption>(AnalysisOption.BEST)
         private val _route = mutableStateOf<NaverMapRoute>(NaverMapRoute(emptyList(), LatAndLng(), LatAndLng(), 0, 0))
+        private val _currentMarts = mutableStateOf<List<Store>>(emptyList())
 
         // States
         val analysisConcurrencyState: State<ConcurrencyState> = _analysisConcurrencyState
@@ -37,6 +37,7 @@ class AnalysisPageViewModel
         val analysis: State<Analysis?> = _analysis
         val selectedAnalysisOption: State<AnalysisOption> = _selectedAnalysisOption
         val route: State<NaverMapRoute> = _route
+        val currentMarts: State<List<Store>> = _currentMarts
 
         // Functions
         fun resetConcurrencyState() {
@@ -46,6 +47,19 @@ class AnalysisPageViewModel
 
         fun setAnalysisOption(option: AnalysisOption) {
             _selectedAnalysisOption.value = option
+            _currentMarts.value =
+                when (option) {
+                    AnalysisOption.BEST -> {
+                        _analysis.value!!.optimalMarts
+                    }
+                    AnalysisOption.DISTANCE -> {
+                        _analysis.value!!.distancePriorityMarts
+                    }
+                    AnalysisOption.PRICE -> {
+                        _analysis.value!!.pricePriorityMarts
+                    }
+                }
+            getRoute()
         }
 
         fun getRoute() {
@@ -53,25 +67,29 @@ class AnalysisPageViewModel
                 _routeConcurrencyState.value = ConcurrencyState.Loading
 
                 viewModelScope.launch {
-                    val start = _analysis.value!!.offlineStores.first()
-                    val goal = _analysis.value!!.offlineStores.last()
-                    val waypoints = _analysis.value!!.offlineStores.subList(1, _analysis.value!!.offlineStores.size - 1)
+                    if (_currentMarts.value.isNotEmpty()) {
+                        val start = _currentMarts.value.first().pos!!
+                        val goal = _currentMarts.value.last().pos!!
+                        val waypoints = _currentMarts.value.subList(1, _currentMarts.value.size - 1)
 
-                    val result =
-                        naverMapRepo.getRoute(
-                            start = start.pos,
-                            goal = goal.pos,
-                            waypoints = waypoints.map { it.pos },
-                        )
+                        val result =
+                            naverMapRepo.getRoute(
+                                start = start,
+                                goal = goal,
+                                waypoints = waypoints.map { it.pos!! },
+                            )
 
-                    if (result.isSuccess) {
-                        val temp = result.getOrNull()
-                        if (temp != null) {
-                            _route.value = temp
+                        if (result.isSuccess) {
+                            val temp = result.getOrNull()
+                            if (temp != null) {
+                                _route.value = temp
+                            }
+                            _routeConcurrencyState.value = ConcurrencyState.Success()
+                        } else {
+                            _routeConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
                         }
-                        _routeConcurrencyState.value = ConcurrencyState.Success()
                     } else {
-                        _routeConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
+                        _routeConcurrencyState.value = ConcurrencyState.Failure("No offline stores")
                     }
                 }
             }
@@ -83,18 +101,42 @@ class AnalysisPageViewModel
             viewModelScope.launch {
                 try {
                     val result =
-                        analysisRepo.getAnalysisById(
-                            analysisId = analysisId,
-                            userId = userRepo.getUserId(),
-                        )
+                        analysisRepo.getAnalysisById(analysisId = analysisId)
                     if (result.isSuccess) {
                         _analysis.value = result.getOrNull()
+                        _currentMarts.value = _analysis.value!!.optimalMarts
                         _analysisConcurrencyState.value = ConcurrencyState.Success()
                     } else {
                         _analysisConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
                     }
                 } catch (e: Exception) {
                     _analysisConcurrencyState.value = ConcurrencyState.Failure(e.message ?: "Unknown Error")
+                }
+            }
+        }
+
+        fun confirmAnalysis(analysisId: Long) {
+            viewModelScope.launch {
+                if (_analysis.value != null) {
+                    val result = analysisRepo.confirmAnalysis(analysisId = analysisId)
+                    if (result.isSuccess) {
+                        _analysis.value = _analysis.value!!.copy(status = com.imeanttobe.app901.data.enum.AnalysisStatus.CONFIRMED)
+                    } else {
+                        _analysisConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
+                    }
+                }
+            }
+        }
+
+        fun completeAnalysis(analysisId: Long) {
+            viewModelScope.launch {
+                if (_analysis.value != null) {
+                    val result = analysisRepo.completeAnalysis(analysisId = analysisId)
+                    if (result.isSuccess) {
+                        _analysis.value = _analysis.value!!.copy(status = com.imeanttobe.app901.data.enum.AnalysisStatus.COMPLETED)
+                    } else {
+                        _analysisConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown Error")
+                    }
                 }
             }
         }

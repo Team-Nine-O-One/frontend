@@ -199,6 +199,15 @@ class MemoRepoImpl
             }
         }
 
+        override suspend fun removeAllMemos() {
+            dataStore.updateData { currentMemoItemList ->
+                currentMemoItemList
+                    .toBuilder()
+                    .clearItems()
+                    .build()
+            }
+        }
+
         override suspend fun exportToString(): String {
             val memoItemList = dataStore.data.first()
 

@@ -37,7 +37,10 @@ fun MemoFloatingActionButtonMenu(
     items: List<Triple<ImageVector, String, () -> Unit>>,
     modifier: Modifier = Modifier,
 ) {
-    Box(modifier = modifier) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.BottomEnd,
+    ) {
         BackHandler(enabled = fabMenuExpanded) { setFabMenuExpanded(false) }
         FloatingActionButtonMenu(
             modifier = Modifier.align(Alignment.BottomEnd),

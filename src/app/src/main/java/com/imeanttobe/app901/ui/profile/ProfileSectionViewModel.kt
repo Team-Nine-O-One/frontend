@@ -9,9 +9,7 @@ import com.imeanttobe.app901.data.enum.ProfileSectionSheetState
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,6 +20,7 @@ class ProfileSectionViewModel
         private val userRepo: UserRepo,
     ) : ViewModel() {
         // Variables
+        private val _nickname = mutableStateOf(userRepo.nickname)
         private val _changePasswordState = MutableStateFlow<ConcurrencyState>(ConcurrencyState.Default)
         private val _changeNicknameState = MutableStateFlow<ConcurrencyState>(ConcurrencyState.Default)
         private val _nicknameTextfieldValue = mutableStateOf("")
@@ -32,12 +31,7 @@ class ProfileSectionViewModel
             )
 
         // States
-        val nickname: StateFlow<String> =
-            userRepo.getNicknameFlow.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = "",
-            )
+        val nickname: State<String> = _nickname
         val changePasswordState: StateFlow<ConcurrencyState> = _changePasswordState
         val changeNicknameState: StateFlow<ConcurrencyState> = _changeNicknameState
         val nicknameTextfieldValue: State<String> = _nicknameTextfieldValue
@@ -83,6 +77,7 @@ class ProfileSectionViewModel
                     .updateNickname(_nicknameTextfieldValue.value)
                     .onSuccess {
                         _changeNicknameState.value = ConcurrencyState.Success()
+                        _nickname.value = userRepo.nickname
                     }.onFailure {
                         _changeNicknameState.value = ConcurrencyState.Failure(it.message ?: "Unknown Error")
                     }

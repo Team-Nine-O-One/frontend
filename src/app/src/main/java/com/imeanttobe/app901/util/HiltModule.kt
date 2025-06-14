@@ -3,21 +3,23 @@ package com.imeanttobe.app901.util
 import android.app.Application
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
-import com.imeanttobe.app901.BuildConfig
 import com.imeanttobe.app901.api.RetrofitClient
 import com.imeanttobe.app901.api.repo.AnalysisRepo
+import com.imeanttobe.app901.api.repo.AnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepoImpl
-import com.imeanttobe.app901.api.repo.FakeAnalysisRepoImpl
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.api.repo.MemoRepoImpl
 import com.imeanttobe.app901.api.repo.NaverMapRepo
 import com.imeanttobe.app901.api.repo.NaverMapRepoImpl
+import com.imeanttobe.app901.api.repo.RemoteMemoRepo
+import com.imeanttobe.app901.api.repo.RemoteMemoRepoImpl
 import com.imeanttobe.app901.api.repo.UserRepo
 import com.imeanttobe.app901.api.repo.UserRepoImpl
 import com.imeanttobe.app901.api.service.AnalysisService
 import com.imeanttobe.app901.api.service.CrawlerService
 import com.imeanttobe.app901.api.service.NaverMapService
+import com.imeanttobe.app901.api.service.RemoteMemoService
 import com.imeanttobe.app901.data.type.IdGenerator
 import dagger.Module
 import dagger.Provides
@@ -30,14 +32,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object HiltModule {
     // Repositories here
+    // fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo = FakeAnalysisRepoImpl()
     @Provides
     @Singleton
-    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo =
-        if (BuildConfig.IS_MOCK_ENABLED) {
-            FakeAnalysisRepoImpl()
-        } else {
-            FakeAnalysisRepoImpl()
-        }
+    fun provideCartRepo(analysisService: AnalysisService): AnalysisRepo = AnalysisRepoImpl(analysisService)
 
     @Provides
     @Singleton
@@ -58,6 +56,10 @@ object HiltModule {
     @Singleton
     fun provideCrawlerRepo(crawlerService: CrawlerService): CrawlerRepo = CrawlerRepoImpl(crawlerService)
 
+    @Provides
+    @Singleton
+    fun provideRemoteMemoRepo(remoteMemoService: RemoteMemoService): RemoteMemoRepo = RemoteMemoRepoImpl(remoteMemoService)
+
     // Services here
     @Provides
     @Singleton
@@ -70,6 +72,10 @@ object HiltModule {
     @Provides
     @Singleton
     fun provideCrawlerService(): CrawlerService = RetrofitClient.crawlerService
+
+    @Provides
+    @Singleton
+    fun provideRemoteMemoService(): RemoteMemoService = RetrofitClient.remoteMemoService
 
     // Other stuff here
     @Provides

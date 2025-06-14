@@ -36,7 +36,6 @@ import com.imeanttobe.app901.ui.component.IconAndText
 import com.imeanttobe.app901.ui.history.component.HistoryFilterTab
 import com.imeanttobe.app901.ui.history.component.HistoryListItem
 import com.imeanttobe.app901.ui.history.component.HistorySearchBar
-import com.imeanttobe.app901.util.NativeUtil
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -76,7 +75,14 @@ fun HistorySection(
         } else if (viewModel.cartConcurrencyState.value is ConcurrencyState.Failure) {
             IconAndText(
                 icon = Icons.Rounded.Error,
-                text = stringResource(R.string.error_failed_to_fetch_data),
+                text =
+                    buildAnnotatedString {
+                        append(stringResource(R.string.error_failed_to_fetch_data))
+                        if (viewModel.cartConcurrencyState.value is ConcurrencyState.Failure) {
+                            append("\n")
+                            append((viewModel.cartConcurrencyState.value as ConcurrencyState.Failure).message)
+                        }
+                    },
                 contentDescription = "Empty history",
                 modifier = Modifier.fillMaxSize(),
             )
@@ -122,12 +128,6 @@ fun HistorySection(
                             history = viewModel.historyList.value[index],
                             onClick = { navigateToCart(viewModel.historyList.value[index].cartId) },
                             onDelete = { history -> viewModel.deleteHistory(history) },
-                            onShare = { history ->
-                                NativeUtil.shareText(
-                                    context = context,
-                                    textToShare = history.toString(),
-                                )
-                            },
                             modifier =
                                 Modifier
                                     .padding(

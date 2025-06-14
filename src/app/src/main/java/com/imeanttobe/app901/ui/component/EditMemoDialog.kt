@@ -10,6 +10,7 @@ import androidx.compose.material.icons.rounded.EditNote
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -46,7 +47,12 @@ fun EditMemoDialog(
                     onValueChange = { newValue -> onTextFieldChange(newValue.replace("\n", "")) },
                     maxLines = 1,
                     singleLine = true,
-                    placeholder = { Text(text = stringResource(id = R.string.example_memo)) },
+                    placeholder = {
+                        Text(
+                            text = stringResource(id = R.string.example_memo),
+                            color = LocalContentColor.current.copy(alpha = 0.7f),
+                        )
+                    },
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     trailingIcon = {
                         IconButton(

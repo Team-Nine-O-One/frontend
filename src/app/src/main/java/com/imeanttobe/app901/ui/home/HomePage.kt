@@ -1,32 +1,32 @@
 package com.imeanttobe.app901.ui.home
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.AutoGraph
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MediumExtendedFloatingActionButton
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -89,34 +89,71 @@ fun HomePage(
     }
 
     Scaffold(
-        topBar = {},
+        topBar = {
+            if (viewModel.bottomNavItem.value == BottomNavItem.HistoryBottomNavItem) {
+                null
+            } else {
+                Header(
+                    title = stringResource(viewModel.bottomNavItem.value.stringResId),
+                    subtitle = stringResource(viewModel.bottomNavItem.value.descriptionResId),
+                    actions = {
+                        if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
+                            TriStateCheckbox(
+                                state = memoSectionViewModel.overallToggleState.value,
+                                onClick = memoSectionViewModel::onToggleOverall,
+                                colors =
+                                    CheckboxDefaults.colors(
+                                        uncheckedColor = ButtonDefaults.textButtonColors().contentColor,
+                                    ),
+                            )
+
+                            IconButton(
+                                onClick = { memoSectionViewModel.setDeleteAllMemosDialogState(true) },
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.Delete,
+                                    contentDescription = "Delete all",
+                                )
+                            }
+                        }
+                    },
+                )
+            }
+        },
+        floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
             if (viewModel.bottomNavItem.value == BottomNavItem.MemoBottomNavItem) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.End,
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     MemoFloatingActionButtonMenu(
                         fabMenuExpanded = viewModel.fabMenuExpanded.value,
                         setFabMenuExpanded = { newValue -> viewModel.setFabMenuExpanded(newValue) },
                         items = fabItems,
-                        modifier = Modifier.offset(x = 16.dp),
+                        modifier = Modifier.offset(x = 16.dp, y = 8.dp),
                     )
 
-                    MediumExtendedFloatingActionButton(
-                        onClick = {},
+                    ExtendedFloatingActionButton(
+                        onClick = {
+                            memoSectionViewModel.createAnalysis(
+                                navigate = { analysisId -> navigate(NavItem.AnalysisNavItem.route + "/$analysisId") },
+                                showToast = { message -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show() },
+                                context = context,
+                            )
+                        },
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.AutoGraph,
-                            contentDescription = "Analyze",
+                            contentDescription = "Create analysis",
+                            modifier = Modifier.padding(end = ButtonDefaults.IconSpacing),
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
                         Text(text = stringResource(R.string.analyze))
                     }
                 }
             }
         },
-        floatingActionButtonPosition = FabPosition.End,
         bottomBar = {
             BottomBar(
                 selectedIndex = viewModel.bottomNavItem.value.id,
@@ -166,13 +203,30 @@ fun HomePage(
                     onDismiss = { viewModel.setDialogState(HomePageDialogState.NONE) },
                     concurrencyState = viewModel.importFromUrlConcurrencyState.value,
                     onConfirm = {
-                        viewModel.importMemosFromUrl(printToast = {
-                            Toast.makeText(context, context.getString(R.string.error_invalid_url), Toast.LENGTH_SHORT).show()
+                        viewModel.importMemosFromUrl(printToast = { message ->
+                            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                         })
                     },
                 )
             HomePageDialogState.NONE -> null
         }
+    }
+
+    if (memoSectionViewModel.postAnalysisState.value == ConcurrencyState.Loading) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = { },
+            text = {
+                Box(
+                    modifier = Modifier.fillMaxWidth().padding(24.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    ContainedLoadingIndicator()
+                }
+            },
+            confirmButton = { },
+            dismissButton = { },
+        )
     }
 }
 

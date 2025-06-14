@@ -29,6 +29,13 @@ fun MartInfoItem(
     mart: SimplifiedMart,
     modifier: Modifier = Modifier,
 ) {
+    val itemsText =
+        if (mart.productNames.isNotEmpty()) {
+            stringResource(R.string.format_mart_items, mart.productNames.first(), mart.productNames.size)
+        } else {
+            stringResource(R.string.format_total_items_count, mart.productNames.size)
+        }
+
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -53,7 +60,7 @@ fun MartInfoItem(
                     color = contentColor,
                 )
                 Text(
-                    text = mart.displayName,
+                    text = itemsText,
                     style = MaterialTheme.typography.bodySmall,
                     color = contentColor,
                 )
@@ -76,7 +83,7 @@ fun MartInfoItemPreview() {
         mart =
             SimplifiedMart(
                 martName = "Mart Name",
-                displayName = "Display Name",
+                productNames = listOf("Product 1", "Product 2"),
                 totalPrice = 10000,
             ),
         contentColor = Color.White,
@@ -91,7 +98,7 @@ fun EMartInfoItemPreview() {
         mart =
             SimplifiedMart(
                 martName = "이마트",
-                displayName = "Display Name",
+                productNames = listOf("Product 1", "Product 2"),
                 totalPrice = 10000,
             ),
         contentColor = Color.White,

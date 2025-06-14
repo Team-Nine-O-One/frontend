@@ -1,6 +1,8 @@
 package com.imeanttobe.app901.api.repo
 
+import com.imeanttobe.app901.api.body.CreateCartRequest
 import com.imeanttobe.app901.api.service.AnalysisService
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.Analysis
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import javax.inject.Inject
@@ -10,31 +12,47 @@ class AnalysisRepoImpl
     constructor(
         private val analysisService: AnalysisService,
     ) : AnalysisRepo {
-        override suspend fun getAllAnalyses(userId: String): Result<List<SimplifiedAnalysis>> {
-            val response = analysisService.getAllCarts(userId = userId)
+        override suspend fun getAllAnalyses(
+            userId: String,
+            status: AnalysisStatus?,
+        ): Result<List<SimplifiedAnalysis>> {
+            val response =
+                analysisService.getAllCarts(
+                    userId = userId,
+                    status = status,
+                )
 
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    Result.success(body.carts)
+                    Result.success(body)
                 } else {
                     Result.failure(Exception("Response body is null"))
                 }
             } else {
-                Result.failure(Exception("Failed to fetch carts"))
+                if (response.code() == 400) {
+                    Result.success(emptyList())
+                } else {
+                    Result.failure(Exception("Failed to fetch carts"))
+                }
             }
         }
 
-        override suspend fun getAnalysisById(
-            analysisId: Long,
-            userId: String,
-        ): Result<Analysis> {
-            val response = analysisService.getCartById(cartId = analysisId, userId = userId)
+        override suspend fun getAnalysisById(analysisId: Long): Result<Analysis> {
+            val response = analysisService.getCartById(cartId = analysisId)
+
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
+                    val content = response.body()!!
                     Result.success(
-                        Analysis.getDefaultInstance(),
+                        Analysis(
+                            onlineMart = content.onlineMart.toStore(),
+                            optimalMarts = content.optimal.marts.map { it.toStore() },
+                            distancePriorityMarts = content.distance.marts.map { it.toStore() },
+                            pricePriorityMarts = content.price.marts.map { it.toStore() },
+                            status = content.status,
+                        ),
                     )
                 } else {
                     Result.failure(Exception("Response body is null"))
@@ -44,30 +62,9 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun createAnalysis(
-            userId: String,
-            memoContents: String,
-        ): Result<Analysis> {
-            val response = analysisService.createCart(userId = userId, memoContents = memoContents)
-            return if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    Result.success(
-                        Analysis.getDefaultInstance(),
-                    )
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
-            } else {
-                Result.failure(Exception("Failed to create cart"))
-            }
-        }
+        override suspend fun confirmAnalysis(analysisId: Long): Result<Boolean> {
+            val response = analysisService.confirmCart(cartId = analysisId)
 
-        override suspend fun confirmAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val response = analysisService.confirmCart(cartId = analysisId, userId = userId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -80,36 +77,8 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun updateWeights(
-            analysisId: Long,
-            userId: String,
-            priceWeight: Double,
-            distanceWeight: Double,
-        ): Result<Boolean> {
-            val response =
-                analysisService.updateWeights(
-                    cartId = analysisId,
-                    userId = userId,
-                    priceWeight = priceWeight,
-                    distanceWeight = distanceWeight,
-                )
-            return if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
-                    Result.success(true)
-                } else {
-                    Result.failure(Exception("Response body is null"))
-                }
-            } else {
-                Result.failure(Exception("Failed to update weights"))
-            }
-        }
-
-        override suspend fun completeAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val response = analysisService.completeCart(cartId = analysisId, userId = userId)
+        override suspend fun completeAnalysis(analysisId: Long): Result<Boolean> {
+            val response = analysisService.completeCart(cartId = analysisId)
             return if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
@@ -122,21 +91,31 @@ class AnalysisRepoImpl
             }
         }
 
-        override suspend fun deleteAnalysis(
-            analysisId: Long,
-            userId: String,
-        ): Result<Boolean> {
-            val response = analysisService.deleteCart(cartId = analysisId, userId = userId)
+        override suspend fun deleteAnalysis(analysisId: Long) {
+            analysisService.deleteCart(cartId = analysisId)
+        }
 
-            return if (response.isSuccessful) {
-                val body = response.body()
+        override suspend fun createAnalysis(
+            userId: String,
+            memoId: Long,
+        ): Result<Long> {
+            val postResponse =
+                analysisService.createCart(
+                    request =
+                        CreateCartRequest(
+                            userId = userId,
+                            memoId = memoId,
+                        ),
+                )
+            return if (postResponse.isSuccessful) {
+                val body = postResponse.body()
                 if (body != null) {
-                    Result.success(true)
+                    Result.success(body.cartId)
                 } else {
                     Result.failure(Exception("Response body is null"))
                 }
             } else {
-                Result.failure(Exception("Failed to delete cart"))
+                Result.failure(Exception("Failed to create cart"))
             }
         }
     }

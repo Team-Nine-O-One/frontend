@@ -5,20 +5,20 @@ import kotlin.random.Random
 data class SimplifiedAnalysis(
     val cartId: Long,
     val title: String,
-    val marts: List<SimplifiedMart>,
+    val martSummaries: List<SimplifiedMart>,
     val totalItems: Int,
     val totalPrice: Int,
-    val isCompleted: Boolean,
+    val completed: Boolean,
 ) {
     companion object {
         fun getDefaultInstance() =
             SimplifiedAnalysis(
                 cartId = 0,
                 title = "",
-                marts = emptyList(),
+                martSummaries = emptyList(),
                 totalItems = 0,
                 totalPrice = 0,
-                isCompleted = Random.nextBoolean(),
+                completed = Random.nextBoolean(),
             )
     }
 }

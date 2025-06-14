@@ -17,13 +17,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AnalysisBottomButton(
     onClickCloseButton: () -> Unit,
+    onClickConfirmButton: () -> Unit,
     onClickCompleteButton: () -> Unit,
     onClickShareButton: () -> Unit,
+    state: AnalysisStatus,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -50,21 +53,30 @@ fun AnalysisBottomButton(
         }
 
         // Complete
-        Button(
-            colors =
-                ButtonDefaults.buttonColors().copy(
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                ),
-            onClick = { onClickCompleteButton() },
-            contentPadding = ButtonDefaults.contentPaddingFor(size),
-            modifier = Modifier.weight(1f),
-        ) {
-            Text(
-                text = stringResource(R.string.complete_cart),
-                style = ButtonDefaults.textStyleFor(size),
-                fontWeight = FontWeight.Bold,
-            )
+        if (state == AnalysisStatus.IN_PROGRESS || state == AnalysisStatus.CONFIRMED) {
+            Button(
+                colors =
+                    ButtonDefaults.buttonColors().copy(
+                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                    ),
+                onClick = { if (state == AnalysisStatus.IN_PROGRESS) onClickConfirmButton() else onClickCompleteButton() },
+                contentPadding = ButtonDefaults.contentPaddingFor(size),
+                modifier = Modifier.weight(1f),
+            ) {
+                Text(
+                    text =
+                        if (state ==
+                            AnalysisStatus.IN_PROGRESS
+                        ) {
+                            stringResource(R.string.confirm_cart)
+                        } else {
+                            stringResource(R.string.complete_cart)
+                        },
+                    style = ButtonDefaults.textStyleFor(size),
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         }
 
         // Share

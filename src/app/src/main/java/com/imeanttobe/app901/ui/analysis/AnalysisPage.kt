@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.analysis
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.type.ConcurrencyState
 import com.imeanttobe.app901.ui.analysis.component.AnalysisBottomButton
 import com.imeanttobe.app901.ui.analysis.component.AnalysisHeader
@@ -47,7 +49,6 @@ import com.imeanttobe.app901.util.NativeUtil
 fun AnalysisPage(
     analysisId: Long,
     navigateBack: () -> Unit,
-    onDone: () -> Unit,
     viewModel: AnalysisPageViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -55,6 +56,7 @@ fun AnalysisPage(
 
     // Fetch the analysis data from the view model
     LaunchedEffect(key1 = null) {
+        viewModel.resetConcurrencyState()
         viewModel.fetchAnalysis(analysisId)
     }
 
@@ -62,6 +64,17 @@ fun AnalysisPage(
     LaunchedEffect(key1 = viewModel.analysis.value) {
         if (viewModel.analysis.value != null) {
             viewModel.getRoute()
+        }
+    }
+
+    LaunchedEffect(key1 = viewModel.analysisConcurrencyState) {
+        if (viewModel.analysisConcurrencyState.value is ConcurrencyState.Failure) {
+            Toast
+                .makeText(
+                    context,
+                    (viewModel.analysisConcurrencyState.value as ConcurrencyState.Failure).message,
+                    Toast.LENGTH_SHORT,
+                ).show()
         }
     }
 
@@ -120,16 +133,15 @@ fun AnalysisPage(
 
                 // Online analysis
                 OnlineAnalysisCard(
-                    store = viewModel.analysis.value!!.onlineStore,
+                    store = viewModel.analysis.value!!.onlineMart,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 )
 
                 // Offline
                 OfflineAnalysisCard(
-                    stores = viewModel.analysis.value!!.offlineStores,
+                    stores = viewModel.currentMarts.value,
                     route = viewModel.route.value,
-                    priceDiff = 300,
-                    distanceDiff = 2.4,
+                    status = viewModel.analysis.value!!.status,
                     mapState = viewModel.routeConcurrencyState.value,
                     selectedOption = viewModel.selectedAnalysisOption.value,
                     onChangeOption = { newOption -> viewModel.setAnalysisOption(newOption) },
@@ -139,18 +151,21 @@ fun AnalysisPage(
                 // Buttons
                 AnalysisBottomButton(
                     onClickCloseButton = { navigateBack() },
-                    onClickCompleteButton = { onDone() },
+                    onClickConfirmButton = { viewModel.confirmAnalysis(analysisId) },
+                    onClickCompleteButton = { viewModel.completeAnalysis(analysisId) },
                     onClickShareButton = {
-                        NativeUtil.shareText(
-                            context,
-                            Converter.getShareTextFromProducts(
-                                viewModel.analysis.value!!
-                                    .offlineStores
-                                    .first()
-                                    .products,
-                            ),
-                        )
+                        if (viewModel.currentMarts.value.isNotEmpty()) {
+                            NativeUtil.shareText(
+                                context,
+                                Converter.getShareTextFromProducts(
+                                    viewModel.currentMarts.value
+                                        .first()
+                                        .products,
+                                ),
+                            )
+                        }
                     },
+                    state = if (viewModel.analysis.value != null) viewModel.analysis.value!!.status else AnalysisStatus.IN_PROGRESS,
                     modifier = Modifier.fillMaxWidth().padding(16.dp),
                 )
             }

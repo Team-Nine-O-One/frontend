@@ -29,46 +29,8 @@ fun MemoSection(viewModel: MemoSectionViewModel) {
     if (memos.isNotEmpty()) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(horizontal = 16.dp),
         ) {
-            // Checkbox for selecting all
-            /*
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 8.dp).fillMaxWidth(),
-            ) {
-                TextButton(onClick = { viewModel.onToggleOverall() }) {
-                    TriStateCheckbox(
-                        state = viewModel.getOverallToggleState(),
-                        onClick = null,
-                        colors =
-                            CheckboxDefaults.colors(
-                                uncheckedColor = ButtonDefaults.textButtonColors().contentColor,
-                            ),
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = stringResource(R.string.select_all))
-                }
-
-                TextButton(
-                    onClick = { viewModel.setDeleteAllMemosDialogState(true) },
-                ) {
-                    Text(
-                        text =
-                            stringResource(
-                                if (viewModel.isAllUncheckedState.value) {
-                                    R.string.delete_all
-                                } else {
-                                    R.string.delete_selected
-                                },
-                            ),
-                    )
-                }
-            }
-
-             */
-
             // Items
             MemoCardList(
                 memoItems = memos,

@@ -27,15 +27,12 @@ import com.imeanttobe.app901.util.NativeUtil
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun StoreCardDescription(
-    store: Store,
-    isOffline: Boolean,
-) {
+fun StoreCardDescription(store: Store) {
     val context = LocalContext.current
     val iconSize = 16.dp
     val alpha = 0.7f
 
-    when (isOffline) {
+    when (!store.isOnline) {
         true -> {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +52,7 @@ fun StoreCardDescription(
                         text =
                             stringResource(
                                 R.string.format_time_minute,
-                                store.estimatedTime,
+                                store.estimatedTime!!,
                             ),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
@@ -98,7 +95,7 @@ fun StoreCardDescription(
                 )
                 // Weblink
                 Text(
-                    text = store.link,
+                    text = store.link!!,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = alpha),
                     textDecoration = TextDecoration.Underline,
@@ -117,7 +114,6 @@ fun StoreCardDescription(
 fun OfflineStoreCardDescriptionPreview() {
     StoreCardDescription(
         store = Store.getDefaultInstance(),
-        isOffline = true,
     )
 }
 
@@ -129,6 +125,5 @@ fun OnlineStoreCardDescriptionPreview() {
             Store.getDefaultInstance().copy(
                 link = "https://google.com",
             ),
-        isOffline = false,
     )
 }

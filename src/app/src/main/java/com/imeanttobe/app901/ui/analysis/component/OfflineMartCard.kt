@@ -92,7 +92,7 @@ fun OfflineMartCard(
                 }
 
                 MartLogo(
-                    name = store.name,
+                    name = store.martName,
                     modifier =
                         Modifier
                             .size(48.dp)
@@ -108,7 +108,7 @@ fun OfflineMartCard(
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = store.name,
+                    text = store.martName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,

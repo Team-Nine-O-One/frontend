@@ -1,6 +1,6 @@
 package com.imeanttobe.app901.api.service
 
-import com.imeanttobe.app901.api.response.Directions5Response
+import com.imeanttobe.app901.api.body.Directions5Response
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

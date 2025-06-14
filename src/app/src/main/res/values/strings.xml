@@ -38,6 +38,8 @@
     <string name="reduced">절감</string>
     <string name="shorten">단축</string>
     <string name="cost">비용</string>
+    <string name="permission">권한</string>
+    <string name="location">위치</string>
 
     <string name="create_memo">메모 추가</string>
     <string name="edit_memo">메모 수정</string>
@@ -59,10 +61,14 @@
     <string name="number_of_products">사야 할 물건 수</string>
     <string name="total_price">총 가격</string>
     <string name="complete_cart">장 다 봤어요!</string>
+    <string name="confirm_cart">장바구니 확정</string>
     <string name="add_new_memo">새 메모 추가하기</string>
     <string name="analyze">분석하기</string>
     <string name="best_route">최적 경로</string>
     <string name="mart_order">방문 순서</string>
+    <string name="necessary_permission">필수 권한</string>
+    <string name="request_permission">권한 요청</string>
+    <string name="move_to_setting">설정으로 이동</string>
 
     <string name="error_empty_email">전자 메일 주소가 올바르지 않아요. 다시 작성해주세요.</string>
     <string name="error_empty_password">비밀번호가 올바르지 않아요. 최소 6자 이상 작성해주세요.</string>
@@ -75,6 +81,7 @@
     <string name="error_failed_to_fetch_data">데이터를 가져오는 데 실패했어요…</string>
     <string name="error_no_search_result">검색 결과가 없어요…</string>
     <string name="error_invalid_url">URL이 올바르지 않아요…</string>
+    <string name="error_permission_permanently_denied">권한이 영구적으로 거부되었습니다.</string>
 
     <string name="tips_failed_to_login">로그인에 실패했어요… 다시 시도해보세요.</string>
     <string name="tips_failed_to_register">회원 가입에 실패했어요… 다시 시도해보세요.</string>
@@ -104,7 +111,11 @@
     <string name="tips_mart_order_products">버튼을 눌러 각 마트에서 사야 할 물건 목록을 확인해보세요.</string>
     <string name="tips_home_memo">사야 할 물건들을 메모해보세요.</string>
     <string name="tips_home_history">진행 중이거나 완료된 장바구니를 확인해보세요.</string>
-    <string name="tips_home_profile">내 정보를 확인하세요.</string>
+    <string name="tips_home_profile">내 정보를 확인하거나 수정할 수 있어요.</string>
+    <string name="tips_permission_page">서비스 사용을 위해\n접근 권한을 허용해주세요!</string>
+    <string name="tips_necessary_permission">필수 권한의 경우, 허용하지 않으면 서비스를 사용할 수 없어요.</string>
+    <string name="tips_location_permission">인근 마트 탐색에 활용</string>
+    <string name="tips_acquire_permission_on_setting">서비스를 사용하기 위해, 시스템 설정으로 이동해서 권한을 직접 허용해주세요.</string>
 
     <string name="example_email">abc@xyz.com</string>
     <string name="example_password">******</string>
@@ -130,4 +141,5 @@
     <string name="format_time_minute">%1$d분</string>
     <string name="format_distance">%1$skm</string>
     <string name="format_price">%1$s원</string>
+    <string name="format_mart_items">%1$s 등 %2$d건</string>
 </resources>

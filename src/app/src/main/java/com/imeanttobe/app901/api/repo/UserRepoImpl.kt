@@ -24,6 +24,8 @@ class UserRepoImpl
                 },
             )
         val nicknameFlow: StateFlow<String> = _nicknameFlow.asStateFlow()
+        override val nickname: String
+            get() = firebaseAuth.currentUser!!.displayName ?: ""
 
         override val getNicknameFlow: Flow<String> = nicknameFlow
 

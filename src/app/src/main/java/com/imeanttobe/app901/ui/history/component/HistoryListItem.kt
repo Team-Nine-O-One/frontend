@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.imeanttobe.app901.R
+import com.imeanttobe.app901.data.enum.AnalysisStatus
 import com.imeanttobe.app901.data.model.SimplifiedAnalysis
 import com.imeanttobe.app901.ui.component.EmphasizedText
 
@@ -35,40 +36,19 @@ fun HistoryListItem(
     history: SimplifiedAnalysis,
     onClick: () -> Unit,
     onDelete: (SimplifiedAnalysis) -> Unit,
-    onShare: (SimplifiedAnalysis) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    /*
-    val backgroundColor =
-        if (isCompleted) {
-            MaterialTheme.colorScheme.secondaryContainer
-        } else {
-            MaterialTheme.colorScheme.primaryContainer
-        }
-    val contentColor =
-        if (isCompleted) {
-            MaterialTheme.colorScheme.onSecondaryContainer
-        } else {
-            MaterialTheme.colorScheme.onPrimaryContainer
-        }
-    val priceColor =
-        if (isCompleted) {
-            MaterialTheme.colorScheme.secondary
-        } else {
-            MaterialTheme.colorScheme.primary
-        }
-     */
     val backgroundColor = MaterialTheme.colorScheme.surfaceContainerHighest
     val contentColor = MaterialTheme.colorScheme.onSurfaceVariant
     val priceColor = MaterialTheme.colorScheme.primary
     val labelContentColor =
-        if (history.isCompleted) {
+        if (history.completed) {
             MaterialTheme.colorScheme.onSecondaryContainer
         } else {
             MaterialTheme.colorScheme.onPrimaryContainer
         }
     val labelBackgroundColor =
-        if (history.isCompleted) {
+        if (history.completed) {
             MaterialTheme.colorScheme.secondaryContainer
         } else {
             MaterialTheme.colorScheme.primaryContainer
@@ -95,6 +75,7 @@ fun HistoryListItem(
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.weight(1f),
             ) {
                 // Status here
                 Box(
@@ -109,7 +90,7 @@ fun HistoryListItem(
                     Text(
                         text =
                             stringResource(
-                                if (history.isCompleted) {
+                                if (history.completed) {
                                     R.string.completed
                                 } else {
                                     R.string.on_going
@@ -127,15 +108,13 @@ fun HistoryListItem(
                     style = MaterialTheme.typography.titleMedium,
                     color = contentColor,
                     overflow = TextOverflow.Ellipsis,
+                    maxLines = 1,
+                    modifier = Modifier.weight(1f),
                 )
             }
 
-            // Buttons
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                // Delete button
+            // Delete button
+            if (history.completed) {
                 IconButton(
                     onClick = { onDelete(history) },
                     modifier = Modifier.size(24.dp),
@@ -147,35 +126,18 @@ fun HistoryListItem(
                         modifier = Modifier.padding(4.dp).weight(1f),
                     )
                 }
-
-                // Share button
-//                IconButton(
-//                    onClick = { onShare(history) },
-//                    modifier = Modifier.size(24.dp),
-//                ) {
-//                    Icon(
-//                        imageVector = Icons.Rounded.Share,
-//                        contentDescription = "Share history",
-//                        tint = contentColor,
-//                        modifier = Modifier.padding(4.dp).weight(1f),
-//                    )
-//                }
             }
         }
 
         // Store info
-        MartInfoItem(
-            mart = history.marts[0],
-            contentColor = contentColor,
-            priceColor = priceColor,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        MartInfoItem(
-            mart = history.marts[1],
-            contentColor = contentColor,
-            priceColor = priceColor,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        history.martSummaries.forEach { mart ->
+            MartInfoItem(
+                mart = mart,
+                contentColor = contentColor,
+                priceColor = priceColor,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
 
         // Total price
         // HorizontalDivider(modifier = Modifier, color = contentColor)
@@ -220,6 +182,5 @@ fun HistoryListItemPreview() {
         history = SimplifiedAnalysis.getDefaultInstance(),
         onClick = {},
         onDelete = {},
-        onShare = {},
     )
 }

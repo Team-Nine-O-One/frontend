@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.CrawlerRepo
 import com.imeanttobe.app901.api.repo.MemoRepo
 import com.imeanttobe.app901.data.enum.HomePageDialogState
@@ -19,6 +20,7 @@ class HomePageViewModel
     constructor(
         private val memoRepo: MemoRepo,
         private val crawlerRepo: CrawlerRepo,
+        private val analysisRepo: AnalysisRepo,
     ) : ViewModel() {
         // Variables
         private val _bottomNavItem = mutableStateOf<BottomNavItem>(BottomNavItem.HistoryBottomNavItem)
@@ -75,29 +77,42 @@ class HomePageViewModel
             _importFromUrlConcurrencyState.value = ConcurrencyState.Default
         }
 
-        fun importMemosFromUrl(printToast: () -> Unit) {
+        fun importMemosFromUrl(printToast: (String) -> Unit) {
             _importFromUrlConcurrencyState.value = ConcurrencyState.Loading
 
             viewModelScope.launch {
-                val result =
-                    if (isYouTubeLink(urlDialogText.value)) {
-                        crawlerRepo.importMemoFromYouTube(urlDialogText.value)
-                    } else if (isNaverBlogLink(urlDialogText.value)) {
-                        crawlerRepo.importMemoFromNaverBlog(urlDialogText.value)
-                    } else {
-                        Result.failure(Exception("Invalid URL"))
-                    }
+                try {
+                    val result =
+                        if (isYouTubeLink(urlDialogText.value)) {
+                            crawlerRepo.importMemoFromYouTube(urlDialogText.value)
+                        } else if (isNaverBlogLink(urlDialogText.value)) {
+                            crawlerRepo.importMemoFromNaverBlog(urlDialogText.value)
+                        } else {
+                            printToast("Invalid URL")
+                            Result.failure(Exception("Invalid URL"))
+                        }
 
-                if (result.isSuccess) {
-                    val importedMemos = result.getOrNull()
-                    if (importedMemos != null) {
-                        memoRepo.addMemoGroup(importedMemos.first, importedMemos.second)
-                        _importFromUrlConcurrencyState.value = ConcurrencyState.Success()
+                    if (result.isSuccess) {
+                        val importedMemos = result.getOrNull()
+                        if (importedMemos != null) {
+                            memoRepo.addMemoGroup(importedMemos.first, importedMemos.second)
+                            _importFromUrlConcurrencyState.value = ConcurrencyState.Success()
+                        } else {
+                            _importFromUrlConcurrencyState.value =
+                                ConcurrencyState.Failure("No memos imported")
+                            printToast("No memos imported")
+                        }
                     } else {
-                        _importFromUrlConcurrencyState.value = ConcurrencyState.Failure("No memos imported")
+                        _importFromUrlConcurrencyState.value =
+                            ConcurrencyState.Failure(
+                                result.exceptionOrNull()?.message ?: "Unknown error",
+                            )
+                        printToast(result.exceptionOrNull()?.message ?: "Unknown error")
                     }
-                } else {
-                    _importFromUrlConcurrencyState.value = ConcurrencyState.Failure(result.exceptionOrNull()?.message ?: "Unknown error")
+                } catch (e: Exception) {
+                    _importFromUrlConcurrencyState.value =
+                        ConcurrencyState.Failure(e.message ?: "Unknown error")
+                    printToast(e.message ?: "Unknown error")
                 }
             }
         }

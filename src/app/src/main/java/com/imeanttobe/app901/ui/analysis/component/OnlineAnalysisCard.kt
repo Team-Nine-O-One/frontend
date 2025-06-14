@@ -34,7 +34,6 @@ fun OnlineAnalysisCard(
         ) {
             StoreCardDescription(
                 store = store,
-                isOffline = false,
             )
         }
 

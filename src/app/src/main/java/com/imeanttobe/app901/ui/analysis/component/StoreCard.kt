@@ -49,7 +49,7 @@ fun StoreCard(
         ) {
             // Image
             MartLogo(
-                name = store.name,
+                name = store.martName,
                 modifier = Modifier.size(48.dp).clip(CircleShape),
             )
 
@@ -60,7 +60,7 @@ fun StoreCard(
                 modifier = Modifier.weight(1f),
             ) {
                 Text(
-                    text = store.name,
+                    text = store.martName,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,

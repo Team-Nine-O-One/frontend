@@ -10,6 +10,7 @@ import androidx.navigation.navArgument
 import com.imeanttobe.app901.ui.analysis.AnalysisPage
 import com.imeanttobe.app901.ui.home.HomePage
 import com.imeanttobe.app901.ui.login.LoginPage
+import com.imeanttobe.app901.ui.permission.PermissionPage
 import com.imeanttobe.app901.ui.register.RegisterPage
 import com.imeanttobe.app901.ui.splash.SplashPage
 
@@ -76,7 +77,7 @@ fun MainNavGraph(
             arguments =
                 listOf(
                     navArgument("analysisId") {
-                        type = NavType.StringType
+                        type = NavType.LongType
                     },
                 ),
         ) {
@@ -85,7 +86,17 @@ fun MainNavGraph(
             AnalysisPage(
                 analysisId = analysisId,
                 navigateBack = { navController.popBackStack() },
-                onDone = {},
+            )
+        }
+
+        composable(route = NavItem.PermissionNavItem.route) {
+            PermissionPage(
+                navigateAndClearBackStack = { route ->
+                    navController.navigate(route) {
+                        popUpTo(0)
+                        launchSingleTop = true
+                    }
+                },
             )
         }
     }

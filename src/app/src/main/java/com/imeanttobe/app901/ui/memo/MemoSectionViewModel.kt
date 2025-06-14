@@ -1,5 +1,6 @@
 package com.imeanttobe.app901.ui.memo
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
@@ -9,7 +10,12 @@ import androidx.compose.ui.state.ToggleableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.imeanttobe.app901.ProtoMemoItem
+import com.imeanttobe.app901.api.repo.AnalysisRepo
 import com.imeanttobe.app901.api.repo.MemoRepo
+import com.imeanttobe.app901.api.repo.RemoteMemoRepo
+import com.imeanttobe.app901.api.repo.UserRepo
+import com.imeanttobe.app901.data.type.ConcurrencyState
+import com.imeanttobe.app901.util.NativeUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +28,9 @@ class MemoSectionViewModel
     @Inject
     constructor(
         private val memoRepo: MemoRepo,
+        private val userRepo: UserRepo,
+        private val analysisRepo: AnalysisRepo,
+        private val remoteMemoRepo: RemoteMemoRepo,
     ) : ViewModel() {
         // Variables
         val checkedState = mutableStateMapOf<Long, ToggleableState>()
@@ -60,13 +69,19 @@ class MemoSectionViewModel
 
         private val _deleteAllMemosDialogState = mutableStateOf(false)
         private val _overallToggleState = mutableStateOf(ToggleableState.Off)
+        private val _postAnalysisState = mutableStateOf<ConcurrencyState>(ConcurrencyState.Default)
 
         val deleteAllMemosDialogState: State<Boolean> = _deleteAllMemosDialogState
         val overallToggleState: State<ToggleableState> = _overallToggleState
+        val postAnalysisState: State<ConcurrencyState> = _postAnalysisState
 
         // Functions
         fun setDeleteAllMemosDialogState(value: Boolean) {
             _deleteAllMemosDialogState.value = value
+        }
+
+        fun resetPostAnalysisState() {
+            _postAnalysisState.value = ConcurrencyState.Default
         }
 
         fun updateOverallToggleState() {
@@ -198,6 +213,10 @@ class MemoSectionViewModel
             }
         }
 
+        fun deleteAllMemos() {
+            viewModelScope.launch { memoRepo.removeAllMemos() }
+        }
+
         fun editMemo(
             item: ProtoMemoItem,
             newContent: String,
@@ -221,6 +240,68 @@ class MemoSectionViewModel
                 leafIds.size -> ToggleableState.On
                 0 -> ToggleableState.Off
                 else -> ToggleableState.Indeterminate
+            }
+        }
+
+        fun createAnalysis(
+            context: Context,
+            navigate: (Long) -> Unit,
+            showToast: (String) -> Unit,
+        ) {
+            _postAnalysisState.value = ConcurrencyState.Loading
+
+            viewModelScope.launch {
+                // Get UID
+                val userId = userRepo.getUserId()
+
+                // Get current location
+                val userPos =
+                    NativeUtil.getCurrentLocation(
+                        context = context,
+                    )
+
+                // Post new memo
+                val memoResult =
+                    remoteMemoRepo.createMemo(
+                        userId = userId,
+                        rawText = memoRepo.exportToString(),
+                        userLat = userPos.lat,
+                        userLng = userPos.lng,
+                    )
+
+                if (memoResult.isSuccess) {
+                    val memoId = memoResult.getOrNull()
+                    if (memoId != null) {
+                        // If memo is posted, post new analysis
+                        val analysisResult =
+                            analysisRepo.createAnalysis(
+                                userId = userId,
+                                memoId = memoId,
+                            )
+                        if (analysisResult.isSuccess) {
+                            val analysisId = analysisResult.getOrNull()
+                            if (analysisId != null) {
+                                _postAnalysisState.value = ConcurrencyState.Success()
+                                deleteAllMemos()
+                                navigate(analysisId)
+                            } else {
+                                _postAnalysisState.value = ConcurrencyState.Failure("Failed to post analysis")
+                                showToast("분석 데이터를 불러오는 데 실패했어요.")
+                            }
+                        } else {
+                            _postAnalysisState.value = ConcurrencyState.Failure("Failed to post analysis")
+                            showToast("분석 데이터를 불러오는 데 실패했어요.")
+                        }
+                        _postAnalysisState.value = ConcurrencyState.Failure("Failed to post analysis")
+                        showToast("분석 데이터를 불러오는 데 실패했어요.")
+                    } else {
+                        _postAnalysisState.value = ConcurrencyState.Failure("Failed to post memo")
+                        showToast("메모를 불러오는 데 실패했어요.")
+                    }
+                } else {
+                    _postAnalysisState.value = ConcurrencyState.Failure("Failed to post memo")
+                    showToast("메모를 불러오는 데 실패했어요.")
+                }
             }
         }
     }
